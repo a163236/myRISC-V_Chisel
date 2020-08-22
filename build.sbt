@@ -2,7 +2,7 @@ name := "untitled"
 
 version := "0.1"
 
-scalaVersion := "2.12.11"
+scalaVersion := "2.12.12"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:reflectiveCalls", "-Xsource:2.11")
 
