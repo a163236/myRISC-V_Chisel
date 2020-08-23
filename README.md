@@ -6,3 +6,11 @@ RISC-VのRV32IのChisel実装。
 # 全体図
 
 ![](.README_images/5d183c0b.png)
+
+# 今後やること
+
+- CSRの実装
+- パイプライン化
+- スーパースカラ
+- SMT
+- 分岐予測
