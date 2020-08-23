@@ -41,7 +41,7 @@ class DataMemory(implicit val conf: Configurations) extends Module{
     }
   }
 
-  io.led.out := memory(0.U)
+  io.led.out := memory("x800".U) // 0x800番地
   //printf("memory(0.u)=[%d] ",memory(0.U))
 
 }

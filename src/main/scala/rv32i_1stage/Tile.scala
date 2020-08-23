@@ -29,5 +29,5 @@ class Tile(implicit val conf: Configurations) extends Module{
 
   // 7segLEDの表示
   io.led.out := DataMemory.io.led.out
-  printf("LED=[%d] ",io.led.out)
+  printf("LED=[%x] ",io.led.out)
 }
