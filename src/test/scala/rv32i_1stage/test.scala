@@ -42,7 +42,7 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
 
   behavior of "Tile"
 
-  it should "TileSyoki" in {
+  it should "Tileを初期化したとき" in {
     test(new Tile){ c=>
       c.io.d_imem.req.valid.poke(false.B)
       for (i <- 1 to 900) {
