@@ -77,6 +77,10 @@ class Dpath(implicit val conf: Configurations) extends Module{
   io.dmem.addr  := ALU.io.out
   io.dmem.wdata := RegFile.io.rs2_data
 
+  // CSR
+  val csr = Module(new CSRFile())
+
+
 
   // ライトバック
   RegFile.io.waddr  := inst(RD_MSB, RD_LSB)
@@ -88,7 +92,6 @@ class Dpath(implicit val conf: Configurations) extends Module{
   ))
 
   // pcの更新
-
   pc_next := MuxLookup(io.ctl.pc_sel, pc_reg, Array(
     PC_4 -> pc_plus4,
     PC_ALU -> pc_alu
@@ -102,7 +105,6 @@ class Dpath(implicit val conf: Configurations) extends Module{
 
 
   // debug 表示
-
   when(!io.ctl.stall) {
 
     printf("pc=[%d] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] rs1=[%d] rs2=[%d] rd=[%d] " +
