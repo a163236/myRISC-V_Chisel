@@ -24,7 +24,7 @@ class ALU(implicit val conf: Configurations) extends Module{
     ALU_XOR -> (io.op1 ^ io.op2).asUInt(),
     ALU_SLT -> (io.op1.asSInt() < io.op2.asSInt()).asUInt(),  // 符号付き　set less than (1 or 0 をセット)
     ALU_SLTU-> (io.op1 < io.op2).asUInt(),                    // 符号無し　set less than (1 or 0 をセット)
-    ALU_SLL -> ((io.op1 << alu_shamt)(conf.nreg-1,0)).asUInt(),// 左にシフト
+    ALU_SLL -> ((io.op1 << alu_shamt)(conf.xprlen-1,0)).asUInt(),// 左にシフト
     ALU_SRA -> (io.op1.asSInt() >> alu_shamt).asUInt(),        // 右にシフト 符号付で
     ALU_SRL -> (io.op1 >> alu_shamt).asUInt(),                 // 右にシフト 0埋め
     ALU_COPY1-> io.op1

@@ -15,7 +15,7 @@ class RegisterFileIO(implicit val conf: Configurations) extends Bundle{
 class RegisterFile(implicit val conf: Configurations) extends Module{
   val io = IO(new RegisterFileIO)
 
-  val regfile = Mem(conf.nreg, UInt(conf.xlen.W))
+  val regfile = Mem(conf.xprlen, UInt(conf.xlen.W))
 
   when(io.wen && (io.waddr=/=0.U)){ // 書き込み有効かつ0レジスタ以外なら
     regfile(io.waddr) := io.wdata

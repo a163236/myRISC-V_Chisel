@@ -10,6 +10,11 @@ object PRV {  // 特権モード
   val M = 3   // マシンモード
 }
 
+class MStatus extends Bundle {
+  val mpie  = Bool()
+  val mie = Bool()
+}
+
 object CSR {
   // commands
   val SZ = 3.W
@@ -23,6 +28,8 @@ object CSR {
 }
 
 class CSRFileIO(implicit val conf: Configurations) extends Bundle{
+  val status = Output(new MStatus())
+  val pc = Input(UInt(conf.xprlen.W))
 
 }
 
