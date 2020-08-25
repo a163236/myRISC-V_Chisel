@@ -49,5 +49,10 @@ class commonTest() extends FlatSpec with ChiselScalatestTester with Matchers {
     }
   }
 
+  it should "CSR" in {
+    test(new CSRFile()){ c =>
+
+    }
+  }
 
 }
