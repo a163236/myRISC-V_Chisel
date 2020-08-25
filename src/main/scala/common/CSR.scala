@@ -72,5 +72,25 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   val reg_mepc = Reg(conf.xprlen.W)
   val reg_mscratch = Reg(conf.xprlen.W)
 
-  
+}
+
+
+object CSRAddr{
+  val mstatus = 0x300
+  val misa = 0x301
+  val medeleg = 0x302
+  val mideleg = 0x303
+  val mie = 0x304
+  val mtvec = 0x305
+  val mscratch = 0x340
+  val mcounteren = 0x306
+  val mepc = 0x341
+  val mcause = 0x342
+  val mtval = 0x343
+  val mip = 0x344
+  val mcycle = 0xb00
+  val minstret = 0xb02
+  val marchid = 0xf12
+  val mimpid = 0xf13
+  val mhartid = 0xf14
 }
