@@ -1,43 +1,48 @@
 package common
 
 import chisel3._
+import chisel3.util._
 
-object PRV {  // 特権モード
-  val SZ = 2
-  val U = 0
-  val S = 1
-  val H = 2
-  val M = 3   // マシンモード
+class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジュールの入出力
+  val status = Output(UInt(conf.xlen.W))
+  val pc = Input(UInt(conf.xlen.W))
 }
 
-// CSRをなぜクラスに？ -> ビットフィールドでフィールドを分けられているが、それだと分かりにくいから
+class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
+  val io = IO(new CSRFileIO())
+  io := DontCare
 
-class MStatus extends Bundle {  // mstatus CSR
-  // マシンモードでF,V拡張のない単純なプロセッサではMIEとMPIEだけでよい
-  // RISC-V原典 p107
-  val mie = Bool()    // グローバル割り込み有効化
-  val mpie  = Bool()  // 例外発生後にMIEの古い値を保持する
-}
+  // mstatus
+  val SD,TSR,TW,TVM,MXR,SUM,MPRV,
+    SPP,MPIE,SPIE,MIE,SIE = 0.U(1.W)
+  val XS,FS,MPP = 0.U(2.W)
 
-class MIP extends Bundle {  // マシン割り込み処理待ち
+  // mip レジスタのビット
   // スーパバイザモードが実装されていない場合、SEIP,STIP,SSIPは0にされる
   // 頭文字mはマシン、sはスーパバイザ
-  val meip = Bool()
-  val seip = Bool()
-  val mtip = Bool()
-  val stip = Bool()
-  val msip = Bool()
-  val ssip = Bool()
-}
+  val MEIP,SEIP,MTIP,STIP,MSIP,SSIP = RegInit(0.U(1.W))
 
-class MIE extends Bundle {  // マシン割り込み有効化
+  // マシン割り込み有効化 mieレジスタのビット
   // スーパバイザモードが実装されていない場合、SEIE,STIE,SSIE は0にされる
-  val meie = Bool()
-  val seie = Bool()
-  val mtie = Bool()
-  val stie = Bool()
-  val msie = Bool()
-  val ssie = Bool()
+  val MEIE,SEIE,MTIE,STIE,MSIE,SSIE = RegInit(0.U(1.W))
+
+  // 不可欠なCSR 8つ RISC-V原典p108 レジスタ=========================================
+  val mstatus = Reg(UInt(conf.xlen.W))  // 種々のステータス　// falseで初期化したMStatus変数を入れる
+  val mip = Reg(UInt(conf.xlen.W))
+  val mie = Reg(UInt(conf.xlen.W))  // マシン割り込み有効化
+  val mcause = Reg(UInt(conf.xlen.W))
+  val mtvec = Reg(UInt(conf.xlen.W))
+  val mtval = Reg(UInt(conf.xlen.W))
+  val mepc = Reg(UInt(conf.xlen.W))
+  val mscratch = Reg(UInt(conf.xlen.W))
+
+
+  mstatus := Cat(SD,Fill(conf.xlen-24, 0.U),TSR,TW,TVM,MXR,SUM,MPRV,
+    XS,FS,MPP,0.U(2.W),SPP,MPIE,0.U,SPIE,0.U,MIE,0.U,SIE,0.U)
+  mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
+  mie := Cat(Fill(20,0.U),MEIE,0.U,SEIE,0.U,MTIE,0.U,STIE,0.U,MSIE,0.U,SSIE,0.U)
+
+  mcause := Cat()
 }
 
 object CSR {  // CSR関連の定数
@@ -52,28 +57,13 @@ object CSR {  // CSR関連の定数
   val R = 5.asUInt(SZ)
 }
 
-class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジュールの入出力
-  val status = Output(new MStatus())
-  val pc = Input(UInt(conf.xprlen.W))
-
+object PRV {  // 特権モード
+  val SZ = 2
+  val U = 0
+  val S = 1
+  val H = 2
+  val M = 3   // マシンモード
 }
-
-class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
-  val io = IO(new CSRFileIO())
-  io := DontCare
-
-  // 不可欠なCSR 8つ RISC-V原典p108
-  val reg_mstatus = RegInit(false.B.asTypeOf(new MStatus))  // 種々のステータス　// falseで初期化したMStatus変数を入れる
-  val reg_mip = RegInit(false.B.asTypeOf(new MIP))  // マシン割り込み処理待ち
-  val reg_mie = RegInit(false.B.asTypeOf(new MIE))  // マシン割り込み有効化
-  val reg_mcause = Reg(conf.xprlen.W)
-  val reg_mtvec = Reg(conf.xprlen.W)
-  val reg_mtval = Reg(conf.xprlen.W)
-  val reg_mepc = Reg(conf.xprlen.W)
-  val reg_mscratch = Reg(conf.xprlen.W)
-
-}
-
 
 object CSRAddr{
   val mstatus = 0x300
