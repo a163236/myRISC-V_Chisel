@@ -42,7 +42,7 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
   mie := Cat(Fill(20,0.U),MEIE,0.U,SEIE,0.U,MTIE,0.U,STIE,0.U,MSIE,0.U,SSIE,0.U)
 
-  mcause := Cat()
+  mcause := Cat(0.U)
 }
 
 object CSR {  // CSR関連の定数
