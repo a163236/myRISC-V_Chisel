@@ -41,8 +41,11 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
     XS,FS,MPP,0.U(2.W),SPP,MPIE,0.U,SPIE,0.U,MIE,0.U,SIE,0.U)
   mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
   mie := Cat(Fill(20,0.U),MEIE,0.U,SEIE,0.U,MTIE,0.U,STIE,0.U,MSIE,0.U,SSIE,0.U)
-
-  mcause := Cat(0.U)
+  mcause := Cat(0.U)  // 例外原因
+  mtvec := Cat(0.U)   // 例外が起こったときにジャンプする先のアドレス
+  mtval := Cat(0.U)   // アドレス例外のアドレスか不正命令の命令を入れる、その他のとき0
+  mepc := Cat(0.U)    // 例外を示した命令を指し示す
+  mscratch := Cat(0.U)
 }
 
 object CSR {  // CSR関連の定数
@@ -83,4 +86,8 @@ object CSRAddr{
   val marchid = 0xf12
   val mimpid = 0xf13
   val mhartid = 0xf14
+}
+
+object cause {
+
 }

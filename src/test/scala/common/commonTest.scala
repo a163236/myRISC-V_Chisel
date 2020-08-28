@@ -53,7 +53,7 @@ class commonTest() extends FlatSpec with ChiselScalatestTester with Matchers {
     test(new CSRFile()){ c =>
       for (i <- 0 to 10){
         c.clock.step(1)
-        println()
+        //println()
       }
     }
   }
