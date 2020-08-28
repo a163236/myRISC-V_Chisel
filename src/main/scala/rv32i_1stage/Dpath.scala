@@ -79,7 +79,6 @@ class Dpath(implicit val conf: Configurations) extends Module{
 
   // CSR
   val csr = Module(new CSRFile())
-  csr.io
 
 
   // ライトバック
