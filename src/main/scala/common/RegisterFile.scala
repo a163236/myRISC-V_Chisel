@@ -10,6 +10,7 @@ class RegisterFileIO(implicit val conf: Configurations) extends Bundle{
   val wdata = Input(UInt(conf.xlen.W))  // 書き込みデータ
   val wen   = Input(Bool())             // 書き込み有効
 
+  val debug = new DebugIO() // debug用 gpレジスタの値
 }
 
 class RegisterFile(implicit val conf: Configurations) extends Module{
@@ -23,5 +24,7 @@ class RegisterFile(implicit val conf: Configurations) extends Module{
 
   io.rs1_data := Mux((io.rs1_addr =/= 0.U), regfile(io.rs1_addr), 0.U)
   io.rs2_data := Mux((io.rs2_addr =/= 0.U), regfile(io.rs2_addr), 0.U)
+
+  io.debug.out := regfile(3)
 
 }

@@ -13,6 +13,7 @@ class DataMemoryDpathIO(implicit val cof:Configurations) extends Bundle{
 class DataMemoryCpathIO(implicit val cof:Configurations) extends Bundle{
   val men   = Input(Bool())                 // 書き込み有効
   val fcn   = Input(UInt(MWR_X.getWidth.W)) // 読み書きFenceのどれか
+  //val typ   = Input(UInt())
 }
 
 class DataMemoryLEDIO(implicit val conf:Configurations) extends Bundle{

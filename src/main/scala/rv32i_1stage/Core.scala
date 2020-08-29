@@ -9,6 +9,7 @@ import common._
 class CoreIO(implicit val conf: Configurations) extends Bundle {
   val imem = new MemPortIO()  // 外部メモリとの接続
   val dmem = Flipped(new DataMemoryIO())
+  val debug= new DebugIO()    // デバッグ
 }
 
 
@@ -19,6 +20,9 @@ class Core(implicit val conf: Configurations) extends Module{
 
   val Dpath = Module(new Dpath())
   val Cpath = Module(new CtlPath())
+
+  // デバッグ
+  io.debug.out := Dpath.io.debug.out
 
   // 内部接続
   Dpath.io.ctl <> Cpath.io.ctl        // データパス <> コントローラ

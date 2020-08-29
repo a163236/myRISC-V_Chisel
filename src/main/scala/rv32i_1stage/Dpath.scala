@@ -23,6 +23,7 @@ class DpathIO(implicit val conf: Configurations) extends Bundle() {
   val dmem    = Flipped(new DataMemoryDpathIO())
   val ctl     = Flipped(new CtltoDatIO())   // コントローラからデータへの出力
   val dat     = new DatToCtlIO()            // データパスからコントローラへの入力
+  val debug   = new DebugIO()               // デバッグ
 }
 
 class Dpath(implicit val conf: Configurations) extends Module{
@@ -79,7 +80,7 @@ class Dpath(implicit val conf: Configurations) extends Module{
 
   // CSR
   val csr = Module(new CSRFile())
-
+  csr.io := DontCare
 
   // ライトバック
   RegFile.io.waddr  := inst(RD_MSB, RD_LSB)
@@ -102,15 +103,18 @@ class Dpath(implicit val conf: Configurations) extends Module{
   pc_plus4 := (pc_reg + 4.asUInt(conf.xlen.W))
   pc_alu := ALU.io.out
 
+  io.debug.out := RegFile.io.debug.out
 
   // debug 表示
+
   when(!io.ctl.stall) {
 
-    printf("pc=[%d] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] rs1=[%d] rs2=[%d] rd=[%d] " +
-      "ALUOUT=[%d] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
+    printf("pc=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] rs1=[%d] rs2=[%d]" +
+      " rd=[%d] reg(gp)=[%d] ALUOUT=[%d] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
       pc_reg, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2,
-      io.imem.resp.bits.rdata(RD_MSB, RD_LSB), ALU.io.out, io.dmem.addr,
+      io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, io.dmem.addr,
       io.dmem.wdata, io.dmem.rdata)
 
   }
+
 }

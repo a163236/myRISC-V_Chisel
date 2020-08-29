@@ -151,7 +151,7 @@ class CtlPath() extends Module() {
   io.dmem.men := cs_mem_en
   io.dmem.fcn := cs_mem_fcn
 
-  printf("[%d] ", io.dmem.fcn)
+  //printf("[%d] ", io.dmem.fcn)
 
   // Exception Handling ---------------------
   // We only need to check if the instruction is illegal (or unsupported)

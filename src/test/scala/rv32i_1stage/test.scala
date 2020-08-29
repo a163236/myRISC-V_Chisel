@@ -55,7 +55,7 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
   it should "Tile" in {
     test(new Tile()) { c =>
 
-      val fp = Source.fromFile("hexfile/rv32ui-p-add.hex")
+      val fp = Source.fromFile("hexfile/rv32ui-p-sub.hex")
       val lines = fp.getLines()
       val memory = lines.toArray.map{ c=>
         Integer.parseUnsignedInt(c,16).toBinaryString
@@ -65,22 +65,18 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
         val binarycode = memory(i)
         c.io.d_imem.req.valid.poke(true.B)
         c.io.d_imem.req.bits.addr.poke((i*4).asUInt())
-        //c.io.d_imem.req.bits.wdata.poke(s"b$binarycode".U)
+        c.io.d_imem.req.bits.wdata.poke(s"b$binarycode".U)
         //c.io.d_imem.req.bits.wdata.poke(f"b$binarycode%32s".U)
         c.clock.step(1)
       }
       c.io.d_imem.req.valid.poke(false.B)
 
-      for (i <- 1 to 100) {
+      for (i <- 1 to 900) {
         c.clock.step(1)
         println()
       }
+      c.io.debug.out.expect(1.U)  // gpレジスタが1ならパス
     }
   }
-
-
-
-
-
 
 }

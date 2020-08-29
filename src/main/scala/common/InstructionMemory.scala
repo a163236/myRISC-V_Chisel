@@ -15,15 +15,16 @@ class InstructionMemory(implicit val conf:Configurations) extends Module{
 
   // input = memreq
   // output = memresp
-  val memory = Mem(1024, UInt(conf.xlen.W))
+  val memory = Mem(9000, UInt(conf.xlen.W))
 
   // $1===1, $2===1, $3===1
   //                 funct7   rs2  rs1  funct3 rd    op
+/*
   memory.write(0.U, "b00000000110001010000010110010011".U(32.W))
   memory.write(4.U, "b00000110010001010000011100010011".U(32.W))
   memory.write(8.U, "b00000000111001011000010110110011".U(32.W))
   memory.write(12.U, "b10000000101100000010000000100011".U(32.W))
-
+*/
 
 
   when(io.d_write.req.valid){ // memory初期化
@@ -40,5 +41,4 @@ class InstructionMemory(implicit val conf:Configurations) extends Module{
     io.mport.req.ready := true.B
   }
 
-  //printf("realMEM=[0x%x] ", io.mport.resp.bits.rdata)
 }
