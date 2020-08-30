@@ -109,9 +109,9 @@ class Dpath(implicit val conf: Configurations) extends Module{
 
   when(!io.ctl.stall) {
 
-    printf("pc=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] rs1=[%d] rs2=[%d]" +
-      " rd=[%d] reg(gp)=[%d] ALUOUT=[%d] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
-      pc_reg, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2,
+    printf("pc=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] in1=[0x%x] in2=[0x%x] ind=[0x%x]"+
+      " rd=[%d] reg(a0)=[%d] ALUOUT=[0x%x] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
+      pc_reg, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
       io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, io.dmem.addr,
       io.dmem.wdata, io.dmem.rdata)
 

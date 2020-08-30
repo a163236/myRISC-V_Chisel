@@ -17,8 +17,8 @@ class ALU(implicit val conf: Configurations) extends Module{
   val alu_shamt = io.op2(4,0).asUInt()   // aluでのシフト命令のシフト量
 
   io.out := MuxLookup(io.fun, 0.U, Array(
-    ALU_ADD -> (io.op1.asSInt() + io.op2.asSInt()).asUInt(),
-    ALU_SUB -> (io.op1.asSInt() - io.op2.asSInt()).asUInt(),
+    ALU_ADD -> (io.op1 + io.op2).asUInt(),
+    ALU_SUB -> (io.op1 - io.op2).asUInt(),
     ALU_AND -> (io.op1 & io.op2).asUInt(),
     ALU_OR  -> (io.op1 | io.op2).asUInt(),
     ALU_XOR -> (io.op1 ^ io.op2).asUInt(),
@@ -27,7 +27,7 @@ class ALU(implicit val conf: Configurations) extends Module{
     ALU_SLL -> ((io.op1 << alu_shamt)(conf.xprlen-1,0)).asUInt(),// 左にシフト
     ALU_SRA -> (io.op1.asSInt() >> alu_shamt).asUInt(),        // 右にシフト 符号付で
     ALU_SRL -> (io.op1 >> alu_shamt).asUInt(),                 // 右にシフト 0埋め
-    ALU_COPY1-> io.op1
+    ALU_COPY1-> io.op2
   ))
 
 
