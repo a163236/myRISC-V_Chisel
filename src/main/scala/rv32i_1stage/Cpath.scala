@@ -52,7 +52,7 @@ class CtlPath() extends Module() {
         SH -> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_S, ALU_ADD, WB_X, REN_0, MEN_1, M_XWR, MT_H, CSR.N),
 
         AUIPC-> List(Y, BR_N, OP1_PC, OP2_IMM, IMM_U, ALU_ADD, WB_ALU, REN_1, MEN_0, M_X, MT_X, CSR.N),
-        LUI  -> List(Y, BR_N, OP1_X, OP2_IMM, IMM_U, ALU_COPY1, WB_ALU, REN_1, MEN_0, M_X, MT_X, CSR.N),
+        LUI  -> List(Y, BR_N, OP1_X, OP2_IMM, IMM_U, ALU_COPYrs2, WB_ALU, REN_1, MEN_0, M_X, MT_X, CSR.N),
 
         // I形式
         ADDI -> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_I, ALU_ADD, WB_ALU, REN_1, MEN_0, M_X, MT_X, CSR.N),
@@ -90,12 +90,12 @@ class CtlPath() extends Module() {
         BLTU-> List(Y, BR_LTU, OP1_PC, OP2_IMM, IMM_B, ALU_ADD, WB_X, REN_0, MEN_0, M_X, MT_X, CSR.N),
 
         // CSR
-        CSRRWI -> List(Y, BR_N, OP1_IMZ, OP2_X, IMM_Z, ALU_COPY1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.W),
-        CSRRSI -> List(Y, BR_N, OP1_IMZ, OP2_X, IMM_Z, ALU_COPY1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.S),
-        CSRRCI -> List(Y, BR_N, OP1_IMZ, OP2_X, IMM_Z, ALU_COPY1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.C),
-        CSRRW  -> List(Y, BR_N, OP1_RS1, OP2_X, IMM_X, ALU_COPY1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.W),
-        CSRRS  -> List(Y, BR_N, OP1_RS1, OP2_X, IMM_X, ALU_COPY1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.S),
-        CSRRC  -> List(Y, BR_N, OP1_RS1, OP2_X, IMM_X, ALU_COPY1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.C),
+        CSRRWI -> List(Y, BR_N, OP1_IMZ, OP2_X, IMM_Z, ALU_COPYrs1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.W),
+        CSRRSI -> List(Y, BR_N, OP1_IMZ, OP2_X, IMM_Z, ALU_COPYrs1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.S),
+        CSRRCI -> List(Y, BR_N, OP1_IMZ, OP2_X, IMM_Z, ALU_COPYrs1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.C),
+        CSRRW  -> List(Y, BR_N, OP1_RS1, OP2_X, IMM_X, ALU_COPYrs1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.W),
+        CSRRS  -> List(Y, BR_N, OP1_RS1, OP2_X, IMM_X, ALU_COPYrs1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.S),
+        CSRRC  -> List(Y, BR_N, OP1_RS1, OP2_X, IMM_X, ALU_COPYrs1, WB_CSR, REN_1, MEN_0, M_X, MT_X, CSR.C),
 
         ECALL  -> List(Y, BR_N, OP1_X, OP2_X, IMM_X, ALU_X, WB_X, REN_0, MEN_0, M_X, MT_X, CSR.I),
         MRET   -> List(Y, BR_N, OP1_X, OP2_X, IMM_X, ALU_X, WB_X, REN_0, MEN_0, M_X, MT_X, CSR.I),
@@ -115,7 +115,8 @@ class CtlPath() extends Module() {
 
   // 次のpcを決める　分岐するかどうかは上のリストだけでは決定しないから
   // datapathからbrのデータをもらって判断する
-  val ctrl_pc_sel = Mux(io.dat.csr_eret, PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
+
+  val ctrl_pc_sel = Mux(io.dat.csr_eret||io.ctl.exception, PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
     (MuxLookup(cs_br_type, PC_CSR, Array(
       BR_N  -> PC_4,
       BR_J  -> PC_ALU,

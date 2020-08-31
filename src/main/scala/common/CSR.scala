@@ -3,12 +3,16 @@ package common
 import chisel3._
 import chisel3.util._
 
+import CommonPackage._
+
 class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジュールの入出力
   val inPC = Input(UInt(conf.xlen.W))    // データパスからの入力pc
   val inst = Input(UInt(conf.xlen.W))     // 命令
   val csr_cmd = Input(UInt(CSR.SZ))       // コントローラからのcsrコマンド
+  val rs1  = Input(UInt(conf.xlen.W))     // ALUからrs1をもらう
 
   val outPC = Output(UInt(conf.xlen.W))  // 出力pc
+  val wdata = Output(UInt(conf.xlen.W))  // レジスタファイル書き込みデータ
   val eret = Output(Bool()) // 例外です。
 
 }
@@ -16,6 +20,9 @@ class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジ
 class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
   val io = IO(new CSRFileIO())
   io := DontCare
+
+  // 今の特権モード状態
+  val now_prv = RegInit(PRV.M(PRV.SZ))
 
   // mstatus
   val SD,TSR,TW,TVM,MXR,SUM,MPRV,
@@ -34,34 +41,59 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   // 不可欠なCSR 8つ RISC-V原典p108 レジスタ=========================================
   val mstatus = Reg(UInt(conf.xlen.W))  // 種々のステータス　// falseで初期化したMStatus変数を入れる
   val mip = Reg(UInt(conf.xlen.W))
-  val mie = Reg(UInt(conf.xlen.W))  // マシン割り込み有効化
+  val mie = Reg(UInt(conf.xlen.W))    // マシン割り込み有効化
   val mcause = Reg(UInt(conf.xlen.W))
-  val mtvec = Reg(UInt(conf.xlen.W))  // 例外が起こったときにジャンプする先のアドレス
+  val mtvec = RegInit(UInt(conf.xlen.W), MTVEC.U)  // 例外が起こったときにジャンプする先のアドレス
   val mtval = Reg(UInt(conf.xlen.W))
   val mepc = Reg(UInt(conf.xlen.W))   // 例外を示した命令を指し示す
   val mscratch = Reg(UInt(conf.xlen.W))
+  io.eret := false.B
 
-  //==================================================
-  when(io.csr_cmd===CSR.I){ // ecallかebreakのとき
-    mepc := io.inPC   // 例外発生時のpc
-    when(io.inst(20)){ // ebreakのとき
-      mcause := 3.U
-    }.otherwise{ // ecallのとき
-      // 環境呼び出し mcause = 0 + 8?9?11?
-      mcause := 8.U+MPP// 現在の特権モードに8を足す
+  //================================================== R形式
+  when(io.csr_cmd===CSR.W){
+    val t = WireInit(UInt(conf.xlen.W),0.U)    // t= レジスタファイルに書き込むデータ
+    switch(io.inst(CSR_ADDR_MSB,CSR_ADDR_LSB)){
+      is(0x305.U){
+        mtvec := io.rs1
+        io.wdata := t
+      }
     }
-    MPP := PRV.U.U  // mppをユーザーモードに変更
-    MPIE := MIE
-    MIE := 0.U  // 割り込みが無効
+
   }
 
-  // ======================== レジスタ更新
+  //================================================== I形式
+  when(io.csr_cmd===CSR.I){
+    mepc := io.inPC   // 例外発生時のpc
+
+    when(io.inst(21)&&io.inst(29)&&io.inst(28)){//mretのとき
+      // MIE := MPIE
+      MPIE := true.B
+      MPP := PRV.U
+      now_prv := MPP
+    }.otherwise{
+      when(io.inst(20)){  // ebreakのとき
+        mcause := 3.U
+      }.otherwise{        // ecallのとき
+        mcause := 8.U+now_prv// 現在の特権モードに8を足す
+      }
+      MPIE := MIE
+      MIE := 0.U        // 割り込みが無効
+      MPP := now_prv    // mppに例外前の特権モードを入れて
+      now_prv := PRV.M  // 今の特権モードをマシンモードにする
+      io.eret := true.B
+
+    }
+
+  }
+
+  // =============================================== レジスタ更新
   mstatus := Cat(SD,Fill(conf.xlen-24, 0.U),TSR,TW,TVM,MXR,SUM,MPRV,
     XS,FS,MPP,0.U(2.W),SPP,MPIE,0.U,SPIE,0.U,MIE,0.U,SIE,0.U)
   mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
   mie := Cat(Fill(20,0.U),MEIE,0.U,SEIE,0.U,MTIE,0.U,STIE,0.U,MSIE,0.U,SSIE,0.U)
   mtval := Cat(0.U)   // アドレス例外のアドレスか不正命令の命令を入れる、その他のとき0
   mscratch := Cat(0.U)
+  //
   io.outPC := mtvec
 
 }
@@ -78,13 +110,13 @@ object CSR {  // CSR関連の定数
 }
 
 object PRV {  // 特権モード
-  val SZ = 2
-  val U = 0
-  val S = 1
-  val H = 2
-  val M = 3   // マシンモード
+  val SZ = 2.U
+  val U = 0.U
+  val S = 1.U
+  val H = 2.U
+  val M = 3.U   // マシンモード
 }
-
+/*
 object CSRAddr{
   val mstatus = 0x300
   val misa = 0x301
@@ -104,7 +136,4 @@ object CSRAddr{
   val mimpid = 0xf13
   val mhartid = 0xf14
 }
-
-object cause {
-
-}
+*/

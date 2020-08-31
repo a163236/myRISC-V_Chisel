@@ -89,7 +89,8 @@ trait ScalarOpConstants{
   val ALU_XOR = 8.asUInt(4.W)
   val ALU_SLT = 9.asUInt(4.W)
   val ALU_SLTU= 10.asUInt(4.W)
-  val ALU_COPY1= 11.asUInt(4.W)
+  val ALU_COPYrs1= 11.asUInt(4.W)
+  val ALU_COPYrs2= 12.asUInt(4.W)
   val ALU_X   = 0.asUInt(4.W)
 
   // Writeback Select

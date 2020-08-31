@@ -85,6 +85,7 @@ class Dpath(implicit val conf: Configurations) extends Module{
   pc_csr := csr.io.outPC          // csrのpc
   io.dat.csr_eret := csr.io.eret  // csrからコントローラへの例外送信
   csr.io.inst := inst
+  csr.io.rs1 := ALU.io.out
   printf("csr=[%x] ", csr.io.outPC)
 
   // ライトバック
@@ -93,7 +94,8 @@ class Dpath(implicit val conf: Configurations) extends Module{
   RegFile.io.wdata  := MuxLookup(io.ctl.wb_sel, ALU.io.out, Array(
     WB_ALU -> ALU.io.out,
     WB_PC4 -> (pc_reg + 4.U),
-    WB_MEM -> io.dmem.rdata
+    WB_MEM -> io.dmem.rdata,
+    WB_CSR -> csr.io.wdata
   ))
 
   // pcの更新
@@ -115,9 +117,9 @@ class Dpath(implicit val conf: Configurations) extends Module{
 
   when(!io.ctl.stall) {
 
-    printf("pc=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] in1=[0x%x] in2=[0x%x] ind=[0x%x]"+
+    printf("pc=[0x%x] pc_next=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] in1=[0x%x] in2=[0x%x] ind=[0x%x]"+
       " rd=[%d] reg(a0)=[%d] ALUOUT=[0x%x] CSRcmd=[0x%x] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
-      pc_reg, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
+      pc_reg, io.ctl.pc_sel, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
       io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, csr.io.csr_cmd,
       io.dmem.addr, io.dmem.wdata, io.dmem.rdata)
 
