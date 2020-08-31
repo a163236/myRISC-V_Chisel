@@ -4,8 +4,8 @@ import chisel3._
 import chisel3.util._
 
 class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジュールの入出力
-  val status = Output(UInt(conf.xlen.W))
-  val pc = Input(UInt(conf.xlen.W))
+  val inPC = Input(UInt(conf.xlen.W))    // 入力pc
+  val outPC = Output(UInt(conf.xlen.W))  // 出力pc
 }
 
 class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
@@ -53,11 +53,10 @@ object CSR {  // CSR関連の定数
   val SZ = 3.W
   val X = 0.asUInt(SZ)
   val N = 0.asUInt(SZ)
-  val W = 1.asUInt(SZ)
-  val S = 2.asUInt(SZ)
-  val C = 3.asUInt(SZ)
-  val I = 4.asUInt(SZ)
-  val R = 5.asUInt(SZ)
+  val W = 1.asUInt(SZ)  // write
+  val S = 2.asUInt(SZ)  // set
+  val C = 3.asUInt(SZ)  // clear
+  val I = 4.asUInt(SZ)  // illegal ecall,ebreak
 }
 
 object PRV {  // 特権モード

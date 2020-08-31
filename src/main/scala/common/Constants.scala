@@ -37,7 +37,7 @@ trait ScalarOpConstants{
   // PC Select
   val PC_4   = 0.asUInt(3.W)  // PC + 4
   val PC_ALU = 1.asUInt(3.W)  // ALUの結果
-  val PC_EXC = 2.asUInt(3.W)  // 例外
+  val PC_CSR = 2.asUInt(3.W)  // CSR- 割り込みか例外
 
   // Branch Type
   val BR_N   = 0.asUInt(4.W)  // Next

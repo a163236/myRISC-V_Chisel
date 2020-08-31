@@ -114,7 +114,8 @@ class CtlPath() extends Module() {
 
   // 次のpcを決める　分岐するかどうかは上のリストだけでは決定しないから
   // datapathからbrのデータをもらって判断する
-  val ctrl_pc_sel = MuxLookup(cs_br_type, PC_EXC, Array(
+  val ctrl_pc_sel = Mux(io.dat.csr_eret, PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
+    (MuxLookup(cs_br_type, PC_CSR, Array(
       BR_N  -> PC_4,
       BR_J  -> PC_ALU,
       BR_NE -> Mux(!io.dat.branComOut.br_eq, PC_ALU, PC_4),
@@ -124,7 +125,7 @@ class CtlPath() extends Module() {
       BR_LT -> Mux( io.dat.branComOut.br_lt, PC_ALU, PC_4),
       BR_LTU-> Mux( io.dat.branComOut.br_ltu,PC_ALU, PC_4),
       BR_J  -> PC_ALU,
-      BR_JR -> PC_ALU))
+      BR_JR -> PC_ALU))))
 
   val stall = !io.imem.resp.valid
 
@@ -146,12 +147,9 @@ class CtlPath() extends Module() {
   io.imem.req.bits.fcn := M_XRD
   io.imem.req.bits.typ := MT_WU
 
-  //io.dmem.men := cs_mem_en
-  //io.dmem.fcn := cs_mem_fcn
   io.dmem.men := cs_mem_en
   io.dmem.fcn := cs_mem_fcn
 
-  //printf("[%d] ", io.dmem.fcn)
 
   // Exception Handling ---------------------
   // We only need to check if the instruction is illegal (or unsupported)

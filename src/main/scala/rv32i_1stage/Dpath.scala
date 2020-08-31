@@ -41,14 +41,13 @@ class Dpath(implicit val conf: Configurations) extends Module{
   val pc_next  = Wire(UInt(conf.xlen.W))
   val pc_plus4 = Wire(UInt(conf.xlen.W))
   val pc_alu   = Wire(UInt(conf.xlen.W))
+  val pc_csr   = Wire(UInt(conf.xlen.W))
 
   // ここからはモジュール同士を接続してく
 
   // 命令フェッチ
   io.imem.req.bits.addr := pc_reg
-  //printf("[%d] ",io.imem.req.bits.addr)
   val inst = Mux(io.imem.resp.valid, io.imem.resp.bits.rdata, BUBBLE) // メモリがビジーならバブル
-  //val inst = Mux(io.imem.resp.valid, BUBBLE, 0.U) // メモリがビジーならバブル
 
   // レジスタファイル 接続
   RegFile.io.rs1_addr := io.imem.resp.bits.rdata(RS1_MSB, RS1_LSB)
@@ -81,6 +80,8 @@ class Dpath(implicit val conf: Configurations) extends Module{
   // CSR
   val csr = Module(new CSRFile())
   csr.io := DontCare
+  csr.io.inPC := pc_reg
+  pc_csr := csr.io.outPC
 
   // ライトバック
   RegFile.io.waddr  := inst(RD_MSB, RD_LSB)
@@ -94,7 +95,8 @@ class Dpath(implicit val conf: Configurations) extends Module{
   // pcの更新
   pc_next := MuxLookup(io.ctl.pc_sel, pc_reg, Array(
     PC_4 -> pc_plus4,
-    PC_ALU -> pc_alu
+    PC_ALU -> pc_alu,
+    PC_CSR -> pc_csr
   ))
 
   when(!io.ctl.stall){
