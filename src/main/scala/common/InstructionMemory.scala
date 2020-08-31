@@ -15,7 +15,7 @@ class InstructionMemory(implicit val conf:Configurations) extends Module{
 
   // input = memreq
   // output = memresp
-  val memory = Mem(9000, UInt(conf.xlen.W))
+  val memory = Mem(256*1024, UInt(conf.xlen.W))
 
   // $1===1, $2===1, $3===1
   //                 funct7   rs2  rs1  funct3 rd    op
