@@ -8,7 +8,9 @@ class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジ
   val csr_cmd = Input(UInt(CSR.SZ))       // コントローラからのcsrコマンド
 
   val outPC = Output(UInt(conf.xlen.W))  // 出力pc
-  val eret = Output(Bool())
+  val eret = Output(Bool()) // 例外です。
+
+  val inst = Input(UInt(conf.xlen.W))
 }
 
 class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
@@ -34,25 +36,33 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   val mip = Reg(UInt(conf.xlen.W))
   val mie = Reg(UInt(conf.xlen.W))  // マシン割り込み有効化
   val mcause = Reg(UInt(conf.xlen.W))
-  val mtvec = Reg(UInt(conf.xlen.W))
+  val mtvec = Reg(UInt(conf.xlen.W))  // 例外が起こったときにジャンプする先のアドレス
   val mtval = Reg(UInt(conf.xlen.W))
-  val mepc = Reg(UInt(conf.xlen.W))
+  val mepc = Reg(UInt(conf.xlen.W))   // 例外を示した命令を指し示す
   val mscratch = Reg(UInt(conf.xlen.W))
 
   mstatus := Cat(SD,Fill(conf.xlen-24, 0.U),TSR,TW,TVM,MXR,SUM,MPRV,
     XS,FS,MPP,0.U(2.W),SPP,MPIE,0.U,SPIE,0.U,MIE,0.U,SIE,0.U)
   mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
   mie := Cat(Fill(20,0.U),MEIE,0.U,SEIE,0.U,MTIE,0.U,STIE,0.U,MSIE,0.U,SSIE,0.U)
-  mcause := Cat(0.U)  // 例外原因
-  mtvec := Cat(0.U)   // 例外が起こったときにジャンプする先のアドレス
   mtval := Cat(0.U)   // アドレス例外のアドレスか不正命令の命令を入れる、その他のとき0
-  mepc := Cat(0.U)    // 例外を示した命令を指し示す
   mscratch := Cat(0.U)
 
   //==================================================
-  // ecall のとき
   when(io.csr_cmd===CSR.I){ // ecallかebreakのとき
-    
+    mepc := io.inPC   // 例外発生時のpc
+    io.outPC := mtvec // ジャンプするpc
+    printf("paypay")
+    when(io.inst(20)){ // ebreakのとき
+      // ブレークポイント mcause = 0 + 3
+      mcause := 3.U
+    }.otherwise{ // ecallのとき
+      // 環境呼び出し mcause = 0 + 8?9?11?
+      mcause := 8.U+MPP// 現在の特権モードに8を足す
+      //printf("[%x] ", mcause)
+    }
+    // tmp
+    io.outPC := mtvec
   }
 
 }

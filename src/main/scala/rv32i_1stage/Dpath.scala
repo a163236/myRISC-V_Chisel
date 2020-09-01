@@ -84,7 +84,8 @@ class Dpath(implicit val conf: Configurations) extends Module{
   csr.io.csr_cmd := io.ctl.csr_cmd
   pc_csr := csr.io.outPC          // csrのpc
   io.dat.csr_eret := csr.io.eret  // csrからコントローラへの例外送信
-
+  csr.io.inst := inst
+  printf("csr=[%x] ", csr.io.outPC)
 
   // ライトバック
   RegFile.io.waddr  := inst(RD_MSB, RD_LSB)
@@ -115,10 +116,10 @@ class Dpath(implicit val conf: Configurations) extends Module{
   when(!io.ctl.stall) {
 
     printf("pc=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] in1=[0x%x] in2=[0x%x] ind=[0x%x]"+
-      " rd=[%d] reg(a0)=[%d] ALUOUT=[0x%x] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
+      " rd=[%d] reg(a0)=[%d] ALUOUT=[0x%x] CSRcmd=[0x%x] DMEMaddr=[%d] DMEMdataw=[%d] DMEMdatar=[%d] ",
       pc_reg, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
-      io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, io.dmem.addr,
-      io.dmem.wdata, io.dmem.rdata)
+      io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, csr.io.csr_cmd,
+      io.dmem.addr, io.dmem.wdata, io.dmem.rdata)
 
   }
 

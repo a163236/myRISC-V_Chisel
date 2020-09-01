@@ -139,7 +139,7 @@ class CtlPath() extends Module() {
   io.ctl.wb_sel  := cs_wb_sel
   io.ctl.rf_wen  := cs_rf_wen
   io.ctl.pc_sel  := ctrl_pc_sel
-
+  io.ctl.csr_cmd := cs_csr_cmd
 
   // convert CSR instructions with raddr1 == 0 to read-only CSR commands
 

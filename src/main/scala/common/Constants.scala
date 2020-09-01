@@ -14,6 +14,9 @@ trait RISCVConstants{
   val RS2_LSB = 20
   val RD_MSB  = 11  // 書き込みレジスタアドレス
   val RD_LSB  = 7
+  val CSR_ADDR_MSB = 31
+  val CSR_ADDR_LSB = 20
+
 
   // バブル命令 マシンではNOP
   // ソフトウェアコンパイラでは本来(ADDI x0, x0, 0)を入れるが
