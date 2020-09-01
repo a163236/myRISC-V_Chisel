@@ -5,12 +5,12 @@ import chisel3.util._
 
 class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジュールの入出力
   val inPC = Input(UInt(conf.xlen.W))    // データパスからの入力pc
+  val inst = Input(UInt(conf.xlen.W))     // 命令
   val csr_cmd = Input(UInt(CSR.SZ))       // コントローラからのcsrコマンド
 
   val outPC = Output(UInt(conf.xlen.W))  // 出力pc
   val eret = Output(Bool()) // 例外です。
 
-  val inst = Input(UInt(conf.xlen.W))
 }
 
 class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
@@ -19,8 +19,8 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
 
   // mstatus
   val SD,TSR,TW,TVM,MXR,SUM,MPRV,
-    SPP,MPIE,SPIE,MIE,SIE = 0.U(1.W)
-  val XS,FS,MPP = 0.U(2.W)
+    SPP,MPIE,SPIE,MIE,SIE = RegInit(0.U(1.W))
+  val XS,FS,MPP = RegInit(0.U(2.W))
 
   // mip レジスタのビット
   // スーパバイザモードが実装されていない場合、SEIP,STIP,SSIPは0にされる
@@ -41,29 +41,28 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   val mepc = Reg(UInt(conf.xlen.W))   // 例外を示した命令を指し示す
   val mscratch = Reg(UInt(conf.xlen.W))
 
+  //==================================================
+  when(io.csr_cmd===CSR.I){ // ecallかebreakのとき
+    mepc := io.inPC   // 例外発生時のpc
+    when(io.inst(20)){ // ebreakのとき
+      mcause := 3.U
+    }.otherwise{ // ecallのとき
+      // 環境呼び出し mcause = 0 + 8?9?11?
+      mcause := 8.U+MPP// 現在の特権モードに8を足す
+    }
+    MPP := PRV.U.U  // mppをユーザーモードに変更
+    MPIE := MIE
+    MIE := 0.U  // 割り込みが無効
+  }
+
+  // ======================== レジスタ更新
   mstatus := Cat(SD,Fill(conf.xlen-24, 0.U),TSR,TW,TVM,MXR,SUM,MPRV,
     XS,FS,MPP,0.U(2.W),SPP,MPIE,0.U,SPIE,0.U,MIE,0.U,SIE,0.U)
   mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
   mie := Cat(Fill(20,0.U),MEIE,0.U,SEIE,0.U,MTIE,0.U,STIE,0.U,MSIE,0.U,SSIE,0.U)
   mtval := Cat(0.U)   // アドレス例外のアドレスか不正命令の命令を入れる、その他のとき0
   mscratch := Cat(0.U)
-
-  //==================================================
-  when(io.csr_cmd===CSR.I){ // ecallかebreakのとき
-    mepc := io.inPC   // 例外発生時のpc
-    io.outPC := mtvec // ジャンプするpc
-    printf("paypay")
-    when(io.inst(20)){ // ebreakのとき
-      // ブレークポイント mcause = 0 + 3
-      mcause := 3.U
-    }.otherwise{ // ecallのとき
-      // 環境呼び出し mcause = 0 + 8?9?11?
-      mcause := 8.U+MPP// 現在の特権モードに8を足す
-      //printf("[%x] ", mcause)
-    }
-    // tmp
-    io.outPC := mtvec
-  }
+  io.outPC := mtvec
 
 }
 

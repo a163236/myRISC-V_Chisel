@@ -122,5 +122,4 @@ class Dpath(implicit val conf: Configurations) extends Module{
       io.dmem.addr, io.dmem.wdata, io.dmem.rdata)
 
   }
-
 }
