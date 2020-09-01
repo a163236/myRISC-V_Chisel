@@ -158,5 +158,5 @@ trait PrivilegedConstants{
   // https://people.eecs.berkeley.edu/~krste/papers/riscv-privileged-v1.9.1.pdf
   val MTVEC = 0x100
 
-  val START_ADDR = "h80000000".U  // MTVEC + 0x100 ?
+  val START_ADDR = "h80000000"  // MTVEC + 0x100 ?
 }

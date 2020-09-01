@@ -31,7 +31,7 @@ class Dpath(implicit val conf: Configurations) extends Module{
   io := DontCare
 
   // まずは使うModule・レジスタ宣言
-  val pc_reg  = RegInit(0.U(conf.xlen.W))
+  val pc_reg  = RegInit(START_ADDR.U(conf.xlen.W))
   val ALU     = Module(new ALU())
   val ImmGen  = Module(new ImmGen())
   val RegFile = Module(new RegisterFile())
@@ -86,7 +86,6 @@ class Dpath(implicit val conf: Configurations) extends Module{
   io.dat.csr_eret := csr.io.eret  // csrからコントローラへの例外送信
   csr.io.inst := inst
   csr.io.rs1 := ALU.io.out
-  printf("csr=[%x] ", csr.io.outPC)
 
   // ライトバック
   RegFile.io.waddr  := inst(RD_MSB, RD_LSB)
@@ -122,6 +121,5 @@ class Dpath(implicit val conf: Configurations) extends Module{
       pc_reg, io.ctl.pc_sel, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
       io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, csr.io.csr_cmd,
       io.dmem.addr, io.dmem.wdata, io.dmem.rdata)
-
   }
 }

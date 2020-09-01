@@ -115,8 +115,7 @@ class CtlPath() extends Module() {
 
   // 次のpcを決める　分岐するかどうかは上のリストだけでは決定しないから
   // datapathからbrのデータをもらって判断する
-
-  val ctrl_pc_sel = Mux(io.dat.csr_eret||io.ctl.exception, PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
+  val ctrl_pc_sel = Mux(io.ctl.exception, PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
     (MuxLookup(cs_br_type, PC_CSR, Array(
       BR_N  -> PC_4,
       BR_J  -> PC_ALU,

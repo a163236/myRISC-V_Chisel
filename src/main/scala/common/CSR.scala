@@ -65,15 +65,15 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   when(io.csr_cmd===CSR.I){
     mepc := io.inPC   // 例外発生時のpc
 
-    when(io.inst(21)&&io.inst(29)&&io.inst(28)){//mretのとき
-      // MIE := MPIE
-      MPIE := true.B
+    when(io.inst(31,20)===0x302.U){//mretのとき
+      now_prv := MPP  // 特権が戻る
+      MPIE := true.B  //
       MPP := PRV.U
-      now_prv := MPP
+
     }.otherwise{
-      when(io.inst(20)){  // ebreakのとき
+      when(io.inst(20)){          // ebreakのとき
         mcause := 3.U
-      }.otherwise{        // ecallのとき
+      }.otherwise{                // ecallのとき
         mcause := 8.U+now_prv// 現在の特権モードに8を足す
       }
       MPIE := MIE
@@ -81,7 +81,6 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
       MPP := now_prv    // mppに例外前の特権モードを入れて
       now_prv := PRV.M  // 今の特権モードをマシンモードにする
       io.eret := true.B
-
     }
 
   }
