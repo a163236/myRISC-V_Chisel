@@ -4,8 +4,11 @@ import chisel3._
 import chisel3.util._
 
 class CSRFileIO(implicit val conf: Configurations) extends Bundle{  // CSRモジュールの入出力
-  val inPC = Input(UInt(conf.xlen.W))    // 入力pc
+  val inPC = Input(UInt(conf.xlen.W))    // データパスからの入力pc
+  val csr_cmd = Input(UInt(CSR.SZ))       // コントローラからのcsrコマンド
+
   val outPC = Output(UInt(conf.xlen.W))  // 出力pc
+  val eret = Output(Bool())
 }
 
 class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジュール
@@ -36,7 +39,6 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   val mepc = Reg(UInt(conf.xlen.W))
   val mscratch = Reg(UInt(conf.xlen.W))
 
-
   mstatus := Cat(SD,Fill(conf.xlen-24, 0.U),TSR,TW,TVM,MXR,SUM,MPRV,
     XS,FS,MPP,0.U(2.W),SPP,MPIE,0.U,SPIE,0.U,MIE,0.U,SIE,0.U)
   mip := Cat(Fill(20,0.U),MEIP,0.U,SEIP,0.U,MTIP,0.U,STIP,0.U,MSIP,0.U,SSIP,0.U)
@@ -46,6 +48,13 @@ class CSRFile(implicit val conf: Configurations) extends Module{  // CSRモジ�
   mtval := Cat(0.U)   // アドレス例外のアドレスか不正命令の命令を入れる、その他のとき0
   mepc := Cat(0.U)    // 例外を示した命令を指し示す
   mscratch := Cat(0.U)
+
+  //==================================================
+  // ecall のとき
+  when(io.csr_cmd===CSR.I){ // ecallかebreakのとき
+    
+  }
+
 }
 
 object CSR {  // CSR関連の定数

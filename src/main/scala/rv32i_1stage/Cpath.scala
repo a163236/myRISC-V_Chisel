@@ -20,7 +20,8 @@ class CtltoDatIO extends Bundle(){
   val alu_fun = Output(UInt(ALU_X.getWidth.W))
   val wb_sel  = Output(UInt(WB_X.getWidth.W))
   val rf_wen  = Output(Bool())
-
+  val csr_cmd   = Output(UInt(CSR.SZ))  // csrのWRSIのどれか
+  val exception = Output(Bool())
 }
 
 // コントローラの全ての入出力
@@ -157,5 +158,5 @@ class CtlPath() extends Module() {
   // Other exceptions are detected later in the pipeline by passing the
   // instruction to the CSR File and letting it redirect the PC as it sees
   // fit.
-
+  io.ctl.exception := (!cs_val_inst && io.imem.resp.valid)  // 命令が無効な場合かつ命令メモリからもらっているとき
 }

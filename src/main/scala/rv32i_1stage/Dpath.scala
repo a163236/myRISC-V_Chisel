@@ -12,7 +12,7 @@ import CommonPackage._
 // コントローラへの出力output
 class DatToCtlIO(implicit val conf: Configurations) extends Bundle() {
   val inst      = Output(UInt(conf.xlen.W))
-  val branComOut= new BranComOut
+  val branComOut= new BranComOut()
   val csr_eret  = Output(Bool())
 
 }
@@ -81,7 +81,10 @@ class Dpath(implicit val conf: Configurations) extends Module{
   val csr = Module(new CSRFile())
   csr.io := DontCare
   csr.io.inPC := pc_reg
-  pc_csr := csr.io.outPC
+  csr.io.csr_cmd := io.ctl.csr_cmd
+  pc_csr := csr.io.outPC          // csrのpc
+  io.dat.csr_eret := csr.io.eret  // csrからコントローラへの例外送信
+
 
   // ライトバック
   RegFile.io.waddr  := inst(RD_MSB, RD_LSB)
