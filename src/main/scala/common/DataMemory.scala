@@ -33,15 +33,20 @@ class DataMemory(implicit val conf: Configurations) extends Module{
   io := DontCare
   val memory = Mem(256*1024, UInt(conf.xlen.W))
 
-  switch(io.cpath.fcn){
-    is(M_XRD){
-      io.dpath.rdata := memory(io.dpath.addr)
-      //printf("readdata=[%d] ", memory(io.dpath.addr))
+  when(io.d_write.req.valid){ // memory初期化
+    memory.write(io.d_write.req.bits.addr, io.d_write.req.bits.wdata)
+    io.mport.resp.valid := false.B
+    io.mport.req.ready := false.B
+  }.otherwise{ //
+    switch(io.cpath.fcn){
+      is(M_XRD){              // load
+        io.dpath.rdata := memory(io.dpath.addr)
+      }
+      is(M_XWR){              // store
+        memory.write(io.dpath.addr, io.dpath.wdata)
+      }
     }
-    is(M_XWR){
-      memory.write(io.dpath.addr, io.dpath.wdata)
-      //printf("writedata=[%d] ", io.dpath.wdata)
-    }
+
   }
 
   io.led.out := memory("x800".U) // 0x800番地

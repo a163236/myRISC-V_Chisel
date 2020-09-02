@@ -15,8 +15,8 @@ class MemPortIO(implicit val conf:Configurations) extends Bundle{
 class MemReqIO(implicit val conf:Configurations) extends Bundle{
   val addr = Output(UInt(conf.xlen.W))
   val wdata = Output(UInt(conf.xlen.W))
-  val fcn  = Output(UInt(M_X.getWidth.W)) //
-  val typ = Output(UInt(MT_X.getWidth.W))
+  val fcn  = Output(UInt(M_X.getWidth.W)) //  half?byte?
+  val typ = Output(UInt(MT_X.getWidth.W)) //  load?store?
 }
 
 class MemRespIO(implicit val conf:Configurations) extends Bundle{

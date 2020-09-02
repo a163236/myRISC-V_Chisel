@@ -13,7 +13,7 @@ class TileAndLED(implicit val conf:Configurations) extends Module{
   val Seg7LED = Module(new Seg7LED())
 
   // メモリ初期化を無効
-  Tile.io.d_imem := DontCare // メモリ初期化を無効
+  Tile.io.d_mem := DontCare // メモリ初期化を無効
 
   Seg7LED.io.in := Tile.io.led.out
   io.LEDout := Seg7LED.io.seg7led

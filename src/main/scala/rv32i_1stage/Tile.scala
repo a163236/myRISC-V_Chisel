@@ -10,7 +10,7 @@ class Tile(implicit val conf: Configurations) extends Module{
     // debug
     //val keita = new KeitaIO()
     val led = new DataMemoryLEDIO()
-    val d_imem = Flipped(new MemPortIO())
+    val d_mem = Flipped(new MemPortIO())
     val debug = new DebugIO() // デバッグ
   })
   io := DontCare
@@ -20,12 +20,12 @@ class Tile(implicit val conf: Configurations) extends Module{
   val DataMemory  = Module(new DataMemory())
 
   // メモリ初期化
-  InstructionMemory.io.d_write <> io.d_imem
+  InstructionMemory.io.d_write <> io.d_mem
+  DataMemory.io.d_write <> io.d_mem
 
   // 内部接続
   Core.io.imem <> InstructionMemory.io.mport
-  //printf(" [%d]", Core.io.imem.req.bits.addr)
-  Core.io.dmem <> DataMemory.io
+  Core.io.dmem <> DataMemory.io.mport
 
   // デバッグ
   io.debug.out := Core.io.debug.out
