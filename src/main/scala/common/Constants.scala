@@ -134,6 +134,7 @@ trait ScalarOpConstants{
 
 trait MemoryOpConstants
 {
+  // typ
   val MT_X  = 0.asUInt(3.W)
   val MT_B  = 1.asUInt(3.W) // byte?
   val MT_H  = 2.asUInt(3.W) // half-word
@@ -142,7 +143,7 @@ trait MemoryOpConstants
   val MT_BU = 5.asUInt(3.W)
   val MT_HU = 6.asUInt(3.W)
   val MT_WU = 7.asUInt(3.W)
-
+  // fcn
   val M_X   = "b0".asUInt(1.W)
   val M_XRD = "b0".asUInt(1.W) // int load
   val M_XWR = "b1".asUInt(1.W) // int store

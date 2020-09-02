@@ -50,31 +50,39 @@ class Memory(implicit val conf:Configurations) extends Module{
     */
   // typ　word byte
   // fcn 読み書き
+
+//  printf("%d ",io.mport.req.bits.fcn)
   when(io.d_write.req.valid){ // memory初期化
     memory.write(io.d_write.req.bits.addr, io.d_write.req.bits.wdata)
     io.mport.resp.valid := false.B
 
   }.elsewhen(io.mport.req.valid){
     // 普通のメモリアクセス && ストールではない
-
     switch(io.mport.req.bits.fcn){
       is(M_XRD){  // 読み出し
-        io.mport.resp.bits.rdata := memory(io.mport.req.bits.addr)
-      }
-      is(M_XWR){  // 書き込み
 
-        printf("%x",1.U)
-        switch(io.mport.req.bits.typ){
-          is(MT_WU){
-            memory.write(io.mport.req.bits.addr, io.mport.req.bits.wdata)
-          }
-          is(MT_W){
-            memory.write(io.mport.req.bits.addr, io.mport.req.bits.wdata)
-          }
-        }
+        val rdata = memory(io.mport.req.bits.addr)
+        io.mport.resp.bits.rdata := MuxLookup(io.mport.req.bits.typ, rdata, Array(
+          MT_X -> rdata,
+          MT_B -> Cat(Fill(24,rdata(7)),rdata(7,0)),
+          MT_H -> rdata,
+          MT_W -> rdata,
+          MT_WU-> rdata,
+        ))
+      }
+
+      is(M_XWR){  // 書き込み
+        val tmpdata = io.mport.req.bits.wdata
+        val wdata = MuxLookup(io.mport.req.bits.typ, tmpdata, Array(
+          MT_X -> tmpdata,
+          MT_B -> Cat(Fill(24,tmpdata(7)), tmpdata(7,0)),
+          MT_H -> Cat(Fill(12,tmpdata(11)), tmpdata(11,0)),
+          MT_W -> tmpdata,
+          MT_WU-> tmpdata,
+          ))
+        memory.write(io.mport.req.bits.addr, wdata)
       }
     }
-
     io.mport.resp.valid := true.B
 
   }.otherwise{  //

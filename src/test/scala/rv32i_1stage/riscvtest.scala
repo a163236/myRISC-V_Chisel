@@ -44,6 +44,7 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
   "add" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-add.hex")}
   "addi" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-addi.hex")}
   "and" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-and.hex")}
+  "andi" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-andi.hex")}
 
   "beq" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-beq.hex")}
   "bne" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-bne.hex")}
