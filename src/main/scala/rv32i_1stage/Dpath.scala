@@ -122,4 +122,5 @@ class Dpath(implicit val conf: Configurations) extends Module{
       io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, csr.io.csr_cmd,
       io.dmem.addr, io.dmem.wdata, io.dmem.rdata)
   }
+
 }

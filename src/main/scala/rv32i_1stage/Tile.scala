@@ -24,8 +24,11 @@ class Tile(implicit val conf: Configurations) extends Module{
   DataMemory.io.d_write <> io.d_mem
 
   // 内部接続
+  Core.io := DontCare
   Core.io.imem <> InstructionMemory.io.mport
-  Core.io.dmem <> DataMemory.io.mport
+  Core.io.dmem.cpath <> DataMemory.io.cpath
+  Core.io.dmem.dpath <> DataMemory.io.dpath
+
 
   // デバッグ
   io.debug.out := Core.io.debug.out

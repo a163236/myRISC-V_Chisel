@@ -21,7 +21,6 @@ class DataMemoryLEDIO(implicit val conf:Configurations) extends Bundle{
 }
 
 class DataMemoryIO(implicit val conf:Configurations) extends Bundle{
-  val mport = Flipped(new MemPortIO())
   val d_write = Flipped(new MemPortIO()) //データメモリ初期化書き込み用
   val dpath = new DataMemoryDpathIO()
   val cpath = new DataMemoryCpathIO()
@@ -33,20 +32,18 @@ class DataMemory(implicit val conf: Configurations) extends Module{
   io := DontCare
   val memory = Mem(256*1024, UInt(conf.xlen.W))
 
+  //printf("%d",io.d_write.req.bits.wdata)
   when(io.d_write.req.valid){ // memory初期化
     memory.write(io.d_write.req.bits.addr, io.d_write.req.bits.wdata)
-    io.mport.resp.valid := false.B
-    io.mport.req.ready := false.B
-  }.otherwise{ //
-    switch(io.cpath.fcn){
-      is(M_XRD){              // load
-        io.dpath.rdata := memory(io.dpath.addr)
-      }
-      is(M_XWR){              // store
-        memory.write(io.dpath.addr, io.dpath.wdata)
-      }
-    }
+  }
 
+  switch(io.cpath.fcn){
+    is(M_XRD){              // load
+      io.dpath.rdata := memory(io.dpath.addr)
+    }
+    is(M_XWR){              // store
+      memory.write(io.dpath.addr, io.dpath.wdata)
+    }
   }
 
   io.led.out := memory("x800".U) // 0x800番地
