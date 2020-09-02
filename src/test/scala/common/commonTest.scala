@@ -10,7 +10,7 @@ class commonTest() extends FlatSpec with ChiselScalatestTester with Matchers {
   implicit val conf = Configurations()
 
   it should "Imem" in{
-    test(new InstructionMemory()){ c=>
+    test(new Memory()){ c=>
       c.io.d_write.req.valid.poke(true.B)
       c.io.d_write.req.bits.addr.poke(4.U)
       c.io.d_write.req.bits.wdata.poke(1.U)

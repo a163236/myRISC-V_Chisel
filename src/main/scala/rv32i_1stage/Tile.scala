@@ -16,8 +16,8 @@ class Tile(implicit val conf: Configurations) extends Module{
   io := DontCare
 
   val Core = Module(new Core())
-  val InstructionMemory = Module(new InstructionMemory())
-  val DataMemory  = Module(new DataMemory())
+  val InstructionMemory = Module(new Memory())
+  val DataMemory  = Module(new Memory())
 
   // メモリ初期化
   InstructionMemory.io.d_write <> io.d_mem
@@ -26,14 +26,11 @@ class Tile(implicit val conf: Configurations) extends Module{
   // 内部接続
   Core.io := DontCare
   Core.io.imem <> InstructionMemory.io.mport
-  Core.io.dmem.cpath <> DataMemory.io.cpath
-  Core.io.dmem.dpath <> DataMemory.io.dpath
-
+  Core.io.dmem <> DataMemory.io.mport
 
   // デバッグ
   io.debug.out := Core.io.debug.out
 
   // 7segLEDの表示
   io.led.out := DataMemory.io.led.out
-  //printf("LED=[%x] ",io.led.out)
 }

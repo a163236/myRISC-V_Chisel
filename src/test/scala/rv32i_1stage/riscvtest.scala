@@ -20,7 +20,7 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
       val memory = lines.toArray.map { c =>
         Integer.parseUnsignedInt(c, 16).toBinaryString
       }
-
+      println()
       for (i <- 0 to memory.length - 1) {
         val binarycode = memory(i)
         c.io.d_mem.req.valid.poke(true.B)
@@ -34,10 +34,9 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
         c.clock.step(1)
         println()
       }
-      c.io.debug.out.expect(0.U) // gpレジスタが1ならパス
+      c.io.debug.out.expect(1.U) // gpレジスタが1ならパス
     }
   }
-
 
 
   behavior of "rv32ui-"
@@ -47,6 +46,7 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
   "and" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-and.hex")}
 
   "beq" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-beq.hex")}
+  "sw" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-sw.hex")}
   "sub" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-sub.hex")}
   "jal" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-jal.hex")}
   "lw" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-lw.hex")}
@@ -57,7 +57,7 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
 
   behavior of "rv32mi-"
   val rv32mi_path = "testfolder/hexfile/rv32mi/"
-  "csr" should "pass" in {entrymemory(rv32mi_path+"rv32mi-p-csr.hex")}
+  //"csr" should "pass" in {entrymemory(rv32mi_path+"rv32mi-p-csr.hex")}
 
 
 

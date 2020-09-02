@@ -28,7 +28,8 @@ class CtltoDatIO extends Bundle(){
 class CpathIO(implicit val conf:Configurations) extends Bundle(){
   val dat = Flipped(new DatToCtlIO())
   val ctl = new CtltoDatIO()  // データパスへの出力
-  val dmem= Flipped(new DataMemoryCpathIO())
+  //val dmem= Flipped(new DataMemoryCpathIO())
+  val dmem= new MemPortIO()
   val imem= new MemPortIO()
 }
 
@@ -128,7 +129,7 @@ class CtlPath() extends Module() {
       BR_J  -> PC_ALU,
       BR_JR -> PC_ALU))))
 
-  val stall = !io.imem.resp.valid
+  val stall = io.imem.resp.valid
 
   // コントローラからの信号線の設定
   io.ctl.stall := stall
@@ -143,13 +144,15 @@ class CtlPath() extends Module() {
 
   // convert CSR instructions with raddr1 == 0 to read-only CSR commands
 
-  // Memory Requests
+  // 命令メモリ Requests
   io.imem.req.valid := true.B
-  io.imem.req.bits.fcn := M_XRD
-  io.imem.req.bits.typ := MT_WU
+  io.imem.req.bits.fcn := M_XRD       // 読み出し
+  io.imem.req.bits.typ := MT_WU       // 符号無しword
 
-  io.dmem.men := cs_mem_en
-  io.dmem.fcn := cs_mem_fcn
+  // データメモリ Request
+  io.dmem.req.valid := cs_mem_en      // メモリ有効信号
+  io.dmem.req.bits.fcn := cs_mem_fcn  // 読み書き
+  io.dmem.req.bits.typ := cs_msk_sel  // Byte,Word
 
 
   // Exception Handling ---------------------

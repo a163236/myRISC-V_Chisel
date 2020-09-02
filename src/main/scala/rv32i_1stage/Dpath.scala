@@ -20,7 +20,7 @@ class DatToCtlIO(implicit val conf: Configurations) extends Bundle() {
 // データパスの全てのIO
 class DpathIO(implicit val conf: Configurations) extends Bundle() {
   val imem    = new MemPortIO()     // 命令メモリ用IO
-  val dmem    = Flipped(new DataMemoryDpathIO())
+  val dmem    = new MemPortIO()     // データメモリ用IO
   val ctl     = Flipped(new CtltoDatIO())   // コントローラからデータへの出力
   val dat     = new DatToCtlIO()            // データパスからコントローラへの入力
   val debug   = new DebugIO()               // デバッグ
@@ -74,8 +74,9 @@ class Dpath(implicit val conf: Configurations) extends Module{
   io.dat.branComOut <> BranchComp.io.branComOut
 
   // データメモリ 接続
-  io.dmem.addr  := ALU.io.out
-  io.dmem.wdata := RegFile.io.rs2_data
+  io.dmem.req.bits.addr  := ALU.io.out
+  io.dmem.req.bits.wdata := RegFile.io.rs2_data
+
 
   // CSR
   val csr = Module(new CSRFile())
@@ -93,7 +94,7 @@ class Dpath(implicit val conf: Configurations) extends Module{
   RegFile.io.wdata  := MuxLookup(io.ctl.wb_sel, ALU.io.out, Array(
     WB_ALU -> ALU.io.out,
     WB_PC4 -> (pc_reg + 4.U),
-    WB_MEM -> io.dmem.rdata,
+    WB_MEM -> io.dmem.resp.bits.rdata,
     WB_CSR -> csr.io.wdata
   ))
 
@@ -120,7 +121,7 @@ class Dpath(implicit val conf: Configurations) extends Module{
       " rd=[0x%x] reg(a0)=[0x%x] ALUOUT=[0x%x] CSRcmd=[0x%x] DMEMaddr=[0x%x] DMEMdataw=[0x%x] DMEMdatar=[0x%x] ",
       pc_reg, io.ctl.pc_sel, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
       io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, csr.io.csr_cmd,
-      io.dmem.addr, io.dmem.wdata, io.dmem.rdata)
+      io.dmem.req.bits.addr, io.dmem.req.bits.wdata, io.dmem.resp.bits.rdata)
   }
 
 }
