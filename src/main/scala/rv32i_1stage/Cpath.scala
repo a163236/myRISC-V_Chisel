@@ -129,7 +129,7 @@ class CtlPath() extends Module() {
       BR_J  -> PC_ALU,
       BR_JR -> PC_ALU))))
 
-  val stall = io.imem.resp.valid
+  val stall =  !io.imem.resp.valid
 
   // コントローラからの信号線の設定
   io.ctl.stall := stall
@@ -140,7 +140,7 @@ class CtlPath() extends Module() {
   io.ctl.wb_sel  := cs_wb_sel
   io.ctl.rf_wen  := cs_rf_wen
   io.ctl.pc_sel  := ctrl_pc_sel
-  io.ctl.csr_cmd := cs_csr_cmd
+  io.ctl.csr_cmd := Mux(stall, CSR.N, cs_csr_cmd)
 
   // convert CSR instructions with raddr1 == 0 to read-only CSR commands
 

@@ -38,17 +38,17 @@ class Core(implicit val conf: Configurations) extends Module{
   io.dmem.req.bits.typ := Cpath.io.dmem.req.bits.typ  // マスク word byte
   io.dmem.req.bits.fcn := Cpath.io.dmem.req.bits.fcn  // 読み書き
   io.dmem.req.bits.addr:= Dpath.io.dmem.req.bits.addr // アドレス
+  io.dmem.req.bits.wdata:=Dpath.io.dmem.req.bits.wdata// 書き込みデータ
 
   io.imem.req.valid    := Cpath.io.imem.req.valid
-  io.dmem.req.bits.typ := Cpath.io.imem.req.bits.typ
-  io.dmem.req.bits.fcn  := Cpath.io.imem.req.bits.fcn
-  io.dmem.req.bits.addr := Dpath.io.imem.req.bits.addr
+  io.imem.req.bits.typ := Cpath.io.imem.req.bits.typ
+  io.imem.req.bits.fcn  := Cpath.io.imem.req.bits.fcn
+  io.imem.req.bits.addr := Dpath.io.imem.req.bits.addr
 
   // 外部メモリからの受信
   Cpath.io.dmem.resp.valid := io.dmem.resp.valid
-  Cpath.io.dmem.resp.bits.rdata := io.dmem.resp.bits.rdata
+  Dpath.io.dmem.resp.bits.rdata := io.dmem.resp.bits.rdata
 
-  Dpath.io.imem.resp.valid := io.imem.resp.valid
+  Cpath.io.imem.resp.valid := io.imem.resp.valid
   Dpath.io.imem.resp.bits.rdata := io.imem.resp.bits.rdata
-
 }

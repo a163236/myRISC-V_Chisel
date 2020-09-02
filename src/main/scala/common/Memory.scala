@@ -42,20 +42,19 @@ class Memory(implicit val conf:Configurations) extends Module{
 
   // $1===1, $2===1, $3===1
   //                 funct7   rs2  rs1  funct3 rd    op
-  /*
+    /*
     memory.write(0.U, "b00000000110001010000010110010011".U(32.W))
     memory.write(4.U, "b00000110010001010000011100010011".U(32.W))
     memory.write(8.U, "b00000000111001011000010110110011".U(32.W))
     memory.write(12.U, "b10000000101100000010000000100011".U(32.W))
-  */
+    */
   // typ　word byte
   // fcn 読み書き
-
   when(io.d_write.req.valid){ // memory初期化
     memory.write(io.d_write.req.bits.addr, io.d_write.req.bits.wdata)
     io.mport.resp.valid := false.B
 
-  }.elsewhen(!io.mport.req.valid){
+  }.elsewhen(io.mport.req.valid){
     // 普通のメモリアクセス && ストールではない
 
     switch(io.mport.req.bits.fcn){
@@ -63,9 +62,14 @@ class Memory(implicit val conf:Configurations) extends Module{
         io.mport.resp.bits.rdata := memory(io.mport.req.bits.addr)
       }
       is(M_XWR){  // 書き込み
+
+        printf("%x",1.U)
         switch(io.mport.req.bits.typ){
           is(MT_WU){
-            memory.write(io.d_write.req.bits.addr, io.d_write.req.bits.wdata)
+            memory.write(io.mport.req.bits.addr, io.mport.req.bits.wdata)
+          }
+          is(MT_W){
+            memory.write(io.mport.req.bits.addr, io.mport.req.bits.wdata)
           }
         }
       }

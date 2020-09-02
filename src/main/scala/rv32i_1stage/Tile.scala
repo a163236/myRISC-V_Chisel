@@ -23,6 +23,8 @@ class Tile(implicit val conf: Configurations) extends Module{
   InstructionMemory.io.d_write <> io.d_mem
   DataMemory.io.d_write <> io.d_mem
 
+  //printf("%b", InstructionMemory.io.mport.resp.bits.rdata)
+
   // 内部接続
   Core.io := DontCare
   Core.io.imem <> InstructionMemory.io.mport
