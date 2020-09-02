@@ -27,7 +27,8 @@ class ALU(implicit val conf: Configurations) extends Module{
     ALU_SLL -> ((io.op1 << alu_shamt)(conf.xprlen-1,0)).asUInt(),// 左にシフト
     ALU_SRA -> (io.op1.asSInt() >> alu_shamt).asUInt(),        // 右にシフト 符号付で
     ALU_SRL -> (io.op1 >> alu_shamt).asUInt(),                 // 右にシフト 0埋め
-    ALU_COPYrs1-> io.op1
+    ALU_COPYrs1-> io.op1,
+    ALU_COPYrs2-> io.op2
   ))
 
 

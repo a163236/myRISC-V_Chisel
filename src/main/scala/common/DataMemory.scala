@@ -21,6 +21,8 @@ class DataMemoryLEDIO(implicit val conf:Configurations) extends Bundle{
 }
 
 class DataMemoryIO(implicit val conf:Configurations) extends Bundle{
+  val mport = Flipped(new MemPortIO())
+  val d_write = Flipped(new MemPortIO()) //データメモリ初期化書き込み用
   val dpath = new DataMemoryDpathIO()
   val cpath = new DataMemoryCpathIO()
   val led = new DataMemoryLEDIO()
@@ -29,7 +31,7 @@ class DataMemoryIO(implicit val conf:Configurations) extends Bundle{
 class DataMemory(implicit val conf: Configurations) extends Module{
   val io = IO(new DataMemoryIO)
   io := DontCare
-  val memory = Mem(256, UInt(conf.xlen.W))
+  val memory = Mem(256*1024, UInt(conf.xlen.W))
 
   switch(io.cpath.fcn){
     is(M_XRD){

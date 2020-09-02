@@ -4,15 +4,18 @@ import chisel3._
 import chiseltest._
 import common._
 import org.scalatest._
+
+import scala.Console._
 import scala.io.Source
+import scala.reflect.io._
 
 class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
   implicit val conf = Configurations()
 
   def entrymemory(filename: String): Unit = {
     test(new Tile()) { c =>
-
-      val fp = Source.fromFile("hexfile/rv32ui-p-add.hex")
+      println(BLUE+filename+RESET)
+      val fp = Source.fromFile(filename)
       val lines = fp.getLines()
       val memory = lines.toArray.map { c =>
         Integer.parseUnsignedInt(c, 16).toBinaryString
@@ -36,20 +39,27 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
     }
   }
 
+
+
   behavior of "rv32ui-"
-  /*
-  it+"add" should "pass" in {entrymemory("hexfile/rv32ui-p-add.hex")}
-  it+"sub" should "pass" in{entrymemory("hexfile/rv32ui-p-sub.hex")}
-  it+"jal" should "pass" in{entrymemory("hexfile/rv32ui-p-jal.hex")}
-  it+"lw" should "pass" in{entrymemory("hexfile/rv32ui-p-lw.hex")}
-  */
-  it+"lb" should "pass" in{entrymemory("hexfile/rv32ui-p-lb.hex")}
+  val rv32ui_path = "testfolder/hexfile/rv32ui/"
+  "add" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-add.hex")}
+  "addi" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-addi.hex")}
+  "and" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-and.hex")}
+
+  "beq" should "pass" in {entrymemory(rv32ui_path+"rv32ui-p-beq.hex")}
+  "sub" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-sub.hex")}
+  "jal" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-jal.hex")}
+  "lw" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-lw.hex")}
+  "lb" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-lb.hex")}
+  "xor" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-xor.hex")}
+  "xori" should "pass" in{entrymemory(rv32ui_path+"rv32ui-p-xori.hex")}
 
 
-  /*
   behavior of "rv32mi-"
-  it+"csr" should "pass" in {entrymemory("hexfile/rv32mi-p-csr.hex\"")}
+  val rv32mi_path = "testfolder/hexfile/rv32mi/"
+  "csr" should "pass" in {entrymemory(rv32mi_path+"rv32mi-p-csr.hex")}
 
-   */
+
 
 }

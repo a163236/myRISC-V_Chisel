@@ -40,9 +40,9 @@ class CtlPath() extends Module() {
   val csignals =
     ListLookup(io.dat.inst,
       List(N, BR_N, OP1_X, OP2_X, IMM_X, ALU_X, WB_X, REN_0, MEN_0, M_X, MT_X, CSR.N),
-      Array(  /* val  |  BR  |  op1   | op2   |  imm   |  ALU    |  wb  | rf   | mem  | mem  | mask |  csr  */
-             /* inst | type |   sel  | sel   |   sel  |   fcn   |  sel | wen  |  en  |  wr  | type |  cmd  */
-        LW -> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_I,   ALU_ADD, WB_MEM, REN_1, MEN_1, M_XRD, MT_W, CSR.N),
+      Array(  /* val  |  BR  |  op1   | op2  | imm |  ALU    |  wb  | rf   | mem  | mem  | mask |  csr  */
+             /* inst | type |   sel  | sel  |  sel |   fcn   |  sel | wen  |  en  |  wr  | type |  cmd  */
+        LW -> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_I, ALU_ADD, WB_MEM, REN_1, MEN_1, M_XRD, MT_W, CSR.N),
         LB -> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_I, ALU_ADD, WB_MEM, REN_1, MEN_1, M_XRD, MT_B, CSR.N),
         LBU-> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_I, ALU_ADD, WB_MEM, REN_1, MEN_1, M_XRD, MT_BU, CSR.N),
         LH -> List(Y, BR_N, OP1_RS1, OP2_IMM, IMM_I, ALU_ADD, WB_MEM, REN_1, MEN_1, M_XRD, MT_H, CSR.N),
@@ -115,7 +115,7 @@ class CtlPath() extends Module() {
 
   // 次のpcを決める　分岐するかどうかは上のリストだけでは決定しないから
   // datapathからbrのデータをもらって判断する
-  val ctrl_pc_sel = Mux(io.ctl.exception, PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
+  val ctrl_pc_sel = Mux(io.dat.csr_eret ||io.ctl.exception , PC_CSR,  // 例外発生ならCSR、　それ以外なら下の中から
     (MuxLookup(cs_br_type, PC_CSR, Array(
       BR_N  -> PC_4,
       BR_J  -> PC_ALU,

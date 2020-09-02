@@ -8,8 +8,9 @@ scalacOptions ++= Seq("-deprecation", "-feature", "-unchecked", "-language:refle
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots"),
-  Resolver.sonatypeRepo("releases")
+  Resolver.sonatypeRepo("releases"),
 )
+
 
 libraryDependencies += "edu.berkeley.cs" %% "chisel3" % "latest.release"
 libraryDependencies += "edu.berkeley.cs" %% "chiseltest" % "latest.release"
