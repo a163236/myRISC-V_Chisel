@@ -33,7 +33,6 @@ class Memory(implicit val conf:Configurations) extends Module {
   io := DontCare
   val mem_0,mem_1,mem_2,mem_3 = SyncReadMem(64*1024, UInt(8.W))
 
-
   when(io.d_write.req.valid){ // =====================memory初期化
     mem_0.write(io.d_write.req.bits.addr(31,2), io.d_write.req.bits.wdata(7,0))
     mem_1.write(io.d_write.req.bits.addr(31,2), io.d_write.req.bits.wdata(15,8))
@@ -60,15 +59,9 @@ class Memory(implicit val conf:Configurations) extends Module {
 
         switch(io.mport.req.bits.typ){
         }
-
       }
 
       is(M_XWR) { // ===================================書き込み store
-        // default
-        switch(io.mport.req.bits.typ){
-
-        }
-
       }
     }
     io.mport.resp.valid := false.B
