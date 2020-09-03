@@ -117,10 +117,11 @@ class Dpath(implicit val conf: Configurations) extends Module{
   when(!io.ctl.stall) {
 
     printf("pc=[0x%x] IMEM=[0x%x] inst=[0x%x] ImmgenOut=[0x%x] in1=[0x%x] in2=[0x%x] ind=[0x%x]"+
-      " rd=[0x%x] reg(a0)=[0x%x] ALUOUT=[0x%x] CSRcmd=[0x%x] DMEMaddr=[0x%x] DMEMdataw=[0x%x] DMEMdatar=[0x%x] ",
+      " rd=[0x%x] reg(a0)=[0x%x] ALUOUT=[0x%x] comprs1=[0x%x] comprs2=[0x%x]" +
+      " CSRcmd=[0x%x] DMEMaddr=[0x%x] DMEMdataw=[0x%x] DMEMdatar=[0x%x] ",
       pc_reg, io.imem.resp.bits.rdata, inst, ImmGen.io.out, ALU.io.op1, ALU.io.op2, RegFile.io.wdata,
-      io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, csr.io.csr_cmd,
-      io.dmem.req.bits.addr, io.dmem.req.bits.wdata, io.dmem.resp.bits.rdata)
+      io.imem.resp.bits.rdata(RD_MSB, RD_LSB), RegFile.io.debug.out, ALU.io.out, RegFile.io.rs1_data, RegFile.io.rs2_data,
+      csr.io.csr_cmd, io.dmem.req.bits.addr, io.dmem.req.bits.wdata, io.dmem.resp.bits.rdata)
 
   }
 }
