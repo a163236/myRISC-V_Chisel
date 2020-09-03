@@ -129,7 +129,7 @@ class CtlPath() extends Module() {
       BR_J  -> PC_ALU,
       BR_JR -> PC_ALU))))
 
-  val stall =  !io.imem.resp.valid
+  val stall =  io.imem.resp.valid
 
   // コントローラからの信号線の設定
   io.ctl.stall := stall

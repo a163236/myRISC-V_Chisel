@@ -47,7 +47,7 @@ class Dpath(implicit val conf: Configurations) extends Module{
 
   // 命令フェッチ
   io.imem.req.bits.addr := pc_reg
-  val inst = Mux(!io.imem.resp.valid, io.imem.resp.bits.rdata, BUBBLE) // メモリがビジーならバブル
+  val inst = (Mux(!io.ctl.stall, io.imem.resp.bits.rdata, BUBBLE)) // メモリがビジーならバブル
 
   // レジスタファイル 接続
   RegFile.io.rs1_addr := io.imem.resp.bits.rdata(RS1_MSB, RS1_LSB)
@@ -124,4 +124,5 @@ class Dpath(implicit val conf: Configurations) extends Module{
       csr.io.csr_cmd, io.dmem.req.bits.addr, io.dmem.req.bits.wdata, io.dmem.resp.bits.rdata)
 
   }
+
 }
