@@ -93,7 +93,7 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
   behavior of "rv32mi-"
   val rv32mi_path = "testfolder/hexfile/rv32mi/"
   //"csr" should "pass" in {entrymemory(rv32mi_path+"rv32mi-p-csr.hex")}
-
+  //"scall" should "pass" in {entrymemory(rv32mi_path+"rv32mi-p-scall.hex")}
 
 
 }
