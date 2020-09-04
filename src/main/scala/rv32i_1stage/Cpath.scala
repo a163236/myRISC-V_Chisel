@@ -28,7 +28,7 @@ class CtltoDatIO extends Bundle(){
 class CpathIO(implicit val conf:Configurations) extends Bundle(){
   val dat = Flipped(new DatToCtlIO())
   val ctl = new CtltoDatIO()  // データパスへの出力
-  //val dmem= Flipped(new DataMemoryCpathIO())
+  val meminit = new MemInitial() // メモリ初期化
   val dmem= new MemPortIO()
   val imem= new MemPortIO()
 }
@@ -129,7 +129,8 @@ class CtlPath() extends Module() {
       BR_J  -> PC_ALU,
       BR_JR -> PC_ALU))))
 
-  val stall =  io.imem.resp.valid
+  val stall = io.meminit.wantInit
+  io.meminit.initOK := io.meminit.wantInit // メモリ初期化したかったらいいよ
 
   // コントローラからの信号線の設定
   io.ctl.stall := stall

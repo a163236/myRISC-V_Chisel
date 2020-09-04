@@ -3,6 +3,7 @@ package rv32i_1stage
 import chisel3._
 import chiseltest._
 import common._
+import common.CommonPackage._
 import org.scalatest._
 
 import scala.Console._
@@ -23,12 +24,14 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
 
       for (i <- 0 to memory.length - 1) {
         val binarycode = memory(i)
-        c.io.d_mem.req.valid.poke(true.B)
-        c.io.d_mem.req.bits.addr.poke((i * 4).asUInt())
-        c.io.d_mem.req.bits.wdata.poke(s"b$binarycode".U)
+        c.io.init_mem.req.valid.poke(true.B)
+        c.io.init_mem.req.bits.fcn.poke(M_XWR)
+        c.io.init_mem.req.bits.fcn.poke(MT_WU)
+        c.io.init_mem.req.bits.addr.poke((i * 4).asUInt())
+        c.io.init_mem.req.bits.wdata.poke(s"b$binarycode".U)
         c.clock.step(1)
       }
-      c.io.d_mem.req.valid.poke(false.B)
+      c.io.init_mem.req.valid.poke(false.B)
 
       for (i <- 1 to 900) {
         c.clock.step(1)

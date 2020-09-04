@@ -9,6 +9,7 @@ import common._
 class CoreIO(implicit val conf: Configurations) extends Bundle {
   val imem = new MemPortIO()  // 外部メモリとの接続
   val dmem = new MemPortIO()
+  val meminit = new MemInitial()  // メモリ初期化
   val debug= new DebugIO()    // デバッグ
 }
 
@@ -51,4 +52,8 @@ class Core(implicit val conf: Configurations) extends Module{
 
   Cpath.io.imem.resp.valid := io.imem.resp.valid
   Dpath.io.imem.resp.bits.rdata := io.imem.resp.bits.rdata
+
+  // メモリ初期化処理
+  Cpath.io.meminit.wantInit := io.meminit.wantInit
+  io.meminit.initOK := Cpath.io.meminit.initOK
 }
