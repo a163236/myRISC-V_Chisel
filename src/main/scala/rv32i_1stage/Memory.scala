@@ -36,7 +36,7 @@ class Memory(implicit val conf:Configurations) extends Module {
     val led = new DataMemoryLEDIO()
   })
   io := DontCare
-  val mem_0,mem_1,mem_2,mem_3 = SyncReadMem(64*1024, UInt(8.W))
+  val mem_0,mem_1,mem_2,mem_3 = Mem(64*1024, UInt(8.W))
   val addr = io.mport.req.bits.addr
   val typ = io.mport.req.bits.typ
 
@@ -56,10 +56,10 @@ class Memory(implicit val conf:Configurations) extends Module {
     val databank = Wire(Vec(4, UInt(8.W)))// 各インターリーブに入っているオフセット該当データ
     val ret = WireInit(0.U(32.W))         // 返り値
 
-    tmpaddr(0) := Mux((addr)(31,2)===0.U, addr(31,2), addr(31,2)+1.U) // mem_0のアドレス
-    tmpaddr(1) := Mux((addr)(31,2)<=1.U, addr(31,2), addr(31,2)+1.U) // mem_1のアドレス
-    tmpaddr(2) := Mux((addr)(31,2)<=2.U, addr(31,2), addr(31,2)+1.U) // mem_2のアドレス
-    tmpaddr(3) := Mux((addr)(31,2)<=3.U, addr(31,2), addr(31,2)+1.U) // mem_3のアドレス
+    tmpaddr(0) := Mux((addr)(1,0)===0.U, addr(31,2), addr(31,2)+1.U) // mem_0のアドレス
+    tmpaddr(1) := Mux((addr)(1,0)<=1.U, addr(31,2), addr(31,2)+1.U) // mem_1のアドレス
+    tmpaddr(2) := Mux((addr)(1,0)<=2.U, addr(31,2), addr(31,2)+1.U) // mem_2のアドレス
+    tmpaddr(3) := Mux((addr)(1,0)<=3.U, addr(31,2), addr(31,2)+1.U) // mem_3のアドレス
     databank(0):=mem_0(tmpaddr(0)); databank(1):=mem_1(tmpaddr(1));databank(2):=mem_2(tmpaddr(2));databank(3):=mem_3(tmpaddr(3))
 
     ret := MuxLookup(io.mport.req.bits.typ, 0.U, Array(
