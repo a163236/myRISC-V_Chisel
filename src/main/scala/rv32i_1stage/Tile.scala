@@ -27,8 +27,16 @@ class Tile(implicit val conf: Configurations) extends Module{
   // メモリ初期化
   Core.io.meminit.wantInit := io.init_mem.req.valid // メモリ初期化要求信号
   when(Core.io.meminit.initOK){ // メモリ初期化がOKされたとき
-    InstructionMemory.io.mport <> io.init_mem
-    DataMemory.io.mport <> io.init_mem
+    InstructionMemory.io.mport.req.bits.addr := io.init_mem.req.bits.addr
+    InstructionMemory.io.mport.req.bits.wdata := io.init_mem.req.bits.wdata
+    InstructionMemory.io.mport.req.bits.fcn := io.init_mem.req.bits.fcn
+    InstructionMemory.io.mport.req.bits.typ := io.init_mem.req.bits.typ
+
+    DataMemory.io.mport.req.bits.addr := io.init_mem.req.bits.addr
+    DataMemory.io.mport.req.bits.wdata := io.init_mem.req.bits.wdata
+    DataMemory.io.mport.req.bits.fcn := io.init_mem.req.bits.fcn
+    DataMemory.io.mport.req.bits.typ := io.init_mem.req.bits.typ
+
   }
 
   // デバッグ

@@ -1,5 +1,7 @@
 package common
 
+import rv32i_1stage.Memory
+
 object commonMain extends App{
 
   //val dir = new File(args(0)) // args(0)のディレクトリのオブジェクトを作って

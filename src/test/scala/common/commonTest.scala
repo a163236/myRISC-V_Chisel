@@ -8,10 +8,10 @@ class commonTest() extends FlatSpec with ChiselScalatestTester with Matchers {
   behavior of "rv32_1stage"
 
   implicit val conf = Configurations()
-
+/*
   it should "Imem" in{
     test(new Memory()){ c=>
-      c.io.d_write.req.valid.poke(true.B)
+      c.io.mport.req.valid.poke(true.B)
       c.io.d_write.req.bits.addr.poke(4.U)
       c.io.d_write.req.bits.wdata.poke(1.U)
       c.clock.step(1)
@@ -29,6 +29,8 @@ class commonTest() extends FlatSpec with ChiselScalatestTester with Matchers {
       c.clock.step(1)
     }
   }
+
+ */
 
   it should "ALU" in{
     test(new ALU()){ c=>

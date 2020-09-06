@@ -26,7 +26,7 @@ class riscvtest extends FlatSpec with ChiselScalatestTester with Matchers{
         val binarycode = memory(i)
         c.io.init_mem.req.valid.poke(true.B)
         c.io.init_mem.req.bits.fcn.poke(M_XWR)
-        c.io.init_mem.req.bits.fcn.poke(MT_WU)
+        c.io.init_mem.req.bits.typ.poke(MT_WU)
         c.io.init_mem.req.bits.addr.poke((i * 4).asUInt())
         c.io.init_mem.req.bits.wdata.poke(s"b$binarycode".U)
         c.clock.step(1)

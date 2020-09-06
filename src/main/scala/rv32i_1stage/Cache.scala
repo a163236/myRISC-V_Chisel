@@ -1,8 +1,9 @@
-package common
+package rv32i_1stage
 
 import chisel3._
 import chisel3.util._
-import CommonPackage._
+import common.CommonPackage._
+import common.Configurations
 
 /*
 class MemPortIO(implicit val conf:Configurations) extends Bundle{
@@ -25,11 +26,14 @@ class DataMemoryLEDIO(implicit val conf:Configurations) extends Bundle{
   val out = Output(UInt(conf.xlen.W))
 }
 
+class MemInitial extends Bundle{
+  val wantInit = Input(Bool())
+  val initOK = Output(Bool())
+}
 
 class Memory(implicit val conf:Configurations) extends Module{
   val io = IO(new Bundle() {
     val mport = Flipped(new MemPortIO())
-    val d_write = Flipped(new MemPortIO())  // メモリ書き込み用
     val led = new DataMemoryLEDIO()
   })
   io := DontCare
@@ -66,41 +70,26 @@ class Memory(implicit val conf:Configurations) extends Module{
     }
   }
 
-  when(io.d_write.req.valid){ // =====================memory初期化
-    store(io.d_write.req.bits.addr, io.d_write.req.bits.wdata, 4)
-    io.mport.resp.valid := true.B
 
-  }.elsewhen(io.mport.req.valid){
-    // 普通のメモリアクセス && ストールではない
-    switch(io.mport.req.bits.fcn){
-      is(M_XRD){  // ===================================読み出し load
-        io.mport.resp.bits.rdata := MuxLookup(io.mport.req.bits.typ, Cat(rdata_3, rdata_2, rdata_1, rdata_0), Array(
-          MT_B -> Cat(Fill(24,rdata_0(7)), rdata_0),
-          MT_BU -> Cat(Fill(24,0.U), rdata_0),
-          MT_H -> Cat(Fill(16,rdata_1(7)), rdata_1, rdata_0),
-          MT_HU -> Cat(Fill(16,0.U), rdata_1, rdata_0),
-        ))
-      }
+  when(io.mport.req.bits.fcn===M_XWR){
+    // default
+    val wdata = WireInit(0.U)
 
-      is(M_XWR){  // ===================================書き込み store
-        // default
-        val wdata = WireInit(0.U)
-        var bytes = 3
-
-        switch(io.mport.req.bits.typ){
-          is(MT_B){wdata:=Cat(Fill(24,wdata_0(7)), wdata_0); store(io.mport.req.bits.addr,wdata,1)}
-          is(MT_H){wdata:=Cat(Fill(16,wdata_1(7)), wdata_1, wdata_0); store(io.mport.req.bits.addr,wdata,2)}
-          is(MT_W){wdata:=Cat(wdata_3, wdata_2, wdata_1, wdata_0); store(io.mport.req.bits.addr,wdata, 4)}
-        }
-      }
+    switch(io.mport.req.bits.typ){
+      is(MT_B){wdata:=Cat(Fill(24,wdata_0(7)), wdata_0); store(io.mport.req.bits.addr,wdata,1)}
+      is(MT_H){wdata:=Cat(Fill(16,wdata_1(7)), wdata_1, wdata_0); store(io.mport.req.bits.addr,wdata,2)}
+      is(MT_W){wdata:=Cat(wdata_3, wdata_2, wdata_1, wdata_0); store(io.mport.req.bits.addr,wdata, 4)}
+      is(MT_WU){wdata:=Cat(wdata_3, wdata_2, wdata_1, wdata_0); store(io.mport.req.bits.addr,wdata, 4)}
     }
-    io.mport.resp.valid := false.B
-
-  }.otherwise{  //
-    io.mport.resp.valid := false.B
   }
 
-  io.led.out := memory("x800".U) // 0x800番地
+  io.mport.resp.bits.rdata := MuxLookup(io.mport.req.bits.typ, Cat(rdata_3, rdata_2, rdata_1, rdata_0), Array(
+    MT_B -> Cat(Fill(24,rdata_0(7)), rdata_0),
+    MT_BU -> Cat(Fill(24,0.U), rdata_0),
+    MT_H -> Cat(Fill(16,rdata_1(7)), rdata_1, rdata_0),
+    MT_HU -> Cat(Fill(16,0.U), rdata_1, rdata_0),
+  ))
+
 }
 
 
