@@ -36,23 +36,24 @@ class Memory(implicit val conf:Configurations) extends Module {
     val led = new DataMemoryLEDIO()
   })
   io := DontCare
-  val mem_0,mem_1,mem_2,mem_3 = Mem(64*1024, UInt(8.W))
+  val mem_0,mem_1,mem_2,mem_3 = SyncReadMem(64*1024, UInt(8.W))
   val addr = io.mport.req.bits.addr
   val typ = io.mport.req.bits.typ
 
   def store(data:UInt, bytes:Int){ // =================================== store関数
+
     for (i <- 0 until bytes){
       switch((addr + i.U)(1,0)){
-        is(0.U){mem_0.write(((addr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
-        is(1.U){mem_1.write(((addr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
-        is(2.U){mem_2.write(((addr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
-        is(3.U){mem_3.write(((addr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(0.U){mem_0.write(((addr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(1.U){mem_1.write(((addr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(2.U){mem_2.write(((addr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(3.U){mem_3.write(((addr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
       }
     }
   }
 
   def load(): UInt ={     // ===================================== load関数
-    val tmpaddr = Wire(Vec(4, UInt(8.W))) // オフセットを求める
+    val tmpaddr = Wire(Vec(4, UInt(24.W))) // オフセットを求める
     val databank = Wire(Vec(4, UInt(8.W)))// 各インターリーブに入っているオフセット該当データ
     val ret = WireInit(0.U(32.W))         // 返り値
 
@@ -63,12 +64,12 @@ class Memory(implicit val conf:Configurations) extends Module {
     databank(0):=mem_0(tmpaddr(0)); databank(1):=mem_1(tmpaddr(1));databank(2):=mem_2(tmpaddr(2));databank(3):=mem_3(tmpaddr(3))
 
     ret := MuxLookup(io.mport.req.bits.typ, 0.U, Array(
-      MT_W -> Cat(databank((addr+3.U)(1,0)),databank((addr+2.U)(1,0)),databank((addr+1.U)(1,0)),databank(addr(1,0))),
-      MT_WU-> Cat(databank((addr+3.U)(1,0)),databank((addr+2.U)(1,0)),databank((addr+1.U)(1,0)),databank(addr(1,0))),
-      MT_H -> Cat(Fill(16,databank((addr+1.U)(1,0))(7)) ,databank((addr+1.U)(1,0)),databank(addr(1,0))),
-      MT_HU-> Cat(Fill(16,0.U), databank((addr+1.U)(1,0)),databank(addr(1,0))),
-      MT_B -> Cat(Fill(24, databank(addr(1,0))(7)) ,databank(addr(1,0))),
-      MT_BU-> Cat(Fill(24,0.U), databank(addr(1,0))),
+      MT_W -> Cat(databank(3),databank(2),databank(1),databank(0)),
+      MT_WU-> Cat(databank(3),databank(2),databank(1),databank(0)),
+      MT_H -> Cat(Fill(16,databank(1)(7)) ,databank(1),databank(0)),
+      MT_HU-> Cat(Fill(16,0.U), databank(1),databank(0)),
+      MT_B -> Cat(Fill(24, databank(0)) ,databank(0)),
+      MT_BU-> Cat(Fill(24,0.U), databank(0)),
     ))
     ret
   }
@@ -80,5 +81,6 @@ class Memory(implicit val conf:Configurations) extends Module {
   }
   // ====================== 読み込み
   io.mport.resp.bits.rdata := load()
+
 }
 

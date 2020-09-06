@@ -42,16 +42,16 @@ class Memory(implicit val conf:Configurations) extends Module {
   def store(data:UInt, bytes:Int){ // =================================== store関数
     for (i <- 0 until bytes){
       switch((waddr + i.U)(1,0)){
-        is(0.U){mem_0.write(((waddr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
-        is(1.U){mem_1.write(((waddr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
-        is(2.U){mem_2.write(((waddr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
-        is(3.U){mem_3.write(((waddr+1.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(0.U){mem_0.write(((waddr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(1.U){mem_1.write(((waddr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(2.U){mem_2.write(((waddr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
+        is(3.U){mem_3.write(((waddr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
       }
     }
   }
 
   def load(): UInt ={     // ===================================== load関数
-    val tmpaddr = Wire(Vec(4, UInt(8.W))) // オフセットを求める
+    val tmpaddr = Wire(Vec(4, UInt(24.W))) // オフセットを求める
     val databank = Wire(Vec(4, UInt(8.W)))// 各インターリーブに入っているオフセット該当データ
     val ret = WireInit(0.U(32.W))         // 返り値
 
@@ -80,6 +80,5 @@ class Memory(implicit val conf:Configurations) extends Module {
   // ====================== 読み込み
   io.mport.resp.rdata := load()
 
-  //printf("%x ", Cat(mem_3(1),mem_2(1),mem_1(1),mem_0(1)))
 }
 

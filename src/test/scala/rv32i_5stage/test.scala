@@ -15,8 +15,8 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
       c.io.mport.req.fcn.poke(M_XWR)
       c.io.mport.req.typ.poke(MT_WU)
       c.io.mport.req.raddr.poke(0.U)
-      c.io.mport.req.waddr.poke(0.U)
-      c.io.mport.req.wdata.poke("b0001_0010_0011_0100".U)
+      c.io.mport.req.waddr.poke(2.U)
+      c.io.mport.req.wdata.poke("h12345678".U)
       c.clock.step(1)
       println()
 
@@ -30,11 +30,12 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
 
        */
       c.io.mport.req.fcn.poke(M_XRD)
-      c.io.mport.req.typ.poke(MT_WU)
-      c.io.mport.req.raddr.poke(0.U)
+      c.io.mport.req.typ.poke(MT_HU)
+      c.io.mport.req.raddr.poke(4.U)
       c.clock.step(1)
       println()
 
+      c.io.mport.resp.rdata.expect("h1234".U)
       println(c.io.mport.resp.rdata.peek())
       c.io.mport.req.fcn.poke(M_XRD)
       c.io.mport.req.typ.poke(MT_WU)
