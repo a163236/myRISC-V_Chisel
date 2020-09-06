@@ -8,7 +8,7 @@ class Dpath(implicit val conf:Configurations) extends Module{
   val io = IO(new Bundle() {
 
   })
+  io := DontCare
 
-  val memory = new Memory()
 
 }

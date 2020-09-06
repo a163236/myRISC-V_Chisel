@@ -1,11 +1,8 @@
-package rv32i_3stage
-
-
+package rv32i_5stage
 
 import chiseltest._
 import common._
 import org.scalatest._
-import rv32i_1stage.Memory
 
 class test() extends FlatSpec with ChiselScalatestTester with Matchers {
   implicit val conf = Configurations()
