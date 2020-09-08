@@ -47,14 +47,18 @@ class Memory(implicit val conf:Configurations) extends Module {
     tmpaddr(2) := Mux((waddr)(1,0)<=2.U, waddr(31,2), waddr(31,2)+1.U) // mem_2のアドレス
     tmpaddr(3) := Mux((waddr)(1,0)<=3.U, waddr(31,2), waddr(31,2)+1.U) // mem_3のアドレス
 
-    when(typ===MT_W){       wmask(0):=false.B;wmask(1):=false.B;wmask(2):=false.B;wmask(3):=true.B;
-    }.elsewhen(typ===MT_H){ wmask(0):=false.B;wmask(1):=false.B;wmask(2):=true.B;wmask(3):=true.B;
+    when(typ===MT_B){       wmask(0):=true.B;wmask(1):=false.B;wmask(2):=false.B;wmask(3):=false.B;
+    }.elsewhen(typ===MT_H){ wmask(0):=true.B;wmask(1):=true.B;wmask(2):=false.B;wmask(3):=false.B;
     }.otherwise{            wmask(0):=true.B;wmask(1):=true.B;wmask(2):=true.B;wmask(3):=true.B;}
 
-    when(wmask(0.U+waddr(1,0))){mem_0.write(tmpaddr(0),wdata(4.U-waddr(1,0)))}
-    when(wmask(1.U+waddr(1,0))){mem_1.write(tmpaddr(1),wdata(4.U-waddr(1,0)))}
-    when(wmask(2.U+waddr(1,0))){mem_2.write(tmpaddr(2),wdata(4.U-waddr(1,0)))}
-    when(wmask(3.U+waddr(1,0))){mem_3.write(tmpaddr(3),wdata(4.U-waddr(1,0)))}
+    val wdata_addr = Wire(Vec(4, UInt(2.W)))  // 書き込みデータのインターリーブごとのアドレス
+    val tmpwdata = Wire(Vec(4, UInt(8.W)))    // 書き込みデータをバイト単位で分割
+    wdata_addr(0):=0.U-waddr(1,0);wdata_addr(1):=1.U-waddr(1,0);wdata_addr(2):=2.U-waddr(1,0);wdata_addr(3):=3.U-waddr(1,0);
+    tmpwdata(0):=wdata(7,0);tmpwdata(1):=wdata(15,8);tmpwdata(2):=wdata(23,16);tmpwdata(3):=wdata(31,24);
+    when(wmask(0.U+waddr(1,0))){mem_0.write(tmpaddr(0),wdata(0.U-waddr(1,0)))}
+    when(wmask(1.U+waddr(1,0))){mem_1.write(tmpaddr(1),wdata(1.U-waddr(1,0)))}
+    when(wmask(2.U+waddr(1,0))){mem_2.write(tmpaddr(2),wdata(2.U-waddr(1,0)))}
+    when(wmask(3.U+waddr(1,0))){mem_3.write(tmpaddr(3),wdata(3.U-waddr(1,0)))}
   }
 
   def load(): UInt ={     // ===================================== load関数
@@ -67,16 +71,16 @@ class Memory(implicit val conf:Configurations) extends Module {
     tmpaddr(2) := Mux((raddr)(1,0)<=2.U, raddr(31,2), raddr(31,2)+1.U) // mem_2のアドレス
     tmpaddr(3) := Mux((raddr)(1,0)<=3.U, raddr(31,2), raddr(31,2)+1.U) // mem_3のアドレス
     databank(0):=mem_0(tmpaddr(0)); databank(1):=mem_1(tmpaddr(1));databank(2):=mem_2(tmpaddr(2));databank(3):=mem_3(tmpaddr(3))
+    val offset = Wire(UInt(2.W)); offset:=raddr(1,0)
 
     ret := MuxLookup(io.mport.req.typ, 0.U, Array(
-      MT_W -> Cat(databank((raddr+3.U)(1,0)),databank((raddr+2.U)(1,0)),databank((raddr+1.U)(1,0)),databank(raddr(1,0))),
-      MT_WU-> Cat(databank((raddr+3.U)(1,0)),databank((raddr+2.U)(1,0)),databank((raddr+1.U)(1,0)),databank(raddr(1,0))),
-      MT_H -> Cat(Fill(16,databank((raddr+1.U)(1,0))(7)) ,databank((raddr+1.U)(1,0)),databank(raddr(1,0))),
-      MT_HU-> Cat(Fill(16,0.U), databank((raddr+1.U)(1,0)),databank(raddr(1,0))),
-      MT_B -> Cat(Fill(24, databank(raddr(1,0))(7)) ,databank(raddr(1,0))),
-      MT_BU-> Cat(Fill(24,0.U), databank(raddr(1,0))),
+      MT_W -> Cat(databank(offset+3.U),databank(offset+2.U),databank(offset+1.U),databank(offset)),
+      MT_WU-> Cat(databank(offset+3.U),databank(offset+2.U),databank(offset+1.U),databank(offset)),
+      MT_H -> Cat(Fill(16,databank(offset+1.U)(7)) ,databank(offset+1.U),databank(offset)),
+      MT_HU-> Cat(Fill(16,0.U), databank(offset+1.U),databank(offset)),
+      MT_B -> Cat(Fill(24, databank(offset)(7)) ,databank(offset)),
+      MT_BU-> Cat(Fill(24,0.U), databank(offset)),
     ))
-    ret := Cat(databank((raddr+3.U)(1,0)),databank((raddr+2.U)(1,0)),databank((raddr+1.U)(1,0)),databank(raddr(1,0)))
     ret
   }
 

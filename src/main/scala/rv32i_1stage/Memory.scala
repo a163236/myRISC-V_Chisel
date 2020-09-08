@@ -82,7 +82,7 @@ class Memory(implicit val conf:Configurations) extends Module {
   }
 
   def load(): UInt ={     // ===================================== load関数
-    val tmpaddr = Wire(Vec(4, UInt(32.W))) // オフセットを求める
+    val tmpaddr = Wire(Vec(4, UInt(24.W))) // オフセットを求める
     val databank = Wire(Vec(4, UInt(8.W)))// 各インターリーブに入っているオフセット該当データ
     val ret = WireInit(0.U(32.W))         // 返り値
 
