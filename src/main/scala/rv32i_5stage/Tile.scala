@@ -13,6 +13,10 @@ class Tile(implicit val conf: Configurations) extends Module{
   })
   io := DontCare
 
+  val InstructionMemory = Module(new Memory())
+  InstructionMemory.io := DontCare
 
+  // 出力
+  io.debug.out := InstructionMemory.io.mport.resp.rdata
 
 }
