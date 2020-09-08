@@ -36,13 +36,13 @@ class Memory(implicit val conf:Configurations) extends Module {
     val led = new DataMemoryLEDIO()
   })
   io := DontCare
-  val mem_0,mem_1,mem_2,mem_3 = Mem(64*1024, UInt(8.W))
+  val mem_0,mem_1,mem_2,mem_3 = SyncReadMem(64*1024, UInt(8.W))
   val addr = io.mport.req.bits.addr
   val typ = io.mport.req.bits.typ
 
 
   def store(data:UInt, bytes:Int){ // =================================== store関数
-    /*
+
     val tmpaddr = Wire(Vec(4, UInt(24.W)))  // インデックスを求める
     val wmask = Wire(Vec(4, Bool()))        // 書き込みマスク
     tmpaddr(0) := Mux((addr)(1,0)===0.U, addr(31,2), addr(31,2)+1.U) // mem_0のアドレス
@@ -63,9 +63,7 @@ class Memory(implicit val conf:Configurations) extends Module {
     when(wmask(2.U+addr(1,0))){mem_2.write(tmpaddr(2),tmpwdata(2.U-addr(1,0)))}
     when(wmask(3.U+addr(1,0))){mem_3.write(tmpaddr(3),tmpwdata(3.U-addr(1,0)))}
 
-     */
-
-
+    /*
     for (i <- 0 until bytes){
       switch((addr + i.U)(1,0)){
         is(0.U){mem_0.write(((addr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
@@ -74,6 +72,8 @@ class Memory(implicit val conf:Configurations) extends Module {
         is(3.U){mem_3.write(((addr+i.U)(31,2)), data(8*(i+1)-1,8*i))}
       }
     }
+
+     */
 
   }
 
