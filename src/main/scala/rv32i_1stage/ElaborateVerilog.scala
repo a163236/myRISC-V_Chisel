@@ -11,7 +11,6 @@ object ElaborateVerilog extends App{
 
   implicit val conf = Configurations()
 
-  val verilogString = (new chisel3.stage.ChiselStage).emitVerilog(new Memory())
   //val verilog = new FileWriter(new File(dir, s"main.v"))
   //verilog write verilogString
   //verilog.close()
