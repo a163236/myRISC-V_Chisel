@@ -55,10 +55,11 @@ class Memory(implicit val conf:Configurations) extends Module {
     val tmpwdata = Wire(Vec(4, UInt(8.W)))    // 書き込みデータをバイト単位で分割
     wdata_addr(0):=0.U-waddr(1,0);wdata_addr(1):=1.U-waddr(1,0);wdata_addr(2):=2.U-waddr(1,0);wdata_addr(3):=3.U-waddr(1,0);
     tmpwdata(0):=wdata(7,0);tmpwdata(1):=wdata(15,8);tmpwdata(2):=wdata(23,16);tmpwdata(3):=wdata(31,24);
-    when(wmask(0.U+waddr(1,0))){mem_0.write(tmpaddr(0),wdata(0.U-waddr(1,0)))}
-    when(wmask(1.U+waddr(1,0))){mem_1.write(tmpaddr(1),wdata(1.U-waddr(1,0)))}
-    when(wmask(2.U+waddr(1,0))){mem_2.write(tmpaddr(2),wdata(2.U-waddr(1,0)))}
-    when(wmask(3.U+waddr(1,0))){mem_3.write(tmpaddr(3),wdata(3.U-waddr(1,0)))}
+    when(wmask(0.U+waddr(1,0))){mem_0.write(tmpaddr(0),tmpwdata(0.U-waddr(1,0)))}
+    when(wmask(1.U+waddr(1,0))){mem_1.write(tmpaddr(1),tmpwdata(1.U-waddr(1,0)))}
+    when(wmask(2.U+waddr(1,0))){mem_2.write(tmpaddr(2),tmpwdata(2.U-waddr(1,0)))}
+    when(wmask(3.U+waddr(1,0))){mem_3.write(tmpaddr(3),tmpwdata(3.U-waddr(1,0)))}
+
   }
 
   def load(): UInt ={     // ===================================== load関数
@@ -89,6 +90,6 @@ class Memory(implicit val conf:Configurations) extends Module {
   }
   // ====================== 読み込み
   io.mport.resp.rdata := load()
-
+  printf("%x ", io.mport.resp.rdata)
 }
 

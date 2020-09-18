@@ -9,13 +9,14 @@ import org.scalatest._
 class test() extends FlatSpec with ChiselScalatestTester with Matchers {
   implicit val conf = Configurations()
 
+
   "memory" should "" in{
     test(new Memory()){c=>
 
       c.io.mport.req.fcn.poke(M_XWR)
       c.io.mport.req.typ.poke(MT_WU)
       c.io.mport.req.raddr.poke(0.U)
-      c.io.mport.req.waddr.poke(2.U)
+      c.io.mport.req.waddr.poke(0.U)
       c.io.mport.req.wdata.poke("h12345678".U)
       c.clock.step(1)
       println()
@@ -30,8 +31,8 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
 
        */
       c.io.mport.req.fcn.poke(M_XRD)
-      c.io.mport.req.typ.poke(MT_HU)
-      c.io.mport.req.raddr.poke(4.U)
+      c.io.mport.req.typ.poke(MT_WU)
+      c.io.mport.req.raddr.poke(2.U)
       c.clock.step(1)
       println()
 

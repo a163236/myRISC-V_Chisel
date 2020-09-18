@@ -1,5 +1,5 @@
 package rv32i_1stage
-
+// frozen
 import chisel3._
 import chisel3.util._
 import common.CommonPackage._
@@ -36,7 +36,7 @@ class Memory(implicit val conf:Configurations) extends Module {
     val led = new DataMemoryLEDIO()
   })
   io := DontCare
-  val mem_0,mem_1,mem_2,mem_3 = Mem(64*1024, UInt(8.W))
+  val mem_0,mem_1,mem_2,mem_3 = Mem(64*1024, UInt(8.W))     // SycnReadMem? MEM?
   val addr = io.mport.req.bits.addr
   val typ = io.mport.req.bits.typ
 
