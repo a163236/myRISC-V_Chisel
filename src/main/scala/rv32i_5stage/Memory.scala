@@ -29,15 +29,15 @@ class MemInitial extends Bundle{
 }
 
 class Memory(implicit val conf:Configurations) extends Module {
-  val io = IO(new Bundle() {
-    val mport = Flipped(new MemPortIO())
-  })
+
+  val io = IO(Flipped(new MemPortIO()))
+
   io := DontCare
   val mem_0,mem_1,mem_2,mem_3 = SyncReadMem(64*1024, UInt(8.W))
-  val raddr = io.mport.req.raddr
-  val waddr = io.mport.req.waddr
-  val wdata = io.mport.req.wdata
-  val typ = io.mport.req.typ
+  val raddr = io.req.raddr
+  val waddr = io.req.waddr
+  val wdata = io.req.wdata
+  val typ = io.req.typ
 
   def store(){ // =================================== store関数
     val tmpaddr = Wire(Vec(4, UInt(24.W)))  // インデックスを求める
@@ -74,7 +74,7 @@ class Memory(implicit val conf:Configurations) extends Module {
     databank(0):=mem_0(tmpaddr(0)); databank(1):=mem_1(tmpaddr(1));databank(2):=mem_2(tmpaddr(2));databank(3):=mem_3(tmpaddr(3))
     val offset = Wire(UInt(2.W)); offset:=raddr(1,0)
 
-    ret := MuxLookup(io.mport.req.typ, 0.U, Array(
+    ret := MuxLookup(io.req.typ, 0.U, Array(
       MT_W -> Cat(databank(offset+3.U),databank(offset+2.U),databank(offset+1.U),databank(offset)),
       MT_WU-> Cat(databank(offset+3.U),databank(offset+2.U),databank(offset+1.U),databank(offset)),
       MT_H -> Cat(Fill(16,databank(offset+1.U)(7)) ,databank(offset+1.U),databank(offset)),
@@ -85,11 +85,44 @@ class Memory(implicit val conf:Configurations) extends Module {
     ret
   }
 
-  when(io.mport.req.fcn===M_XWR){ // ===================== 書き込み
+  when(io.req.fcn===M_XWR){ // ===================== 書き込み
     store()
   }
   // ====================== 読み込み
-  io.mport.resp.rdata := load()
-  printf("%x ", io.mport.resp.rdata)
+  io.resp.rdata := load()
+  printf("%x ", io.resp.rdata)
 }
 
+
+class Cache(implicit val conf:Configurations) extends Module{
+  val io = IO(Flipped(new MemPortIO()))
+  io := DontCare
+
+  val memory = Mem(256*1024, UInt(32.W))
+  val raddr = io.req.raddr
+  val waddr = io.req.waddr
+  val wdata = io.req.wdata
+  val typ = io.req.typ
+
+  // typ　word byte
+  // fcn 読み書き
+
+  // $1===1, $2===1, $3===1
+  //                 funct7   rs2  rs1  funct3 rd    op
+  memory.write(0.U, "b00000000110001010000010110010011".U(32.W))
+  memory.write(4.U, "b00000110010001010000011100010011".U(32.W))
+  memory.write(8.U, "b00000000111001011000010110110011".U(32.W))
+  memory.write(12.U,"b1000000101100000010000000100011".U(32.W))
+
+
+
+
+
+  when(io.req.fcn===M_XWR){ // 書き込みのとき
+
+  }.otherwise{
+    io.resp.rdata := memory.read(raddr)
+  }
+  //printf("%x ", memory.read(4.U))
+  printf("%x ", io.resp.rdata)
+}
