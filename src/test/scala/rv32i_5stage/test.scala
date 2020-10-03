@@ -17,7 +17,7 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
     test(new temp()).withAnnotations(Seq(VerilatorBackendAnnotation)){c=>
       c.io.addr.poke(0.U)
       println(c.io.dout.peek())
-
+      //
       c.clock.step(1)
       println(c.io.dout.peek())
       c.clock.step(1)
