@@ -126,7 +126,7 @@ void Vtemp::_initial__TOP__2(Vtemp__Syms* __restrict vlSymsp) {
     __Vtemp1[0xaU] = 0x7465U;
     VL_READMEM_N(true, 33, 65537, 0, VL_CVT_PACK_STR_NW(11, __Vtemp1)
                  , vlTOPp->temp__DOT__verimem__DOT__ram
-                 , 0U, 0x3fU);
+                 , 0, ~VL_ULL(0));
 }
 
 void Vtemp::_settle__TOP__3(Vtemp__Syms* __restrict vlSymsp) {

@@ -1,1 +1,1 @@
-/home/keita/GitHub/myRISC-V_Chisel/verimem.v
+/home/keita/GitHub/myRISC-V_Chisel/SyncMem.v
