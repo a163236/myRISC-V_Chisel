@@ -14,7 +14,8 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
 
 
   "temp" should "" in{
-    test(new temp()).withAnnotations(Seq(VerilatorBackendAnnotation)){c=>
+    test(new InstMemory()).withAnnotations(Seq(VerilatorBackendAnnotation)){c=>
+      /*
       c.io.addr.poke(0.U)
       println(c.io.dout.peek())
 
@@ -22,6 +23,8 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
       println(c.io.dout.peek())
       c.clock.step(1)
       println(c.io.dout.peek())
+
+       */
     }
   }
 
