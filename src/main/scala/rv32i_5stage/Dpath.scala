@@ -3,7 +3,7 @@ package rv32i_5stage
 import chisel3._
 import common._
 import CommonPackage._
-
+/*
 class DpathIO(implicit val conf:Configurations) extends Bundle(){
   val imem = new MemPortIO()  // 命令メモリIO
 
@@ -43,3 +43,5 @@ class Dpath(implicit val conf:Configurations) extends Module{
   // *** WriteBack Stage ******************************
 
 }
+
+ */

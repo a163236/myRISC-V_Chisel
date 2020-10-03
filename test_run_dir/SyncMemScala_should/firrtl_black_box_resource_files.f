@@ -1,0 +1,1 @@
+/home/keita/GitHub/myRISC-V_Chisel/test_run_dir/SyncMemScala_should/SyncMem.v

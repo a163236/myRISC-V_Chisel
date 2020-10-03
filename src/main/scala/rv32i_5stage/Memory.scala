@@ -4,7 +4,7 @@ import chisel3._
 import chisel3.util._
 import common.CommonPackage._
 import common._
-
+/*
 class MemPortIO(implicit val conf:Configurations) extends Bundle{
   val req = new MemReqIO()         // パス->メモリ output
   val resp = Flipped(new MemRespIO())  // メモリ->パス input
@@ -126,3 +126,5 @@ class Cache(implicit val conf:Configurations) extends Module{
   //printf("%x ", memory.read(4.U))
   printf("%x ", io.resp.rdata)
 }
+
+ */

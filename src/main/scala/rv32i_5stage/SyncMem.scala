@@ -46,30 +46,96 @@ class SyncMemBlackBoxIO extends Bundle{
   // データメモリ 書き込み
   val wenD = Input(Bool())
   val wdataD = Input(UInt(32.W))
-  val wMaskD = Input(UInt(4.W))
+  val MaskD = Input(UInt(4.W))
 }
 
-class SyncMemBlackBox extends BlackBox with HasBlackBoxResource {
+class SyncMem extends BlackBox with HasBlackBoxResource {
   val io = IO(new SyncMemBlackBoxIO)
   addResource("/vsrc/SyncMem.v")
 }
 
-class SyncMem extends Module {
+class SyncMemScala extends Module {
   val io = IO(new Bundle() {
-    val instmport = new InstMemPortIO()
-    val datamport = new DataMemPortIO()
+    val instmport = Flipped(new InstMemPortIO())
+    val datamport = Flipped(new DataMemPortIO())
   })
+  val mask = WireInit(0.U(4.W))
 
-  val syncmemblackbox = Module(new SyncMemBlackBox)
+  val syncmemblackbox = Module(new SyncMem)
   syncmemblackbox.io.clk := clock
   // 命令メモリ接続
   syncmemblackbox.io.raddrI := io.instmport.req.raddrI
   syncmemblackbox.io.renI := io.instmport.req.renI
-  io.instmport.resp.rdata := syncmemblackbox.io.rdataI
   // データメモリ接続
   syncmemblackbox.io.addrD := io.datamport.req.addrD
-
+  syncmemblackbox.io.renD := Mux(io.datamport.req.fcn===M_XRD, true.B, false.B)
+  syncmemblackbox.io.wenD := Mux(io.datamport.req.fcn===M_XWR, true.B, false.B)
+  syncmemblackbox.io.wdataD := io.datamport.req.wdataD
+  syncmemblackbox.io.MaskD := mask
   io.datamport.resp.rdata := syncmemblackbox.io.rdataD
 
+  // 書き込みのとき用
+  when(io.datamport.req.typ===MT_B){ // バイトのとき
+    mask := 1.U << io.datamport.req.addrD(1,0)
+  }.elsewhen(io.datamport.req.typ===MT_H) { // ハーフワードのとき
+    mask := 3.U << io.datamport.req.addrD(1,0)
+  }.elsewhen(io.datamport.req.typ===MT_W){
+    mask := 7.U << io.datamport.req.addrD(1,0)
+  }
+
+  // 読み込みのとき用
+  val status_MT = RegInit(0.U(6.W))   // 1クロック遅れでの状態遷移
+  val status_addr = RegInit(0.U(4.W)) // 1クロック遅れでの状態遷移-アドレスのオフセットを記憶
+  status_MT := Cat(status_MT(2,0), io.datamport.req.typ)
+  status_addr := Cat(status_addr(1,0), io.datamport.req.addrD(1,0))
+
+  // 出力
+  val rdataD = syncmemblackbox.io.rdataD
+  val tmpans = WireInit(0.U(32.W))
+  io.instmport.resp.rdata := syncmemblackbox.io.rdataI
+  io.datamport.resp.rdata := tmpans
+
+  switch(status_MT(2,0)){
+    is(MT_B){
+      tmpans := MuxLookup(status_addr,rdataD(7,0),Array(
+        0.U -> rdataD(7,0),
+        1.U -> rdataD(15,8),
+        2.U -> rdataD(23,16),
+        3.U -> rdataD(31,24)
+      ))
+    }
+    is(MT_BU){
+      tmpans := MuxLookup(status_addr,rdataD(7,0),Array(
+        0.U -> Cat(Fill(24, rdataD(7)), rdataD(7,0)),
+        1.U -> Cat(Fill(24, rdataD(15)), rdataD(15,8)),
+        2.U -> Cat(Fill(24, rdataD(23)), rdataD(23,16)),
+        3.U -> Cat(Fill(24, rdataD(31)), rdataD(31,24)),
+      ))
+    }
+    is(MT_H){
+      tmpans := MuxLookup(status_addr, rdataD(15,0),Array(
+        0.U -> rdataD(15,0),
+        1.U -> rdataD(23,8),
+        2.U -> rdataD(31,16),
+        3.U -> rdataD(31,24)
+      ))
+    }
+    is(MT_HU){
+      tmpans := MuxLookup(status_addr,rdataD(7,0),Array(
+        0.U -> Cat(Fill(24, rdataD(15)), rdataD(15,0)),
+        1.U -> Cat(Fill(24, rdataD(23)), rdataD(23,8)),
+        2.U -> Cat(Fill(24, rdataD(31)), rdataD(31,16)),
+        3.U -> Cat(Fill(24, rdataD(31)), rdataD(31,24)),
+      ))
+    }
+    is(MT_W){
+      tmpans := MuxLookup(status_addr, rdataD(15,0),Array(
+        0.U -> rdataD(31,0),
+        1.U -> rdataD(31,8),
+        2.U -> rdataD(31,16),
+        3.U -> rdataD(31,24)
+      ))
+    }
+  }
 
 }
