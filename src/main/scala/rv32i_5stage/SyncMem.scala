@@ -56,7 +56,7 @@ class SyncMemBlackBoxIO extends Bundle{
 
 class SyncMem extends BlackBox with HasBlackBoxResource {
   val io = IO(new SyncMemBlackBoxIO)
-  addResource("/vsrc/SyncMem.v")
+  addResource("/SyncMem.v")
 
 }
 
