@@ -3,9 +3,10 @@ package rv32i_5stage
 import chisel3._
 import common._
 import CommonPackage._
-/*
+
 class DpathIO(implicit val conf:Configurations) extends Bundle(){
-  val imem = new MemPortIO()  // 命令メモリIO
+  val imem = new InstMemPortIO()  // 命令メモリIO
+  val dmem = new DataMemPortIO()  // データメモリIO
 
 }
 
@@ -27,9 +28,6 @@ class Dpath(implicit val conf:Configurations) extends Module{
   if_pc_reg := pc_next
 
   // 命令フェッチ
-  val inst = WireInit(UInt(conf.xlen.W))  // 命令ワイヤー
-  io.imem.req.raddr := if_pc_reg          // 命令メモリにpcアドレスの命令を要求
-  inst := io.imem.resp.rdata              // 命令メモリから命令データの受け取り
 
   // *** Decode Stage ******************************
 
@@ -44,4 +42,3 @@ class Dpath(implicit val conf:Configurations) extends Module{
 
 }
 
- */

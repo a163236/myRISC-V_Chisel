@@ -103,6 +103,35 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
     SData/*15:0*/ __Vdlyvdim0__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2;
     SData/*15:0*/ __Vdlyvdim0__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v3;
     // Body
+    if ((1U & (~ (IData)(vlTOPp->reset)))) {
+        if (VL_UNLIKELY(((1U == (IData)(vlTOPp->io_datamport_req_typ)) 
+                         & (~ (IData)(vlTOPp->reset))))) {
+            VL_FWRITEF(0x80000002U,"%x ",4,(0xfU & 
+                                            ((1U == (IData)(vlTOPp->io_datamport_req_typ))
+                                              ? (0xfU 
+                                                 & ((IData)(1U) 
+                                                    << 
+                                                    (3U 
+                                                     & vlTOPp->io_datamport_req_addrD)))
+                                              : ((2U 
+                                                  == (IData)(vlTOPp->io_datamport_req_typ))
+                                                  ? 
+                                                 (0x1fU 
+                                                  & ((IData)(3U) 
+                                                     << 
+                                                     (3U 
+                                                      & vlTOPp->io_datamport_req_addrD)))
+                                                  : 
+                                                 ((3U 
+                                                   == (IData)(vlTOPp->io_datamport_req_typ))
+                                                   ? 
+                                                  ((IData)(7U) 
+                                                   << 
+                                                   (3U 
+                                                    & vlTOPp->io_datamport_req_addrD))
+                                                   : 0U)))));
+        }
+    }
     __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v0 = 0U;
     __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v1 = 0U;
     __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2 = 0U;
@@ -114,11 +143,6 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
                [(0xffffU & (vlTOPp->io_instmport_req_raddrI 
                             >> 2U))] : 0U);
     }
-    vlTOPp->SyncMemScala__DOT__status_addr = ((IData)(vlTOPp->reset)
-                                               ? 0U
-                                               : (IData)(vlTOPp->SyncMemScala__DOT___status_addr_T));
-    vlTOPp->SyncMemScala__DOT__status_MT = ((IData)(vlTOPp->reset)
-                                             ? 0U : (IData)(vlTOPp->SyncMemScala__DOT___status_MT_T));
     if ((1U & (~ (IData)(vlTOPp->io_datamport_req_fcn)))) {
         vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
             = ((0x8000U >= (0xffffU & (vlTOPp->io_datamport_req_addrD 
@@ -137,13 +161,15 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
                             : 0U))))) {
             vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1 
                 = (0xffU & vlTOPp->io_datamport_req_wdataD);
-            if ((0x8000U >= (0xffffU & vlTOPp->io_datamport_req_addrD))) {
+            if ((0x8000U >= (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                        >> 2U)))) {
                 __Vdlyvval__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v0 
                     = vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1;
                 __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v0 = 1U;
                 __Vdlyvlsb__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v0 = 0U;
                 __Vdlyvdim0__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v0 
-                    = (0xffffU & vlTOPp->io_datamport_req_addrD);
+                    = (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                  >> 2U));
             }
         }
         if ((2U & ((1U == (IData)(vlTOPp->io_datamport_req_typ))
@@ -157,13 +183,15 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
             vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1 
                 = (0xffU & (vlTOPp->io_datamport_req_wdataD 
                             >> 8U));
-            if ((0x8000U >= (0xffffU & vlTOPp->io_datamport_req_addrD))) {
+            if ((0x8000U >= (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                        >> 2U)))) {
                 __Vdlyvval__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v1 
                     = vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1;
                 __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v1 = 1U;
                 __Vdlyvlsb__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v1 = 8U;
                 __Vdlyvdim0__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v1 
-                    = (0xffffU & vlTOPp->io_datamport_req_addrD);
+                    = (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                  >> 2U));
             }
         }
         if ((4U & ((1U == (IData)(vlTOPp->io_datamport_req_typ))
@@ -177,13 +205,15 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
             vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1 
                 = (0xffU & (vlTOPp->io_datamport_req_wdataD 
                             >> 0x10U));
-            if ((0x8000U >= (0xffffU & vlTOPp->io_datamport_req_addrD))) {
+            if ((0x8000U >= (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                        >> 2U)))) {
                 __Vdlyvval__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2 
                     = vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1;
                 __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2 = 1U;
                 __Vdlyvlsb__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2 = 0x10U;
                 __Vdlyvdim0__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2 
-                    = (0xffffU & vlTOPp->io_datamport_req_addrD);
+                    = (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                  >> 2U));
             }
         }
         if ((8U & ((1U == (IData)(vlTOPp->io_datamport_req_typ))
@@ -197,13 +227,15 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
             vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1 
                 = (0xffU & (vlTOPp->io_datamport_req_wdataD 
                             >> 0x18U));
-            if ((0x8000U >= (0xffffU & vlTOPp->io_datamport_req_addrD))) {
+            if ((0x8000U >= (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                        >> 2U)))) {
                 __Vdlyvval__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v3 
                     = vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT____Vlvbound1;
                 __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v3 = 1U;
                 __Vdlyvlsb__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v3 = 0x18U;
                 __Vdlyvdim0__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v3 
-                    = (0xffffU & vlTOPp->io_datamport_req_addrD);
+                    = (0xffffU & (vlTOPp->io_datamport_req_addrD 
+                                  >> 2U));
             }
         }
     }
@@ -248,180 +280,6 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
                                                | (0xffU 
                                                   & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
                                                      >> 0x18U)));
-    vlTOPp->SyncMemScala__DOT___GEN_4 = ((6U == (7U 
-                                                 & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                          ? ((3U == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                              ? (QData)((IData)(vlTOPp->SyncMemScala__DOT___tmpans_T_23))
-                                              : ((2U 
-                                                  == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                  ? 
-                                                 (((QData)((IData)(
-                                                                   ((0x80000000U 
-                                                                     & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                     ? 0xffffffU
-                                                                     : 0U))) 
-                                                   << 0x10U) 
-                                                  | (QData)((IData)(
-                                                                    (0xffffU 
-                                                                     & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                        >> 0x10U)))))
-                                                  : 
-                                                 ((1U 
-                                                   == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                   ? 
-                                                  (((QData)((IData)(
-                                                                    ((0x800000U 
-                                                                      & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                      ? 0xffffffU
-                                                                      : 0U))) 
-                                                    << 0x10U) 
-                                                   | (QData)((IData)(
-                                                                     (0xffffU 
-                                                                      & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                         >> 8U)))))
-                                                   : 
-                                                  ((0U 
-                                                    == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                    ? 
-                                                   (((QData)((IData)(
-                                                                     ((0x8000U 
-                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                       ? 0xffffffU
-                                                                       : 0U))) 
-                                                     << 0x10U) 
-                                                    | (QData)((IData)(
-                                                                      (0xffffU 
-                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))
-                                                    : (QData)((IData)(
-                                                                      (0xffU 
-                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
-                                          : (QData)((IData)(
-                                                            ((3U 
-                                                              == 
-                                                              (7U 
-                                                               & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                                              ? 
-                                                             ((3U 
-                                                               == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                               ? 
-                                                              (0xffU 
-                                                               & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                  >> 0x18U))
-                                                               : 
-                                                              ((2U 
-                                                                == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                ? 
-                                                               (0xffffU 
-                                                                & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                   >> 0x10U))
-                                                                : 
-                                                               ((1U 
-                                                                 == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                 ? 
-                                                                (0xffffffU 
-                                                                 & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                    >> 8U))
-                                                                 : 
-                                                                ((0U 
-                                                                  == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                  ? vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD
-                                                                  : 
-                                                                 (0xffffU 
-                                                                  & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))
-                                                              : 0U))));
-    vlTOPp->SyncMemScala__DOT___GEN_6 = ((5U == (7U 
-                                                 & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                          ? (QData)((IData)(
-                                                            ((3U 
-                                                              == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                              ? vlTOPp->SyncMemScala__DOT___tmpans_T_23
-                                                              : 
-                                                             ((2U 
-                                                               == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                               ? 
-                                                              ((((0x800000U 
-                                                                  & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                  ? 0xffffffU
-                                                                  : 0U) 
-                                                                << 8U) 
-                                                               | (0xffU 
-                                                                  & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                     >> 0x10U)))
-                                                               : 
-                                                              ((1U 
-                                                                == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                ? 
-                                                               ((((0x8000U 
-                                                                   & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                   ? 0xffffffU
-                                                                   : 0U) 
-                                                                 << 8U) 
-                                                                | (0xffU 
-                                                                   & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                      >> 8U)))
-                                                                : 
-                                                               ((0U 
-                                                                 == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                 ? 
-                                                                ((((0x80U 
-                                                                    & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                    ? 0xffffffU
-                                                                    : 0U) 
-                                                                  << 8U) 
-                                                                 | (0xffU 
-                                                                    & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))
-                                                                 : 
-                                                                (0xffU 
-                                                                 & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
-                                          : ((2U == 
-                                              (7U & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                              ? (QData)((IData)(
-                                                                (0xffffU 
-                                                                 & ((3U 
-                                                                     == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                     ? 
-                                                                    (0xffU 
-                                                                     & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                        >> 0x18U))
-                                                                     : 
-                                                                    ((2U 
-                                                                      == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                      ? 
-                                                                     (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                      >> 0x10U)
-                                                                      : 
-                                                                     ((1U 
-                                                                       == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                       ? 
-                                                                      (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                       >> 8U)
-                                                                       : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
-                                              : vlTOPp->SyncMemScala__DOT___GEN_4));
-    vlTOPp->io_datamport_resp_rdata = (IData)(((1U 
-                                                == 
-                                                (7U 
-                                                 & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                                ? (QData)((IData)(
-                                                                  (0xffU 
-                                                                   & ((3U 
-                                                                       == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                       ? 
-                                                                      (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                       >> 0x18U)
-                                                                       : 
-                                                                      ((2U 
-                                                                        == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                        ? 
-                                                                       (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                        >> 0x10U)
-                                                                        : 
-                                                                       ((1U 
-                                                                         == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                         ? 
-                                                                        (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                         >> 8U)
-                                                                         : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
-                                                : vlTOPp->SyncMemScala__DOT___GEN_6));
 }
 
 void VSyncMemScala::_initial__TOP__2(VSyncMemScala__Syms* __restrict vlSymsp) {
@@ -451,15 +309,32 @@ void VSyncMemScala::_settle__TOP__3(VSyncMemScala__Syms* __restrict vlSymsp) {
     VSyncMemScala* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     vlTOPp->io_instmport_resp_rdata = vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataI;
-    vlTOPp->SyncMemScala__DOT___status_MT_T = ((0x38U 
-                                                & ((IData)(vlTOPp->SyncMemScala__DOT__status_MT) 
-                                                   << 3U)) 
-                                               | (IData)(vlTOPp->io_datamport_req_typ));
-    vlTOPp->SyncMemScala__DOT___status_addr_T = ((0xcU 
-                                                  & ((IData)(vlTOPp->SyncMemScala__DOT__status_addr) 
-                                                     << 2U)) 
-                                                 | (3U 
-                                                    & vlTOPp->io_datamport_req_addrD));
+    vlTOPp->SyncMemScala__DOT___tmpans_T_70 = ((3U 
+                                                == 
+                                                (3U 
+                                                 & vlTOPp->io_datamport_req_addrD))
+                                                ? (0xffU 
+                                                   & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                      >> 0x18U))
+                                                : (
+                                                   (2U 
+                                                    == 
+                                                    (3U 
+                                                     & vlTOPp->io_datamport_req_addrD))
+                                                    ? 
+                                                   (0xffffU 
+                                                    & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                       >> 0x10U))
+                                                    : 
+                                                   ((1U 
+                                                     == 
+                                                     (3U 
+                                                      & vlTOPp->io_datamport_req_addrD))
+                                                     ? 
+                                                    (0xffffffU 
+                                                     & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                        >> 8U))
+                                                     : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)));
     vlTOPp->SyncMemScala__DOT___tmpans_T_23 = ((((0x80000000U 
                                                   & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
                                                   ? 0xffffffU
@@ -468,29 +343,48 @@ void VSyncMemScala::_settle__TOP__3(VSyncMemScala__Syms* __restrict vlSymsp) {
                                                | (0xffU 
                                                   & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
                                                      >> 0x18U)));
-    vlTOPp->SyncMemScala__DOT___GEN_4 = ((6U == (7U 
-                                                 & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                          ? ((3U == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                              ? (QData)((IData)(vlTOPp->SyncMemScala__DOT___tmpans_T_23))
-                                              : ((2U 
-                                                  == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                  ? 
-                                                 (((QData)((IData)(
-                                                                   ((0x80000000U 
-                                                                     & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                     ? 0xffffffU
-                                                                     : 0U))) 
-                                                   << 0x10U) 
-                                                  | (QData)((IData)(
-                                                                    (0xffffU 
-                                                                     & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                        >> 0x10U)))))
+    vlTOPp->SyncMemScala__DOT___GEN_6 = ((2U == (IData)(vlTOPp->io_datamport_req_typ))
+                                          ? (QData)((IData)(
+                                                            (0xffffU 
+                                                             & ((3U 
+                                                                 == 
+                                                                 (3U 
+                                                                  & vlTOPp->io_datamport_req_addrD))
+                                                                 ? 
+                                                                (0xffU 
+                                                                 & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                    >> 0x18U))
+                                                                 : 
+                                                                ((2U 
+                                                                  == 
+                                                                  (3U 
+                                                                   & vlTOPp->io_datamport_req_addrD))
+                                                                  ? 
+                                                                 (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                  >> 0x10U)
+                                                                  : 
+                                                                 ((1U 
+                                                                   == 
+                                                                   (3U 
+                                                                    & vlTOPp->io_datamport_req_addrD))
+                                                                   ? 
+                                                                  (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                   >> 8U)
+                                                                   : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
+                                          : ((6U == (IData)(vlTOPp->io_datamport_req_typ))
+                                              ? ((3U 
+                                                  == 
+                                                  (3U 
+                                                   & vlTOPp->io_datamport_req_addrD))
+                                                  ? (QData)((IData)(vlTOPp->SyncMemScala__DOT___tmpans_T_23))
                                                   : 
-                                                 ((1U 
-                                                   == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
+                                                 ((2U 
+                                                   == 
+                                                   (3U 
+                                                    & vlTOPp->io_datamport_req_addrD))
                                                    ? 
                                                   (((QData)((IData)(
-                                                                    ((0x800000U 
+                                                                    ((0x80000000U 
                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
                                                                       ? 0xffffffU
                                                                       : 0U))) 
@@ -498,11 +392,24 @@ void VSyncMemScala::_settle__TOP__3(VSyncMemScala__Syms* __restrict vlSymsp) {
                                                    | (QData)((IData)(
                                                                      (0xffffU 
                                                                       & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                         >> 8U)))))
+                                                                         >> 0x10U)))))
                                                    : 
-                                                  ((0U 
-                                                    == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
+                                                  ((1U 
+                                                    == 
+                                                    (3U 
+                                                     & vlTOPp->io_datamport_req_addrD))
                                                     ? 
+                                                   (((QData)((IData)(
+                                                                     ((0x800000U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U))) 
+                                                     << 0x10U) 
+                                                    | (QData)((IData)(
+                                                                      (0xffffU 
+                                                                       & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                          >> 8U)))))
+                                                    : 
                                                    (((QData)((IData)(
                                                                      ((0x8000U 
                                                                        & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
@@ -511,152 +418,277 @@ void VSyncMemScala::_settle__TOP__3(VSyncMemScala__Syms* __restrict vlSymsp) {
                                                      << 0x10U) 
                                                     | (QData)((IData)(
                                                                       (0xffffU 
-                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))
-                                                    : (QData)((IData)(
-                                                                      (0xffU 
                                                                        & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
-                                          : (QData)((IData)(
-                                                            ((3U 
-                                                              == 
-                                                              (7U 
-                                                               & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                                              ? 
-                                                             ((3U 
-                                                               == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                               ? 
-                                                              (0xffU 
-                                                               & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                  >> 0x18U))
-                                                               : 
-                                                              ((2U 
-                                                                == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                ? 
-                                                               (0xffffU 
-                                                                & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                   >> 0x10U))
-                                                                : 
-                                                               ((1U 
-                                                                 == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                 ? 
-                                                                (0xffffffU 
-                                                                 & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                    >> 8U))
-                                                                 : 
-                                                                ((0U 
-                                                                  == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                  ? vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD
+                                              : (QData)((IData)(
+                                                                ((3U 
+                                                                  == (IData)(vlTOPp->io_datamport_req_typ))
+                                                                  ? vlTOPp->SyncMemScala__DOT___tmpans_T_70
                                                                   : 
-                                                                 (0xffffU 
-                                                                  & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))
-                                                              : 0U))));
-    vlTOPp->SyncMemScala__DOT___GEN_6 = ((5U == (7U 
-                                                 & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
+                                                                 ((7U 
+                                                                   == (IData)(vlTOPp->io_datamport_req_typ))
+                                                                   ? vlTOPp->SyncMemScala__DOT___tmpans_T_70
+                                                                   : 0U))))));
+    vlTOPp->SyncMemScala__DOT___GEN_8 = ((1U == (IData)(vlTOPp->io_datamport_req_typ))
                                           ? (QData)((IData)(
-                                                            ((3U 
-                                                              == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                              ? vlTOPp->SyncMemScala__DOT___tmpans_T_23
-                                                              : 
-                                                             ((2U 
-                                                               == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                               ? 
-                                                              ((((0x800000U 
-                                                                  & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                  ? 0xffffffU
-                                                                  : 0U) 
-                                                                << 8U) 
-                                                               | (0xffU 
-                                                                  & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                     >> 0x10U)))
-                                                               : 
-                                                              ((1U 
-                                                                == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                ? 
-                                                               ((((0x8000U 
-                                                                   & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                   ? 0xffffffU
-                                                                   : 0U) 
-                                                                 << 8U) 
-                                                                | (0xffU 
-                                                                   & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                      >> 8U)))
-                                                                : 
-                                                               ((0U 
-                                                                 == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
+                                                            (0xffU 
+                                                             & ((3U 
+                                                                 == 
+                                                                 (3U 
+                                                                  & vlTOPp->io_datamport_req_addrD))
                                                                  ? 
-                                                                ((((0x80U 
-                                                                    & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
-                                                                    ? 0xffffffU
-                                                                    : 0U) 
-                                                                  << 8U) 
-                                                                 | (0xffU 
-                                                                    & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))
+                                                                (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                 >> 0x18U)
                                                                  : 
-                                                                (0xffU 
-                                                                 & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
-                                          : ((2U == 
-                                              (7U & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
+                                                                ((2U 
+                                                                  == 
+                                                                  (3U 
+                                                                   & vlTOPp->io_datamport_req_addrD))
+                                                                  ? 
+                                                                 (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                  >> 0x10U)
+                                                                  : 
+                                                                 ((1U 
+                                                                   == 
+                                                                   (3U 
+                                                                    & vlTOPp->io_datamport_req_addrD))
+                                                                   ? 
+                                                                  (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                   >> 8U)
+                                                                   : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
+                                          : ((5U == (IData)(vlTOPp->io_datamport_req_typ))
                                               ? (QData)((IData)(
-                                                                (0xffffU 
-                                                                 & ((3U 
-                                                                     == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                     ? 
-                                                                    (0xffU 
-                                                                     & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                        >> 0x18U))
-                                                                     : 
-                                                                    ((2U 
-                                                                      == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                      ? 
-                                                                     (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                      >> 0x10U)
-                                                                      : 
-                                                                     ((1U 
-                                                                       == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                       ? 
-                                                                      (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                       >> 8U)
-                                                                       : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
-                                              : vlTOPp->SyncMemScala__DOT___GEN_4));
-    vlTOPp->io_datamport_resp_rdata = (IData)(((1U 
-                                                == 
-                                                (7U 
-                                                 & (IData)(vlTOPp->SyncMemScala__DOT__status_MT)))
-                                                ? (QData)((IData)(
-                                                                  (0xffU 
-                                                                   & ((3U 
-                                                                       == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                       ? 
-                                                                      (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                       >> 0x18U)
-                                                                       : 
-                                                                      ((2U 
-                                                                        == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                        ? 
-                                                                       (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                        >> 0x10U)
-                                                                        : 
-                                                                       ((1U 
-                                                                         == (IData)(vlTOPp->SyncMemScala__DOT__status_addr))
-                                                                         ? 
-                                                                        (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
-                                                                         >> 8U)
-                                                                         : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
-                                                : vlTOPp->SyncMemScala__DOT___GEN_6));
+                                                                ((3U 
+                                                                  == 
+                                                                  (3U 
+                                                                   & vlTOPp->io_datamport_req_addrD))
+                                                                  ? vlTOPp->SyncMemScala__DOT___tmpans_T_23
+                                                                  : 
+                                                                 ((2U 
+                                                                   == 
+                                                                   (3U 
+                                                                    & vlTOPp->io_datamport_req_addrD))
+                                                                   ? 
+                                                                  ((((0x800000U 
+                                                                      & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                      ? 0xffffffU
+                                                                      : 0U) 
+                                                                    << 8U) 
+                                                                   | (0xffU 
+                                                                      & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                         >> 0x10U)))
+                                                                   : 
+                                                                  ((1U 
+                                                                    == 
+                                                                    (3U 
+                                                                     & vlTOPp->io_datamport_req_addrD))
+                                                                    ? 
+                                                                   ((((0x8000U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U) 
+                                                                     << 8U) 
+                                                                    | (0xffU 
+                                                                       & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                          >> 8U)))
+                                                                    : 
+                                                                   ((((0x80U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U) 
+                                                                     << 8U) 
+                                                                    | (0xffU 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
+                                              : vlTOPp->SyncMemScala__DOT___GEN_6));
+    vlTOPp->io_datamport_resp_rdata = (IData)(vlTOPp->SyncMemScala__DOT___GEN_8);
 }
 
 VL_INLINE_OPT void VSyncMemScala::_combo__TOP__4(VSyncMemScala__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VSyncMemScala::_combo__TOP__4\n"); );
     VSyncMemScala* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->SyncMemScala__DOT___status_addr_T = ((0xcU 
-                                                  & ((IData)(vlTOPp->SyncMemScala__DOT__status_addr) 
-                                                     << 2U)) 
-                                                 | (3U 
-                                                    & vlTOPp->io_datamport_req_addrD));
-    vlTOPp->SyncMemScala__DOT___status_MT_T = ((0x38U 
-                                                & ((IData)(vlTOPp->SyncMemScala__DOT__status_MT) 
-                                                   << 3U)) 
-                                               | (IData)(vlTOPp->io_datamport_req_typ));
+    vlTOPp->SyncMemScala__DOT___tmpans_T_70 = ((3U 
+                                                == 
+                                                (3U 
+                                                 & vlTOPp->io_datamport_req_addrD))
+                                                ? (0xffU 
+                                                   & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                      >> 0x18U))
+                                                : (
+                                                   (2U 
+                                                    == 
+                                                    (3U 
+                                                     & vlTOPp->io_datamport_req_addrD))
+                                                    ? 
+                                                   (0xffffU 
+                                                    & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                       >> 0x10U))
+                                                    : 
+                                                   ((1U 
+                                                     == 
+                                                     (3U 
+                                                      & vlTOPp->io_datamport_req_addrD))
+                                                     ? 
+                                                    (0xffffffU 
+                                                     & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                        >> 8U))
+                                                     : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)));
+    vlTOPp->SyncMemScala__DOT___GEN_6 = ((2U == (IData)(vlTOPp->io_datamport_req_typ))
+                                          ? (QData)((IData)(
+                                                            (0xffffU 
+                                                             & ((3U 
+                                                                 == 
+                                                                 (3U 
+                                                                  & vlTOPp->io_datamport_req_addrD))
+                                                                 ? 
+                                                                (0xffU 
+                                                                 & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                    >> 0x18U))
+                                                                 : 
+                                                                ((2U 
+                                                                  == 
+                                                                  (3U 
+                                                                   & vlTOPp->io_datamport_req_addrD))
+                                                                  ? 
+                                                                 (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                  >> 0x10U)
+                                                                  : 
+                                                                 ((1U 
+                                                                   == 
+                                                                   (3U 
+                                                                    & vlTOPp->io_datamport_req_addrD))
+                                                                   ? 
+                                                                  (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                   >> 8U)
+                                                                   : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
+                                          : ((6U == (IData)(vlTOPp->io_datamport_req_typ))
+                                              ? ((3U 
+                                                  == 
+                                                  (3U 
+                                                   & vlTOPp->io_datamport_req_addrD))
+                                                  ? (QData)((IData)(vlTOPp->SyncMemScala__DOT___tmpans_T_23))
+                                                  : 
+                                                 ((2U 
+                                                   == 
+                                                   (3U 
+                                                    & vlTOPp->io_datamport_req_addrD))
+                                                   ? 
+                                                  (((QData)((IData)(
+                                                                    ((0x80000000U 
+                                                                      & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                      ? 0xffffffU
+                                                                      : 0U))) 
+                                                    << 0x10U) 
+                                                   | (QData)((IData)(
+                                                                     (0xffffU 
+                                                                      & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                         >> 0x10U)))))
+                                                   : 
+                                                  ((1U 
+                                                    == 
+                                                    (3U 
+                                                     & vlTOPp->io_datamport_req_addrD))
+                                                    ? 
+                                                   (((QData)((IData)(
+                                                                     ((0x800000U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U))) 
+                                                     << 0x10U) 
+                                                    | (QData)((IData)(
+                                                                      (0xffffU 
+                                                                       & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                          >> 8U)))))
+                                                    : 
+                                                   (((QData)((IData)(
+                                                                     ((0x8000U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U))) 
+                                                     << 0x10U) 
+                                                    | (QData)((IData)(
+                                                                      (0xffffU 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
+                                              : (QData)((IData)(
+                                                                ((3U 
+                                                                  == (IData)(vlTOPp->io_datamport_req_typ))
+                                                                  ? vlTOPp->SyncMemScala__DOT___tmpans_T_70
+                                                                  : 
+                                                                 ((7U 
+                                                                   == (IData)(vlTOPp->io_datamport_req_typ))
+                                                                   ? vlTOPp->SyncMemScala__DOT___tmpans_T_70
+                                                                   : 0U))))));
+    vlTOPp->SyncMemScala__DOT___GEN_8 = ((1U == (IData)(vlTOPp->io_datamport_req_typ))
+                                          ? (QData)((IData)(
+                                                            (0xffU 
+                                                             & ((3U 
+                                                                 == 
+                                                                 (3U 
+                                                                  & vlTOPp->io_datamport_req_addrD))
+                                                                 ? 
+                                                                (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                 >> 0x18U)
+                                                                 : 
+                                                                ((2U 
+                                                                  == 
+                                                                  (3U 
+                                                                   & vlTOPp->io_datamport_req_addrD))
+                                                                  ? 
+                                                                 (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                  >> 0x10U)
+                                                                  : 
+                                                                 ((1U 
+                                                                   == 
+                                                                   (3U 
+                                                                    & vlTOPp->io_datamport_req_addrD))
+                                                                   ? 
+                                                                  (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                   >> 8U)
+                                                                   : vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD))))))
+                                          : ((5U == (IData)(vlTOPp->io_datamport_req_typ))
+                                              ? (QData)((IData)(
+                                                                ((3U 
+                                                                  == 
+                                                                  (3U 
+                                                                   & vlTOPp->io_datamport_req_addrD))
+                                                                  ? vlTOPp->SyncMemScala__DOT___tmpans_T_23
+                                                                  : 
+                                                                 ((2U 
+                                                                   == 
+                                                                   (3U 
+                                                                    & vlTOPp->io_datamport_req_addrD))
+                                                                   ? 
+                                                                  ((((0x800000U 
+                                                                      & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                      ? 0xffffffU
+                                                                      : 0U) 
+                                                                    << 8U) 
+                                                                   | (0xffU 
+                                                                      & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                         >> 0x10U)))
+                                                                   : 
+                                                                  ((1U 
+                                                                    == 
+                                                                    (3U 
+                                                                     & vlTOPp->io_datamport_req_addrD))
+                                                                    ? 
+                                                                   ((((0x8000U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U) 
+                                                                     << 8U) 
+                                                                    | (0xffU 
+                                                                       & (vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD 
+                                                                          >> 8U)))
+                                                                    : 
+                                                                   ((((0x80U 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)
+                                                                       ? 0xffffffU
+                                                                       : 0U) 
+                                                                     << 8U) 
+                                                                    | (0xffU 
+                                                                       & vlTOPp->SyncMemScala__DOT__syncmemblackbox_rdataD)))))))
+                                              : vlTOPp->SyncMemScala__DOT___GEN_6));
+    vlTOPp->io_datamport_resp_rdata = (IData)(vlTOPp->SyncMemScala__DOT___GEN_8);
 }
 
 void VSyncMemScala::_eval(VSyncMemScala__Syms* __restrict vlSymsp) {
@@ -734,13 +766,10 @@ void VSyncMemScala::_ctor_var_reset() {
     io_datamport_resp_rdata = VL_RAND_RESET_I(32);
     SyncMemScala__DOT__syncmemblackbox_rdataI = VL_RAND_RESET_I(32);
     SyncMemScala__DOT__syncmemblackbox_rdataD = VL_RAND_RESET_I(32);
-    SyncMemScala__DOT__status_MT = VL_RAND_RESET_I(6);
-    SyncMemScala__DOT__status_addr = VL_RAND_RESET_I(4);
-    SyncMemScala__DOT___status_MT_T = VL_RAND_RESET_I(6);
-    SyncMemScala__DOT___status_addr_T = VL_RAND_RESET_I(4);
     SyncMemScala__DOT___tmpans_T_23 = VL_RAND_RESET_I(32);
-    SyncMemScala__DOT___GEN_4 = VL_RAND_RESET_Q(40);
+    SyncMemScala__DOT___tmpans_T_70 = VL_RAND_RESET_I(32);
     SyncMemScala__DOT___GEN_6 = VL_RAND_RESET_Q(40);
+    SyncMemScala__DOT___GEN_8 = VL_RAND_RESET_Q(40);
     { int __Vi0=0; for (; __Vi0<32769; ++__Vi0) {
             SyncMemScala__DOT__syncmemblackbox__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
     }}

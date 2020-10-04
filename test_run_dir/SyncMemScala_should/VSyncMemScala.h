@@ -35,15 +35,12 @@ VL_MODULE(VSyncMemScala) {
     
     // LOCAL SIGNALS
     // Internals; generally not touched by application code
-    CData/*5:0*/ SyncMemScala__DOT__status_MT;
-    CData/*3:0*/ SyncMemScala__DOT__status_addr;
-    CData/*5:0*/ SyncMemScala__DOT___status_MT_T;
-    CData/*3:0*/ SyncMemScala__DOT___status_addr_T;
     IData/*31:0*/ SyncMemScala__DOT__syncmemblackbox_rdataI;
     IData/*31:0*/ SyncMemScala__DOT__syncmemblackbox_rdataD;
     IData/*31:0*/ SyncMemScala__DOT___tmpans_T_23;
-    QData/*39:0*/ SyncMemScala__DOT___GEN_4;
+    IData/*31:0*/ SyncMemScala__DOT___tmpans_T_70;
     QData/*39:0*/ SyncMemScala__DOT___GEN_6;
+    QData/*39:0*/ SyncMemScala__DOT___GEN_8;
     IData/*31:0*/ SyncMemScala__DOT__syncmemblackbox__DOT__mem[32769];
     
     // LOCAL VARIABLES
