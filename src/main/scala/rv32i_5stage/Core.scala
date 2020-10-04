@@ -9,6 +9,7 @@ class CoreIO(implicit val conf: Configurations) extends Bundle {
   val imem = new InstMemPortIO()  // 外部メモリとの接続
   val dmem = new DataMemPortIO()
   val debug = new DebugIO()
+  val led = new LEDDebugIO()
 }
 
 class Core(implicit val conf:Configurations) extends Module{
@@ -24,4 +25,5 @@ class Core(implicit val conf:Configurations) extends Module{
 
   // デバッグ
   io.debug <> dpath.io.debug
+  io.led.out := dpath.io.led.out
 }

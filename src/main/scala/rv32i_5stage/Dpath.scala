@@ -10,7 +10,7 @@ class DpathIO(implicit val conf:Configurations) extends Bundle(){
   val imem = new InstMemPortIO()  // 命令メモリIO
   val dmem = new DataMemPortIO()  // データメモリIO
   val debug = new DebugIO()        // デバッグIO
-
+  val led = new LEDDebugIO()        // LED用
 }
 
 class Dpath(implicit val conf:Configurations) extends Module{
@@ -32,15 +32,13 @@ class Dpath(implicit val conf:Configurations) extends Module{
   // *** 命令フェッチ ステージ **********************************************************************
 
   val pc_reg  = RegInit(START_ADDR.U(32.W)) // オリジナルpc
-  val next_pc = Wire(UInt(32.W))
-  next_pc := pc_reg + 4.U
+  val next_pc = pc_reg + 4.U
   pc_reg := next_pc
 
   // 命令フェッチ
   io.imem.req.raddrI := pc_reg
   io.imem.req.renI := true.B
-  val inst = Wire(UInt(32.W))       // 命令ワイヤー
-  inst := io.imem.resp.rdata        // 命令メモリからのデータ
+  val inst = io.imem.resp.rdata        // 命令メモリからのデータ
 
   // *** デコード ステージ *************************************************************************
 
@@ -53,6 +51,10 @@ class Dpath(implicit val conf:Configurations) extends Module{
 
   val pc_execute = RegNext(pc_decode)
   val inst_execute = RegNext(inst)
+  val rs1_execute = Reg(UInt(32.W))
+  rs1_execute := regFile.io.rs1_data
+  val rs2_execute = Reg(UInt(32.W))
+  rs2_execute := regFile.io.rs2_data
   val ctrl_execute_executeStage = new ctrl_execute
   val ctrl_mem_executeStage = new ctrl_mem
   val ctrl_wb_executeStage = new ctrl_wb
@@ -69,17 +71,19 @@ class Dpath(implicit val conf:Configurations) extends Module{
   ctrl_wb_executeStage.rf_wen := ctrlUnit.io.ctrlWB.rf_wen
 
   immGen.io.inst := inst_execute
-  immGen.io.imm_sel := ctrlUnit.io.ctrlEX.imm_sel
+  immGen.io.imm_sel := ctrl_execute_executeStage.imm_sel
 
-  aLU.io.op1 := regFile.io.rs1_data
-  aLU.io.op1 := Mux(ctrlUnit.io.ctrlEX.op1_sel===OP1_RS1, regFile.io.rs1_data, pc_execute)
-  aLU.io.op2 := Mux(ctrlUnit.io.ctrlEX.op2_sel===OP2_RS2, regFile.io.rs2_data, immGen.io.out)
-  aLU.io.fun := ctrlUnit.io.ctrlEX.alu_fun
+  aLU.io.op1 := Mux(ctrl_execute_executeStage.op1_sel===OP1_RS1, rs1_execute, pc_execute)
+  aLU.io.op2 := Mux(ctrl_execute_executeStage.op2_sel===OP2_RS2, rs2_execute, immGen.io.out)
+  aLU.io.fun := ctrl_execute_executeStage.alu_fun
 
   // *** Memory Stage *****************************************************************************
 
   val pc_mem = RegNext(pc_execute)
   val inst_mem = RegNext(inst_execute)
+  val alu_out_mem = Reg(UInt(32.W))
+  alu_out_mem := aLU.io.out
+  val rs2_mem = RegNext(rs2_execute)
   val ctrl_mem_memStage = new ctrl_mem
   val ctrl_wb_memStage = new ctrl_wb
   // メモリステージのパイプライン渡し
@@ -93,15 +97,18 @@ class Dpath(implicit val conf:Configurations) extends Module{
 
   val ctrl_wb_wbStage = new ctrl_wb
   val inst_wb = RegNext(inst_mem)
+  val memStage_out = RegNext(alu_out_mem)
   // メモリステージの制御信号のパイプ渡し
   ctrl_wb_wbStage.rf_wen := ctrl_wb_memStage.rf_wen
 
-  regFile.io.waddr := inst(RD_MSB, RD_LSB)
-  regFile.io.wdata := aLU.io.out
-  regFile.io.wen := ctrlUnit.io.ctrlWB.rf_wen
+  regFile.io.waddr := inst_wb(RD_MSB, RD_LSB)
+  regFile.io.wdata := memStage_out
+  regFile.io.wen := ctrl_wb_wbStage.rf_wen
+    ctrlUnit.io.ctrlWB.rf_wen
 
 
   // *** DEBUG ************************************************************************************
+  io.led.out := regFile.io.reg_a0
   io.debug.pc := pc_reg
   io.debug.pc_decode := pc_decode
   io.debug.reg_a0 := regFile.io.reg_a0
