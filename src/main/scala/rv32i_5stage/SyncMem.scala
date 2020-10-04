@@ -7,38 +7,39 @@ import common.CommonPackage._
 
 /*
   命令メモリとデータメモリの共用のBRAM
-  1サイクル遅れででてくる
+  1サイクル遅れででてくる?
  */
 
-class InstMemPortIO(implicit val conf:Configurations) extends Bundle{
+class InstMemPortIO extends Bundle{
   val req = new InstMemReqIO()         // パス->メモリ output
   val resp = Flipped(new MemRespIO())  // メモリ->パス input
 }
 
-class DataMemPortIO(implicit val conf:Configurations) extends Bundle{
+class DataMemPortIO extends Bundle{
   val req = new DataMemReqIO()         // パス->メモリ output
   val resp = Flipped(new MemRespIO())  // メモリ->パス input
 }
 
-class InstMemReqIO(implicit val conf:Configurations) extends Bundle{
+class InstMemReqIO extends Bundle{
   val renI = Output(Bool())   // 読み込み有効
   val raddrI = Output(UInt(conf.xlen.W))   // アドレス
 }
 
-class DataMemReqIO(implicit val conf:Configurations) extends Bundle{
-  val addrD = Output(UInt(conf.xlen.W))   // アドレス
-  val wdataD = Output(UInt(conf.xlen.W))   // 書き込みデータ
+class DataMemReqIO extends Bundle{
+  val addrD = Output(UInt(32.W))   // アドレス
+  val wdataD = Output(UInt(32.W))   // 書き込みデータ
 
   val fcn  = Output(UInt(M_X.getWidth.W)) //  half?byte?
   val typ = Output(UInt(MT_X.getWidth.W)) //  書き込みか読み込みか
 }
 
-class MemRespIO(implicit val conf:Configurations) extends Bundle{
-  val rdata = Output(UInt(conf.xlen.W))   // 読み込みデータ
+class MemRespIO extends Bundle{
+  val rdata = Output(UInt(32.W))   // 読み込みデータ
 }
 
 class SyncMemBlackBoxIO extends Bundle{
   val clk = Input(Clock())
+
   // 命令メモリ
   val raddrI = Input(UInt(32.W))
   val renI = Input(Bool())

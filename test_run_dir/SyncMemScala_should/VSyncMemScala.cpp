@@ -132,6 +132,12 @@ VL_INLINE_OPT void VSyncMemScala::_sequent__TOP__1(VSyncMemScala__Syms* __restri
                                                    : 0U)))));
         }
     }
+    if ((1U & (~ (IData)(vlTOPp->reset)))) {
+        if (VL_UNLIKELY((1U & (~ (IData)(vlTOPp->reset))))) {
+            VL_FWRITEF(0x80000002U,"%x %x \n",32,vlTOPp->io_instmport_req_raddrI,
+                       32,vlTOPp->io_instmport_resp_rdata);
+        }
+    }
     __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v0 = 0U;
     __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v1 = 0U;
     __Vdlyvset__SyncMemScala__DOT__syncmemblackbox__DOT__mem__v2 = 0U;
@@ -289,16 +295,16 @@ void VSyncMemScala::_initial__TOP__2(VSyncMemScala__Syms* __restrict vlSymsp) {
     WData/*351:0*/ __Vtemp1[11];
     // Body
     __Vtemp1[0U] = 0x2e686578U;
-    __Vtemp1[1U] = 0x2d616464U;
-    __Vtemp1[2U] = 0x75692d70U;
-    __Vtemp1[3U] = 0x72763332U;
-    __Vtemp1[4U] = 0x3275692fU;
-    __Vtemp1[5U] = 0x2f727633U;
-    __Vtemp1[6U] = 0x66696c65U;
-    __Vtemp1[7U] = 0x2f686578U;
-    __Vtemp1[8U] = 0x6c646572U;
-    __Vtemp1[9U] = 0x7374666fU;
-    __Vtemp1[0xaU] = 0x7465U;
+    __Vtemp1[1U] = 0x65697461U;
+    __Vtemp1[2U] = 0x6d705f6bU;
+    __Vtemp1[3U] = 0x692f7465U;
+    __Vtemp1[4U] = 0x76333275U;
+    __Vtemp1[5U] = 0x6c652f72U;
+    __Vtemp1[6U] = 0x65786669U;
+    __Vtemp1[7U] = 0x65722f68U;
+    __Vtemp1[8U] = 0x666f6c64U;
+    __Vtemp1[9U] = 0x74657374U;
+    __Vtemp1[0xaU] = 0x2e2fU;
     VL_READMEM_N(true, 32, 32769, 0, VL_CVT_PACK_STR_NW(11, __Vtemp1)
                  , vlTOPp->SyncMemScala__DOT__syncmemblackbox__DOT__mem
                  , 0, ~VL_ULL(0));

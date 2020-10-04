@@ -25,16 +25,31 @@ VL_MODULE(VTile) {
     VL_IN8(clock,0,0);
     VL_IN8(reset,0,0);
     VL_OUT(io_debug_pc,31,0);
-    VL_OUT(io_debug_reg_a0,31,0);
     VL_OUT(io_debug_pc_decode,31,0);
     VL_OUT(io_debug_inst,31,0);
+    VL_OUT(io_debug_reg_a0,31,0);
+    VL_OUT(io_debug_alu_out,31,0);
     
     // LOCAL SIGNALS
     // Internals; generally not touched by application code
+    CData/*2:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlEX_imm_sel;
+    CData/*3:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlEX_alu_fun;
+    CData/*1:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_217;
+    CData/*1:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_232;
+    CData/*1:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_268;
+    CData/*1:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_283;
+    CData/*2:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_313;
+    CData/*2:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_328;
+    CData/*3:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358;
+    CData/*3:0*/ Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_373;
     IData/*31:0*/ Tile__DOT__bram__DOT__syncmemblackbox_rdataI;
+    IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1;
+    IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2;
     IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__pc_reg;
     IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__next_pc;
     IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__pc_decode;
+    IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__pc_execute;
+    IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__inst_execute;
     IData/*31:0*/ Tile__DOT__bram__DOT__syncmemblackbox__DOT__mem[32769];
     IData/*31:0*/ Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile[32];
     
