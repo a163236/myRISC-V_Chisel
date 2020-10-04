@@ -40,7 +40,7 @@ class Tile(implicit val conf: Configurations) extends Module{
   }
 
   // デバッグ
-  io.debug.out := Core.io.debug.out
+  io.debug <> Core.io.debug
 
   // 7segLEDの表示
   io.led.out := DataMemory.io.led.out

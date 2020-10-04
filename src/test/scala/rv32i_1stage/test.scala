@@ -75,7 +75,7 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
         c.clock.step(1)
         println()
       }
-      c.io.debug.out.expect(0.U)  // gpレジスタが1ならパス
+      c.io.debug.reg_a0.expect(0.U)  // gpレジスタが1ならパス
     }
   }
 

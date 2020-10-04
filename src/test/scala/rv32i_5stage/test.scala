@@ -12,6 +12,26 @@ import firrtl.stage.RunFirrtlTransformAnnotation
 class test() extends FlatSpec with ChiselScalatestTester with Matchers {
   implicit val conf = Configurations()
 
+  "Dpath" should "" in{
+    test(new Dpath()){c=>
+
+    }
+  }
+
+  "Tile" should "" in{
+    test(new Tile()).withAnnotations(Seq(VerilatorBackendAnnotation)){c=>
+
+      println(c.io.debug.pc.peek(), c.io.debug.pc_decode.peek(),
+        c.io.debug.inst.peek(), c.io.debug.reg_a0.peek())
+
+      for(i <- 0 to 10){
+        c.clock.step(1)
+        println(c.io.debug.pc.peek(), c.io.debug.pc_decode.peek(),
+          c.io.debug.inst.peek(), c.io.debug.reg_a0.peek())
+      }
+
+    }
+  }
 
   "SyncMemScala" should "" in{
 
