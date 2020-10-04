@@ -48,7 +48,7 @@ void VTile::eval() {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Tile.v", 661, "",
+            VL_FATAL_MT("Tile.v", 754, "",
                 "Verilated model didn't converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -73,7 +73,7 @@ void VTile::_eval_initial_loop(VTile__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = _change_request(vlSymsp);
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("Tile.v", 661, "",
+            VL_FATAL_MT("Tile.v", 754, "",
                 "Verilated model didn't DC converge\n"
                 "- See DIDNOTCONVERGE in the Verilator manual");
         } else {
@@ -82,694 +82,60 @@ void VTile::_eval_initial_loop(VTile__Syms* __restrict vlSymsp) {
     } while (VL_UNLIKELY(__Vchange));
 }
 
-void VTile::_settle__TOP__1(VTile__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_settle__TOP__1\n"); );
+void VTile::_initial__TOP__1(VTile__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_initial__TOP__1\n"); );
     VTile* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Variables
+    WData/*351:0*/ __Vtemp1[11];
     // Body
-    vlTOPp->io_debug_reg_a0 = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
-        [0xaU];
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-        = ((0U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG))
-            ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs1_execute
-            : vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute);
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2 
-        = ((0U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_1))
-            ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute
-            : ((4U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
-                ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
-                      ? 0xfffU : 0U) << 0x14U) | ((0xff000U 
-                                                   & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute) 
-                                                  | ((0x800U 
-                                                      & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                                         >> 9U)) 
-                                                     | (0x7feU 
-                                                        & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                                           >> 0x14U)))))
-                : ((3U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
-                    ? (0xfffff000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
-                    : ((5U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
-                        ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
-                              ? 0x7ffffU : 0U) << 0xdU) 
-                           | ((0x1000U & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                          << 5U)) | 
-                              ((0xfe0U & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                          >> 0x14U)) 
-                               | (0x1eU & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                           >> 7U)))))
-                        : ((2U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
-                            ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
-                                  ? 0xfffffU : 0U) 
-                                << 0xcU) | ((0xfe0U 
-                                             & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                                >> 0x14U)) 
-                                            | (0x1fU 
-                                               & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                                  >> 7U))))
-                            : ((1U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
-                                ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
-                                      ? 0xfffffU : 0U) 
-                                    << 0xcU) | (0xfffU 
-                                                & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-                                                   >> 0x14U)))
-                                : 0U))))));
-    vlTOPp->io_debug_pc_decode = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode;
-    vlTOPp->io_debug_inst = vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI;
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_217 
-        = ((0x6033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 0U : ((0x4033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 0U : ((0x40005033U == (0xfe00707fU 
-                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 0U : ((0x5033U == (0xfe00707fU 
-                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 0U : ((0x6fU 
-                                                == 
-                                                (0x7fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 1U
-                                                : (
-                                                   (0x67U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 0U
-                                                    : 
-                                                   ((0x63U 
-                                                     == 
-                                                     (0x707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 1U
-                                                     : 
-                                                    ((0x1063U 
-                                                      == 
-                                                      (0x707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 1U
-                                                      : 
-                                                     ((0x5063U 
-                                                       == 
-                                                       (0x707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x7063U 
-                                                        == 
-                                                        (0x707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x4063U 
-                                                         == 
-                                                         (0x707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x6063U 
-                                                          == 
-                                                          (0x707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x5073U 
-                                                           == 
-                                                           (0x707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 2U
-                                                           : 
-                                                          ((0x6073U 
-                                                            == 
-                                                            (0x707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 2U
-                                                            : 
-                                                           ((0x7073U 
-                                                             == 
-                                                             (0x707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 2U
-                                                             : 0U)))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_268 
-        = ((0x2033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 0U : ((0x3033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 0U : ((0x7033U == (0xfe00707fU 
-                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 0U : ((0x6033U == (0xfe00707fU 
-                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 0U : ((0x4033U 
-                                                == 
-                                                (0xfe00707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 0U
-                                                : (
-                                                   (0x40005033U 
-                                                    == 
-                                                    (0xfe00707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 0U
-                                                    : 
-                                                   ((0x5033U 
-                                                     == 
-                                                     (0xfe00707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 0U
-                                                     : 
-                                                    ((0x6fU 
-                                                      == 
-                                                      (0x7fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 1U
-                                                      : 
-                                                     ((0x67U 
-                                                       == 
-                                                       (0x707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x63U 
-                                                        == 
-                                                        (0x707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x1063U 
-                                                         == 
-                                                         (0x707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x5063U 
-                                                          == 
-                                                          (0x707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x7063U 
-                                                           == 
-                                                           (0x707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 1U
-                                                           : 
-                                                          ((0x4063U 
-                                                            == 
-                                                            (0x707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 1U
-                                                            : 
-                                                           ((0x6063U 
-                                                             == 
-                                                             (0x707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 1U
-                                                             : 0U)))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_313 
-        = ((0x6033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 0U : ((0x4033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 0U : ((0x40005033U == (0xfe00707fU 
-                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 0U : ((0x5033U == (0xfe00707fU 
-                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 0U : ((0x6fU 
-                                                == 
-                                                (0x7fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 4U
-                                                : (
-                                                   (0x67U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 4U
-                                                    : 
-                                                   ((0x63U 
-                                                     == 
-                                                     (0x707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 5U
-                                                     : 
-                                                    ((0x1063U 
-                                                      == 
-                                                      (0x707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 5U
-                                                      : 
-                                                     ((0x5063U 
-                                                       == 
-                                                       (0x707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 5U
-                                                       : 
-                                                      ((0x7063U 
-                                                        == 
-                                                        (0x707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 5U
-                                                        : 
-                                                       ((0x4063U 
-                                                         == 
-                                                         (0x707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 5U
-                                                         : 
-                                                        ((0x6063U 
-                                                          == 
-                                                          (0x707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 5U
-                                                          : 
-                                                         ((0x5073U 
-                                                           == 
-                                                           (0x707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 6U
-                                                           : 
-                                                          ((0x6073U 
-                                                            == 
-                                                            (0x707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 6U
-                                                            : 
-                                                           ((0x7073U 
-                                                             == 
-                                                             (0x707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 6U
-                                                             : 0U)))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358 
-        = ((0x5033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 4U : ((0x6fU == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 1U : ((0x67U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 1U : ((0x63U == (0x707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 1U : ((0x1063U 
-                                                == 
-                                                (0x707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 1U
-                                                : (
-                                                   (0x5063U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 1U
-                                                    : 
-                                                   ((0x7063U 
-                                                     == 
-                                                     (0x707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 1U
-                                                     : 
-                                                    ((0x4063U 
-                                                      == 
-                                                      (0x707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 1U
-                                                      : 
-                                                     ((0x6063U 
-                                                       == 
-                                                       (0x707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x5073U 
-                                                        == 
-                                                        (0x707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 0xbU
-                                                        : 
-                                                       ((0x6073U 
-                                                         == 
-                                                         (0x707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 0xbU
-                                                         : 
-                                                        ((0x7073U 
-                                                          == 
-                                                          (0x707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 0xbU
-                                                          : 
-                                                         ((0x1073U 
-                                                           == 
-                                                           (0x707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 0xbU
-                                                           : 
-                                                          ((0x2073U 
-                                                            == 
-                                                            (0x707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 0xbU
-                                                            : 
-                                                           ((0x3073U 
-                                                             == 
-                                                             (0x707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 0xbU
-                                                             : 0U)))))))))))))));
-    vlTOPp->io_debug_pc = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg;
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__next_pc 
-        = ((IData)(4U) + vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg);
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_out 
-        = ((0xcU == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-            ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2
-            : ((0xbU == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1
-                : ((4U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                    ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                       >> (0x1fU & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2))
-                    : ((5U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                        ? VL_SHIFTRS_III(32,32,5, vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1, 
-                                         (0x1fU & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2))
-                        : ((3U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                            ? (IData)((VL_ULL(0x7fffffffffffffff) 
-                                       & ((QData)((IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1)) 
-                                          << (0x1fU 
-                                              & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2))))
-                            : ((0xaU == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                                   < vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                : ((9U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                    ? VL_LTS_III(32,32,32, vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1, vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                    : ((8U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                        ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                                           ^ vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                        : ((7U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                            ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                                               | vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                            : ((6U 
-                                                == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                                ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                                                   & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                                : (
-                                                   (2U 
-                                                    == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                                    ? 
-                                                   (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                                                    - vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                                    : 
-                                                   ((1U 
-                                                     == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
-                                                     ? 
-                                                    (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
-                                                     + vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
-                                                     : 0U))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_232 
-        = ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 0U : ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 0U : ((0x6013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 0U : ((0x4013U == (0x707fU 
-                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 0U : ((0x2013U 
-                                                == 
-                                                (0x707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 0U
-                                                : (
-                                                   (0x3013U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 0U
-                                                    : 
-                                                   ((0x1013U 
-                                                     == 
-                                                     (0xfe00707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 0U
-                                                     : 
-                                                    ((0x40005013U 
-                                                      == 
-                                                      (0xfe00707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 0U
-                                                      : 
-                                                     ((0x5013U 
-                                                       == 
-                                                       (0xfe00707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 0U
-                                                       : 
-                                                      ((0x1033U 
-                                                        == 
-                                                        (0xfe00707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 0U
-                                                        : 
-                                                       ((0x33U 
-                                                         == 
-                                                         (0xfe00707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 0U
-                                                         : 
-                                                        ((0x40000033U 
-                                                          == 
-                                                          (0xfe00707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 0U
-                                                          : 
-                                                         ((0x2033U 
-                                                           == 
-                                                           (0xfe00707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 0U
-                                                           : 
-                                                          ((0x3033U 
-                                                            == 
-                                                            (0xfe00707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 0U
-                                                            : 
-                                                           ((0x7033U 
-                                                             == 
-                                                             (0xfe00707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 0U
-                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_217))))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_283 
-        = ((0x1023U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 1U : ((0x17U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 1U : ((0x37U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 1U : ((0x13U == (0x707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 1U : ((0x7013U 
-                                                == 
-                                                (0x707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 1U
-                                                : (
-                                                   (0x6013U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 1U
-                                                    : 
-                                                   ((0x4013U 
-                                                     == 
-                                                     (0x707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 1U
-                                                     : 
-                                                    ((0x2013U 
-                                                      == 
-                                                      (0x707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 1U
-                                                      : 
-                                                     ((0x3013U 
-                                                       == 
-                                                       (0x707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x1013U 
-                                                        == 
-                                                        (0xfe00707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 1U
-                                                        : 
-                                                       ((0x40005013U 
-                                                         == 
-                                                         (0xfe00707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 1U
-                                                         : 
-                                                        ((0x5013U 
-                                                          == 
-                                                          (0xfe00707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 1U
-                                                          : 
-                                                         ((0x1033U 
-                                                           == 
-                                                           (0xfe00707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 0U
-                                                           : 
-                                                          ((0x33U 
-                                                            == 
-                                                            (0xfe00707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 0U
-                                                            : 
-                                                           ((0x40000033U 
-                                                             == 
-                                                             (0xfe00707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 0U
-                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_268))))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_328 
-        = ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 1U : ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 1U : ((0x6013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 1U : ((0x4013U == (0x707fU 
-                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                       ? 1U : ((0x2013U 
-                                                == 
-                                                (0x707fU 
-                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                ? 1U
-                                                : (
-                                                   (0x3013U 
-                                                    == 
-                                                    (0x707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 1U
-                                                    : 
-                                                   ((0x1013U 
-                                                     == 
-                                                     (0xfe00707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 1U
-                                                     : 
-                                                    ((0x40005013U 
-                                                      == 
-                                                      (0xfe00707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 1U
-                                                      : 
-                                                     ((0x5013U 
-                                                       == 
-                                                       (0xfe00707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 1U
-                                                       : 
-                                                      ((0x1033U 
-                                                        == 
-                                                        (0xfe00707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 0U
-                                                        : 
-                                                       ((0x33U 
-                                                         == 
-                                                         (0xfe00707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 0U
-                                                         : 
-                                                        ((0x40000033U 
-                                                          == 
-                                                          (0xfe00707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 0U
-                                                          : 
-                                                         ((0x2033U 
-                                                           == 
-                                                           (0xfe00707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 0U
-                                                           : 
-                                                          ((0x3033U 
-                                                            == 
-                                                            (0xfe00707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 0U
-                                                            : 
-                                                           ((0x7033U 
-                                                             == 
-                                                             (0xfe00707fU 
-                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                             ? 0U
-                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_313))))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_373 
-        = ((0x4013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-            ? 8U : ((0x2013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                     ? 9U : ((0x3013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                              ? 0xaU : ((0x1013U == 
-                                         (0xfe00707fU 
-                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                         ? 3U : ((0x40005013U 
-                                                  == 
-                                                  (0xfe00707fU 
-                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                  ? 5U
-                                                  : 
-                                                 ((0x5013U 
-                                                   == 
-                                                   (0xfe00707fU 
-                                                    & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                   ? 4U
-                                                   : 
-                                                  ((0x1033U 
-                                                    == 
-                                                    (0xfe00707fU 
-                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                    ? 3U
-                                                    : 
-                                                   ((0x33U 
-                                                     == 
-                                                     (0xfe00707fU 
-                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                     ? 1U
-                                                     : 
-                                                    ((0x40000033U 
-                                                      == 
-                                                      (0xfe00707fU 
-                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                      ? 2U
-                                                      : 
-                                                     ((0x2033U 
-                                                       == 
-                                                       (0xfe00707fU 
-                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                       ? 9U
-                                                       : 
-                                                      ((0x3033U 
-                                                        == 
-                                                        (0xfe00707fU 
-                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                        ? 0xaU
-                                                        : 
-                                                       ((0x7033U 
-                                                         == 
-                                                         (0xfe00707fU 
-                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                         ? 6U
-                                                         : 
-                                                        ((0x6033U 
-                                                          == 
-                                                          (0xfe00707fU 
-                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                          ? 7U
-                                                          : 
-                                                         ((0x4033U 
-                                                           == 
-                                                           (0xfe00707fU 
-                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                           ? 8U
-                                                           : 
-                                                          ((0x40005033U 
-                                                            == 
-                                                            (0xfe00707fU 
-                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
-                                                            ? 5U
-                                                            : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358))))))))))))))));
-    vlTOPp->io_debug_alu_out = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_out;
+    vlTOPp->io_debug_pc_execute = 0U;
+    vlTOPp->io_debug_rs1_execute = 0U;
+    vlTOPp->io_debug_rs2_execute = 0U;
+    vlTOPp->io_debug_inst_execute = 0U;
+    __Vtemp1[0U] = 0x2e686578U;
+    __Vtemp1[1U] = 0x65697461U;
+    __Vtemp1[2U] = 0x6d705f6bU;
+    __Vtemp1[3U] = 0x692f7465U;
+    __Vtemp1[4U] = 0x76333275U;
+    __Vtemp1[5U] = 0x6c652f72U;
+    __Vtemp1[6U] = 0x65786669U;
+    __Vtemp1[7U] = 0x65722f68U;
+    __Vtemp1[8U] = 0x666f6c64U;
+    __Vtemp1[9U] = 0x74657374U;
+    __Vtemp1[0xaU] = 0x2e2fU;
+    VL_READMEM_N(true, 32, 32769, 0, VL_CVT_PACK_STR_NW(11, __Vtemp1)
+                 , vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox__DOT__mem
+                 , 0, ~VL_ULL(0));
 }
 
 VL_INLINE_OPT void VTile::_sequent__TOP__2(VTile__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_sequent__TOP__2\n"); );
     VTile* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Variables
+    CData/*4:0*/ __Vdlyvdim0__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0;
+    CData/*0:0*/ __Vdlyvset__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0;
+    IData/*31:0*/ __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_execute;
+    IData/*31:0*/ __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_mem;
+    IData/*31:0*/ __Vdly__Tile__DOT__core__DOT__dpath__DOT__inst_wb;
+    IData/*31:0*/ __Vdlyvval__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0;
     // Body
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute 
-        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode;
+    __Vdlyvset__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0 = 0U;
+    __Vdly__Tile__DOT__core__DOT__dpath__DOT__inst_wb 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_wb;
+    __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_mem 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_mem;
+    __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_execute 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute;
+    if (((IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_12) 
+         & (0U != (0x1fU & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_wb 
+                            >> 7U))))) {
+        __Vdlyvval__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0 
+            = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__memStage_out;
+        __Vdlyvset__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0 = 1U;
+        __Vdlyvdim0__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0 
+            = (0x1fU & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_wb 
+                        >> 7U));
+    }
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3 
         = ((0x2003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
             ? 1U : ((3U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
@@ -830,18 +196,6 @@ VL_INLINE_OPT void VTile::_sequent__TOP__2(VTile__Syms* __restrict vlSymsp) {
                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
                                                            ? 7U
                                                            : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_373))))))))))))));
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs1_execute 
-        = ((0U != (0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
-                            >> 0xfU))) ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
-           [(0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
-                      >> 0xfU))] : 0U);
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
-        = vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI;
-    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute 
-        = ((0U != (0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
-                            >> 0x14U))) ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
-           [(0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
-                      >> 0x14U))] : 0U);
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG = 
         ((0x2003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
           ? 0U : ((3U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
@@ -946,12 +300,77 @@ VL_INLINE_OPT void VTile::_sequent__TOP__2(VTile__Syms* __restrict vlSymsp) {
                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
                                                         ? 3U
                                                         : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_328)))))))))));
+    __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_execute 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode;
+    __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_mem 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute;
+    __Vdly__Tile__DOT__core__DOT__dpath__DOT__inst_wb 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_mem;
+    if ((1U & (~ (IData)(vlTOPp->reset)))) {
+        if (VL_UNLIKELY((1U & (~ (IData)(vlTOPp->reset))))) {
+            VL_FWRITEF(0x80000002U,"pc_reg=[%x], pc_decode=[%x], inst=[%x] pc_execute=[%x], rs1_execute=[%x] rs2_execute=[%x] inst_execute=[%x] pc_mem=[%x], alu_out=[%x], rs2_mem=[%x], inst_mem=[%x] memStage_out=[%x], inst_wb=[%x] reg_a0=[%x] temp=[%x] \n",
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode,
+                       32,vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs1_execute,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_mem,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__alu_out_mem,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_mem,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_mem,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__memStage_out,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_wb,
+                       32,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+                       [0xaU],1,vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlWB_rf_wen);
+        }
+    }
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode 
         = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_mem 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_mem 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__memStage_out 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__alu_out_mem;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_mem 
+        = __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_mem;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_wb 
+        = __Vdly__Tile__DOT__core__DOT__dpath__DOT__inst_wb;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute 
+        = __Vdly__Tile__DOT__core__DOT__dpath__DOT__pc_execute;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_12 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_11;
+    vlTOPp->io_debug_pc_decode = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__alu_out_mem 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_out;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+        = vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs1_execute 
+        = ((0U != (0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
+                            >> 0xfU))) ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+           [(0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
+                      >> 0xfU))] : 0U);
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute 
+        = ((0U != (0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
+                            >> 0x14U))) ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+           [(0x1fU & (vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI 
+                      >> 0x14U))] : 0U);
+    if (__Vdlyvset__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0) {
+        vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile[__Vdlyvdim0__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0] 
+            = __Vdlyvval__Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile__v0;
+    }
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_11 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_7;
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
         = ((0U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG))
             ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs1_execute
             : vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute);
+    vlTOPp->io_debug_reg_a0 = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+        [0xaU];
+    vlTOPp->io_led_out = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+        [0xaU];
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2 
         = ((0U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_1))
             ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute
@@ -1041,7 +460,8 @@ VL_INLINE_OPT void VTile::_sequent__TOP__2(VTile__Syms* __restrict vlSymsp) {
                                                     (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
                                                      + vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
                                                      : 0U))))))))))));
-    vlTOPp->io_debug_pc_decode = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_7 
+        = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlWB_rf_wen;
     vlTOPp->io_debug_alu_out = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_out;
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg 
         = ((IData)(vlTOPp->reset) ? 0U : vlTOPp->Tile__DOT__core__DOT__dpath__DOT__next_pc);
@@ -1337,6 +757,50 @@ VL_INLINE_OPT void VTile::_sequent__TOP__2(VTile__Syms* __restrict vlSymsp) {
                                                               & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
                                                              ? 0xbU
                                                              : 0U)))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_457 
+        = ((0x6033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+           | ((0x4033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+              | ((0x40005033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                 | ((0x5033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                    | ((0x6fU == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                       | ((0x67U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                          | ((0x63U != (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                             & ((0x1063U != (0x707fU 
+                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                & ((0x5063U != (0x707fU 
+                                                & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                   & ((0x7063U != (0x707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                      & ((0x4063U != 
+                                          (0x707fU 
+                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                         & ((0x6063U 
+                                             != (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                            & ((0x5073U 
+                                                == 
+                                                (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                               | ((0x6073U 
+                                                   == 
+                                                   (0x707fU 
+                                                    & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                  | ((0x7073U 
+                                                      == 
+                                                      (0x707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                     | ((0x1073U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                        | ((0x2073U 
+                                                            == 
+                                                            (0x707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                           | (0x3073U 
+                                                              == 
+                                                              (0x707fU 
+                                                               & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)))))))))))))))))));
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_232 
         = ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
             ? 0U : ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
@@ -1626,31 +1090,843 @@ VL_INLINE_OPT void VTile::_sequent__TOP__2(VTile__Syms* __restrict vlSymsp) {
                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
                                                             ? 5U
                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358))))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_474 
+        = ((0x17U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+           | ((0x37U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+              | ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                 | ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                    | ((0x6013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                       | ((0x4013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                          | ((0x2013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                             | ((0x3013U == (0x707fU 
+                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                | ((0x1013U == (0xfe00707fU 
+                                                & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                   | ((0x40005013U 
+                                       == (0xfe00707fU 
+                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                      | ((0x5013U == 
+                                          (0xfe00707fU 
+                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                         | ((0x1033U 
+                                             == (0xfe00707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                            | ((0x33U 
+                                                == 
+                                                (0xfe00707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                               | ((0x40000033U 
+                                                   == 
+                                                   (0xfe00707fU 
+                                                    & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                  | ((0x2033U 
+                                                      == 
+                                                      (0xfe00707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                     | ((0x3033U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                        | ((0x7033U 
+                                                            == 
+                                                            (0xfe00707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                           | (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_457))))))))))))))))));
     vlTOPp->io_debug_pc = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg;
     vlTOPp->Tile__DOT__core__DOT__dpath__DOT__next_pc 
         = ((IData)(4U) + vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg);
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlWB_rf_wen 
+        = ((0x2003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+           | ((3U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+              | ((0x4003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                 | ((0x1003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                    | ((0x5003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                       | ((0x2023U != (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                          & ((0x23U != (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                             & ((0x1023U != (0x707fU 
+                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                & (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_474)))))))));
 }
 
-void VTile::_initial__TOP__3(VTile__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_initial__TOP__3\n"); );
+void VTile::_settle__TOP__3(VTile__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_settle__TOP__3\n"); );
     VTile* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Variables
-    WData/*351:0*/ __Vtemp1[11];
     // Body
-    __Vtemp1[0U] = 0x2e686578U;
-    __Vtemp1[1U] = 0x65697461U;
-    __Vtemp1[2U] = 0x6d705f6bU;
-    __Vtemp1[3U] = 0x692f7465U;
-    __Vtemp1[4U] = 0x76333275U;
-    __Vtemp1[5U] = 0x6c652f72U;
-    __Vtemp1[6U] = 0x65786669U;
-    __Vtemp1[7U] = 0x65722f68U;
-    __Vtemp1[8U] = 0x666f6c64U;
-    __Vtemp1[9U] = 0x74657374U;
-    __Vtemp1[0xaU] = 0x2e2fU;
-    VL_READMEM_N(true, 32, 32769, 0, VL_CVT_PACK_STR_NW(11, __Vtemp1)
-                 , vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox__DOT__mem
-                 , 0, ~VL_ULL(0));
+    vlTOPp->io_debug_pc_decode = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_decode;
+    vlTOPp->io_debug_reg_a0 = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+        [0xaU];
+    vlTOPp->io_led_out = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile
+        [0xaU];
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+        = ((0U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG))
+            ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs1_execute
+            : vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_execute);
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2 
+        = ((0U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_1))
+            ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__rs2_execute
+            : ((4U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
+                ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
+                      ? 0xfffU : 0U) << 0x14U) | ((0xff000U 
+                                                   & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute) 
+                                                  | ((0x800U 
+                                                      & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                                         >> 9U)) 
+                                                     | (0x7feU 
+                                                        & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                                           >> 0x14U)))))
+                : ((3U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
+                    ? (0xfffff000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
+                    : ((5U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
+                        ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
+                              ? 0x7ffffU : 0U) << 0xdU) 
+                           | ((0x1000U & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                          << 5U)) | 
+                              ((0xfe0U & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                          >> 0x14U)) 
+                               | (0x1eU & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                           >> 7U)))))
+                        : ((2U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
+                            ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
+                                  ? 0xfffffU : 0U) 
+                                << 0xcU) | ((0xfe0U 
+                                             & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                                >> 0x14U)) 
+                                            | (0x1fU 
+                                               & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                                  >> 7U))))
+                            : ((1U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_2))
+                                ? ((((0x80000000U & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute)
+                                      ? 0xfffffU : 0U) 
+                                    << 0xcU) | (0xfffU 
+                                                & (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__inst_execute 
+                                                   >> 0x14U)))
+                                : 0U))))));
+    vlTOPp->io_debug_inst = vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_217 
+        = ((0x6033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 0U : ((0x4033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 0U : ((0x40005033U == (0xfe00707fU 
+                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 0U : ((0x5033U == (0xfe00707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 0U : ((0x6fU 
+                                                == 
+                                                (0x7fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 1U
+                                                : (
+                                                   (0x67U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 0U
+                                                    : 
+                                                   ((0x63U 
+                                                     == 
+                                                     (0x707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 1U
+                                                     : 
+                                                    ((0x1063U 
+                                                      == 
+                                                      (0x707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 1U
+                                                      : 
+                                                     ((0x5063U 
+                                                       == 
+                                                       (0x707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 1U
+                                                       : 
+                                                      ((0x7063U 
+                                                        == 
+                                                        (0x707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 1U
+                                                        : 
+                                                       ((0x4063U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 1U
+                                                         : 
+                                                        ((0x6063U 
+                                                          == 
+                                                          (0x707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 1U
+                                                          : 
+                                                         ((0x5073U 
+                                                           == 
+                                                           (0x707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 2U
+                                                           : 
+                                                          ((0x6073U 
+                                                            == 
+                                                            (0x707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 2U
+                                                            : 
+                                                           ((0x7073U 
+                                                             == 
+                                                             (0x707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 2U
+                                                             : 0U)))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_268 
+        = ((0x2033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 0U : ((0x3033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 0U : ((0x7033U == (0xfe00707fU 
+                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 0U : ((0x6033U == (0xfe00707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 0U : ((0x4033U 
+                                                == 
+                                                (0xfe00707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 0U
+                                                : (
+                                                   (0x40005033U 
+                                                    == 
+                                                    (0xfe00707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 0U
+                                                    : 
+                                                   ((0x5033U 
+                                                     == 
+                                                     (0xfe00707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 0U
+                                                     : 
+                                                    ((0x6fU 
+                                                      == 
+                                                      (0x7fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 1U
+                                                      : 
+                                                     ((0x67U 
+                                                       == 
+                                                       (0x707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 1U
+                                                       : 
+                                                      ((0x63U 
+                                                        == 
+                                                        (0x707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 1U
+                                                        : 
+                                                       ((0x1063U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 1U
+                                                         : 
+                                                        ((0x5063U 
+                                                          == 
+                                                          (0x707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 1U
+                                                          : 
+                                                         ((0x7063U 
+                                                           == 
+                                                           (0x707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 1U
+                                                           : 
+                                                          ((0x4063U 
+                                                            == 
+                                                            (0x707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 1U
+                                                            : 
+                                                           ((0x6063U 
+                                                             == 
+                                                             (0x707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 1U
+                                                             : 0U)))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_313 
+        = ((0x6033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 0U : ((0x4033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 0U : ((0x40005033U == (0xfe00707fU 
+                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 0U : ((0x5033U == (0xfe00707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 0U : ((0x6fU 
+                                                == 
+                                                (0x7fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 4U
+                                                : (
+                                                   (0x67U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 4U
+                                                    : 
+                                                   ((0x63U 
+                                                     == 
+                                                     (0x707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 5U
+                                                     : 
+                                                    ((0x1063U 
+                                                      == 
+                                                      (0x707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 5U
+                                                      : 
+                                                     ((0x5063U 
+                                                       == 
+                                                       (0x707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 5U
+                                                       : 
+                                                      ((0x7063U 
+                                                        == 
+                                                        (0x707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 5U
+                                                        : 
+                                                       ((0x4063U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 5U
+                                                         : 
+                                                        ((0x6063U 
+                                                          == 
+                                                          (0x707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 5U
+                                                          : 
+                                                         ((0x5073U 
+                                                           == 
+                                                           (0x707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 6U
+                                                           : 
+                                                          ((0x6073U 
+                                                            == 
+                                                            (0x707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 6U
+                                                            : 
+                                                           ((0x7073U 
+                                                             == 
+                                                             (0x707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 6U
+                                                             : 0U)))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358 
+        = ((0x5033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 4U : ((0x6fU == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 1U : ((0x67U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 1U : ((0x63U == (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 1U : ((0x1063U 
+                                                == 
+                                                (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 1U
+                                                : (
+                                                   (0x5063U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 1U
+                                                    : 
+                                                   ((0x7063U 
+                                                     == 
+                                                     (0x707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 1U
+                                                     : 
+                                                    ((0x4063U 
+                                                      == 
+                                                      (0x707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 1U
+                                                      : 
+                                                     ((0x6063U 
+                                                       == 
+                                                       (0x707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 1U
+                                                       : 
+                                                      ((0x5073U 
+                                                        == 
+                                                        (0x707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 0xbU
+                                                        : 
+                                                       ((0x6073U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 0xbU
+                                                         : 
+                                                        ((0x7073U 
+                                                          == 
+                                                          (0x707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 0xbU
+                                                          : 
+                                                         ((0x1073U 
+                                                           == 
+                                                           (0x707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 0xbU
+                                                           : 
+                                                          ((0x2073U 
+                                                            == 
+                                                            (0x707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 0xbU
+                                                            : 
+                                                           ((0x3073U 
+                                                             == 
+                                                             (0x707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 0xbU
+                                                             : 0U)))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_457 
+        = ((0x6033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+           | ((0x4033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+              | ((0x40005033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                 | ((0x5033U == (0xfe00707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                    | ((0x6fU == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                       | ((0x67U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                          | ((0x63U != (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                             & ((0x1063U != (0x707fU 
+                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                & ((0x5063U != (0x707fU 
+                                                & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                   & ((0x7063U != (0x707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                      & ((0x4063U != 
+                                          (0x707fU 
+                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                         & ((0x6063U 
+                                             != (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                            & ((0x5073U 
+                                                == 
+                                                (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                               | ((0x6073U 
+                                                   == 
+                                                   (0x707fU 
+                                                    & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                  | ((0x7073U 
+                                                      == 
+                                                      (0x707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                     | ((0x1073U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                        | ((0x2073U 
+                                                            == 
+                                                            (0x707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                           | (0x3073U 
+                                                              == 
+                                                              (0x707fU 
+                                                               & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)))))))))))))))))));
+    vlTOPp->io_debug_pc = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__next_pc 
+        = ((IData)(4U) + vlTOPp->Tile__DOT__core__DOT__dpath__DOT__pc_reg);
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_out 
+        = ((0xcU == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+            ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2
+            : ((0xbU == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                ? vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1
+                : ((4U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                    ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                       >> (0x1fU & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2))
+                    : ((5U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                        ? VL_SHIFTRS_III(32,32,5, vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1, 
+                                         (0x1fU & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2))
+                        : ((3U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                            ? (IData)((VL_ULL(0x7fffffffffffffff) 
+                                       & ((QData)((IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1)) 
+                                          << (0x1fU 
+                                              & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2))))
+                            : ((0xaU == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                                   < vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                : ((9U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                    ? VL_LTS_III(32,32,32, vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1, vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                    : ((8U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                        ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                                           ^ vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                        : ((7U == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                            ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                                               | vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                            : ((6U 
+                                                == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                                ? (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                                                   & vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                                : (
+                                                   (2U 
+                                                    == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                                    ? 
+                                                   (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                                                    - vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                                    : 
+                                                   ((1U 
+                                                     == (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__REG_3))
+                                                     ? 
+                                                    (vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 
+                                                     + vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2)
+                                                     : 0U))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_232 
+        = ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 0U : ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 0U : ((0x6013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 0U : ((0x4013U == (0x707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 0U : ((0x2013U 
+                                                == 
+                                                (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 0U
+                                                : (
+                                                   (0x3013U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 0U
+                                                    : 
+                                                   ((0x1013U 
+                                                     == 
+                                                     (0xfe00707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 0U
+                                                     : 
+                                                    ((0x40005013U 
+                                                      == 
+                                                      (0xfe00707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 0U
+                                                      : 
+                                                     ((0x5013U 
+                                                       == 
+                                                       (0xfe00707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 0U
+                                                       : 
+                                                      ((0x1033U 
+                                                        == 
+                                                        (0xfe00707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 0U
+                                                        : 
+                                                       ((0x33U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 0U
+                                                         : 
+                                                        ((0x40000033U 
+                                                          == 
+                                                          (0xfe00707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 0U
+                                                          : 
+                                                         ((0x2033U 
+                                                           == 
+                                                           (0xfe00707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 0U
+                                                           : 
+                                                          ((0x3033U 
+                                                            == 
+                                                            (0xfe00707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 0U
+                                                            : 
+                                                           ((0x7033U 
+                                                             == 
+                                                             (0xfe00707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 0U
+                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_217))))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_283 
+        = ((0x1023U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 1U : ((0x17U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 1U : ((0x37U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 1U : ((0x13U == (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 1U : ((0x7013U 
+                                                == 
+                                                (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 1U
+                                                : (
+                                                   (0x6013U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 1U
+                                                    : 
+                                                   ((0x4013U 
+                                                     == 
+                                                     (0x707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 1U
+                                                     : 
+                                                    ((0x2013U 
+                                                      == 
+                                                      (0x707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 1U
+                                                      : 
+                                                     ((0x3013U 
+                                                       == 
+                                                       (0x707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 1U
+                                                       : 
+                                                      ((0x1013U 
+                                                        == 
+                                                        (0xfe00707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 1U
+                                                        : 
+                                                       ((0x40005013U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 1U
+                                                         : 
+                                                        ((0x5013U 
+                                                          == 
+                                                          (0xfe00707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 1U
+                                                          : 
+                                                         ((0x1033U 
+                                                           == 
+                                                           (0xfe00707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 0U
+                                                           : 
+                                                          ((0x33U 
+                                                            == 
+                                                            (0xfe00707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 0U
+                                                            : 
+                                                           ((0x40000033U 
+                                                             == 
+                                                             (0xfe00707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 0U
+                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_268))))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_328 
+        = ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 1U : ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 1U : ((0x6013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 1U : ((0x4013U == (0x707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                       ? 1U : ((0x2013U 
+                                                == 
+                                                (0x707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                ? 1U
+                                                : (
+                                                   (0x3013U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 1U
+                                                    : 
+                                                   ((0x1013U 
+                                                     == 
+                                                     (0xfe00707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 1U
+                                                     : 
+                                                    ((0x40005013U 
+                                                      == 
+                                                      (0xfe00707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 1U
+                                                      : 
+                                                     ((0x5013U 
+                                                       == 
+                                                       (0xfe00707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 1U
+                                                       : 
+                                                      ((0x1033U 
+                                                        == 
+                                                        (0xfe00707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 0U
+                                                        : 
+                                                       ((0x33U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 0U
+                                                         : 
+                                                        ((0x40000033U 
+                                                          == 
+                                                          (0xfe00707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 0U
+                                                          : 
+                                                         ((0x2033U 
+                                                           == 
+                                                           (0xfe00707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 0U
+                                                           : 
+                                                          ((0x3033U 
+                                                            == 
+                                                            (0xfe00707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 0U
+                                                            : 
+                                                           ((0x7033U 
+                                                             == 
+                                                             (0xfe00707fU 
+                                                              & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                             ? 0U
+                                                             : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_313))))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_373 
+        = ((0x4013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+            ? 8U : ((0x2013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                     ? 9U : ((0x3013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                              ? 0xaU : ((0x1013U == 
+                                         (0xfe00707fU 
+                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                         ? 3U : ((0x40005013U 
+                                                  == 
+                                                  (0xfe00707fU 
+                                                   & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                  ? 5U
+                                                  : 
+                                                 ((0x5013U 
+                                                   == 
+                                                   (0xfe00707fU 
+                                                    & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                   ? 4U
+                                                   : 
+                                                  ((0x1033U 
+                                                    == 
+                                                    (0xfe00707fU 
+                                                     & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                    ? 3U
+                                                    : 
+                                                   ((0x33U 
+                                                     == 
+                                                     (0xfe00707fU 
+                                                      & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                     ? 1U
+                                                     : 
+                                                    ((0x40000033U 
+                                                      == 
+                                                      (0xfe00707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                      ? 2U
+                                                      : 
+                                                     ((0x2033U 
+                                                       == 
+                                                       (0xfe00707fU 
+                                                        & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                       ? 9U
+                                                       : 
+                                                      ((0x3033U 
+                                                        == 
+                                                        (0xfe00707fU 
+                                                         & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                        ? 0xaU
+                                                        : 
+                                                       ((0x7033U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                         ? 6U
+                                                         : 
+                                                        ((0x6033U 
+                                                          == 
+                                                          (0xfe00707fU 
+                                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                          ? 7U
+                                                          : 
+                                                         ((0x4033U 
+                                                           == 
+                                                           (0xfe00707fU 
+                                                            & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                           ? 8U
+                                                           : 
+                                                          ((0x40005033U 
+                                                            == 
+                                                            (0xfe00707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI))
+                                                            ? 5U
+                                                            : (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358))))))))))))))));
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_474 
+        = ((0x17U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+           | ((0x37U == (0x7fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+              | ((0x13U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                 | ((0x7013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                    | ((0x6013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                       | ((0x4013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                          | ((0x2013U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                             | ((0x3013U == (0x707fU 
+                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                | ((0x1013U == (0xfe00707fU 
+                                                & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                   | ((0x40005013U 
+                                       == (0xfe00707fU 
+                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                      | ((0x5013U == 
+                                          (0xfe00707fU 
+                                           & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                         | ((0x1033U 
+                                             == (0xfe00707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                            | ((0x33U 
+                                                == 
+                                                (0xfe00707fU 
+                                                 & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                               | ((0x40000033U 
+                                                   == 
+                                                   (0xfe00707fU 
+                                                    & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                  | ((0x2033U 
+                                                      == 
+                                                      (0xfe00707fU 
+                                                       & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                     | ((0x3033U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                        | ((0x7033U 
+                                                            == 
+                                                            (0xfe00707fU 
+                                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                                           | (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_457))))))))))))))))));
+    vlTOPp->io_debug_alu_out = vlTOPp->Tile__DOT__core__DOT__dpath__DOT__aLU_io_out;
+    vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlWB_rf_wen 
+        = ((0x2003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+           | ((3U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+              | ((0x4003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                 | ((0x1003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                    | ((0x5003U == (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                       | ((0x2023U != (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                          & ((0x23U != (0x707fU & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                             & ((0x1023U != (0x707fU 
+                                             & vlTOPp->Tile__DOT__bram__DOT__syncmemblackbox_rdataI)) 
+                                & (IData)(vlTOPp->Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_474)))))))));
 }
 
 void VTile::_eval(VTile__Syms* __restrict vlSymsp) {
@@ -1668,8 +1944,8 @@ void VTile::_eval_initial(VTile__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_eval_initial\n"); );
     VTile* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
+    vlTOPp->_initial__TOP__1(vlSymsp);
     vlTOPp->__Vclklast__TOP__clock = vlTOPp->clock;
-    vlTOPp->_initial__TOP__3(vlSymsp);
 }
 
 void VTile::final() {
@@ -1683,7 +1959,7 @@ void VTile::_eval_settle(VTile__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VTile::_eval_settle\n"); );
     VTile* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->_settle__TOP__1(vlSymsp);
+    vlTOPp->_settle__TOP__3(vlSymsp);
 }
 
 VL_INLINE_OPT QData VTile::_change_request(VTile__Syms* __restrict vlSymsp) {
@@ -1714,12 +1990,18 @@ void VTile::_ctor_var_reset() {
     io_debug_pc = VL_RAND_RESET_I(32);
     io_debug_pc_decode = VL_RAND_RESET_I(32);
     io_debug_inst = VL_RAND_RESET_I(32);
+    io_debug_pc_execute = VL_RAND_RESET_I(32);
+    io_debug_rs1_execute = VL_RAND_RESET_I(32);
+    io_debug_rs2_execute = VL_RAND_RESET_I(32);
+    io_debug_inst_execute = VL_RAND_RESET_I(32);
     io_debug_reg_a0 = VL_RAND_RESET_I(32);
     io_debug_alu_out = VL_RAND_RESET_I(32);
+    io_led_out = VL_RAND_RESET_I(32);
     Tile__DOT__bram__DOT__syncmemblackbox_rdataI = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<32769; ++__Vi0) {
             Tile__DOT__bram__DOT__syncmemblackbox__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
     }}
+    Tile__DOT__core__DOT__dpath__DOT__ctrlUnit_io_ctrlWB_rf_wen = VL_RAND_RESET_I(1);
     Tile__DOT__core__DOT__dpath__DOT__aLU_io_op1 = VL_RAND_RESET_I(32);
     Tile__DOT__core__DOT__dpath__DOT__aLU_io_op2 = VL_RAND_RESET_I(32);
     Tile__DOT__core__DOT__dpath__DOT__aLU_io_out = VL_RAND_RESET_I(32);
@@ -1734,6 +2016,15 @@ void VTile::_ctor_var_reset() {
     Tile__DOT__core__DOT__dpath__DOT__REG_1 = VL_RAND_RESET_I(2);
     Tile__DOT__core__DOT__dpath__DOT__REG_2 = VL_RAND_RESET_I(3);
     Tile__DOT__core__DOT__dpath__DOT__REG_3 = VL_RAND_RESET_I(4);
+    Tile__DOT__core__DOT__dpath__DOT__REG_7 = VL_RAND_RESET_I(1);
+    Tile__DOT__core__DOT__dpath__DOT__pc_mem = VL_RAND_RESET_I(32);
+    Tile__DOT__core__DOT__dpath__DOT__inst_mem = VL_RAND_RESET_I(32);
+    Tile__DOT__core__DOT__dpath__DOT__alu_out_mem = VL_RAND_RESET_I(32);
+    Tile__DOT__core__DOT__dpath__DOT__rs2_mem = VL_RAND_RESET_I(32);
+    Tile__DOT__core__DOT__dpath__DOT__REG_11 = VL_RAND_RESET_I(1);
+    Tile__DOT__core__DOT__dpath__DOT__REG_12 = VL_RAND_RESET_I(1);
+    Tile__DOT__core__DOT__dpath__DOT__inst_wb = VL_RAND_RESET_I(32);
+    Tile__DOT__core__DOT__dpath__DOT__memStage_out = VL_RAND_RESET_I(32);
     Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_217 = VL_RAND_RESET_I(2);
     Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_232 = VL_RAND_RESET_I(2);
     Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_268 = VL_RAND_RESET_I(2);
@@ -1742,6 +2033,8 @@ void VTile::_ctor_var_reset() {
     Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_328 = VL_RAND_RESET_I(3);
     Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_358 = VL_RAND_RESET_I(4);
     Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_373 = VL_RAND_RESET_I(4);
+    Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_457 = VL_RAND_RESET_I(1);
+    Tile__DOT__core__DOT__dpath__DOT__ctrlUnit__DOT___T_474 = VL_RAND_RESET_I(1);
     { int __Vi0=0; for (; __Vi0<32; ++__Vi0) {
             Tile__DOT__core__DOT__dpath__DOT__regFile__DOT__regfile[__Vi0] = VL_RAND_RESET_I(32);
     }}

@@ -23,8 +23,13 @@ class Tile_api_t: public sim_api_t<VerilatorDataWrapper*> {
 
         sim_data.inputs.push_back(new VerilatorCData(&(dut->clock)));
         sim_data.inputs.push_back(new VerilatorCData(&(dut->reset)));
+        sim_data.outputs.push_back(new VerilatorIData(&(dut->io_led_out)));
         sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_alu_out)));
         sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_reg_a0)));
+        sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_inst_execute)));
+        sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_rs2_execute)));
+        sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_rs1_execute)));
+        sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_pc_execute)));
         sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_inst)));
         sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_pc_decode)));
         sim_data.outputs.push_back(new VerilatorIData(&(dut->io_debug_pc)));

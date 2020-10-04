@@ -116,5 +116,11 @@ class ControlUnit extends Module{
   io.ctrlEX.op1_sel := cs_op1_sel
   io.ctrlEX.op2_sel := cs_op2_sel
 
+  // メモリステージ
+
+
+  // ライトバック
+  io.ctrlWB.rf_wen := cs_rf_wen
+
 
 }

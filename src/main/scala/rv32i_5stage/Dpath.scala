@@ -104,7 +104,6 @@ class Dpath(implicit val conf:Configurations) extends Module{
   regFile.io.waddr := inst_wb(RD_MSB, RD_LSB)
   regFile.io.wdata := memStage_out
   regFile.io.wen := ctrl_wb_wbStage.rf_wen
-    ctrlUnit.io.ctrlWB.rf_wen
 
 
   // *** DEBUG ************************************************************************************
@@ -114,6 +113,24 @@ class Dpath(implicit val conf:Configurations) extends Module{
   io.debug.reg_a0 := regFile.io.reg_a0
   io.debug.inst := inst
   io.debug.alu_out := aLU.io.out
+
+  printf("pc_reg=[%x], " +
+    "pc_decode=[%x], inst=[%x] " +
+    "pc_execute=[%x], rs1_execute=[%x] rs2_execute=[%x] inst_execute=[%x] " +
+    "pc_mem=[%x], alu_out=[%x], rs2_mem=[%x], inst_mem=[%x] " +
+    "memStage_out=[%x], inst_wb=[%x] " +
+    "reg_a0=[%x] " +
+    "temp=[%x] " +
+    "\n"
+
+    , pc_reg
+    , pc_decode, inst
+    , pc_execute, rs1_execute, rs2_execute, inst_execute
+    , pc_mem, alu_out_mem, rs2_mem, inst_mem
+    , memStage_out, inst_wb
+    , regFile.io.reg_a0
+    , ctrlUnit.io.ctrlWB.rf_wen
+  )
 }
 
 

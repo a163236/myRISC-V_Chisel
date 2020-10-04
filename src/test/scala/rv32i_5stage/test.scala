@@ -22,16 +22,16 @@ class test() extends FlatSpec with ChiselScalatestTester with Matchers {
     test(new Tile()).withAnnotations(Seq(VerilatorBackendAnnotation)){c=>
 
       for(i <- 0 to 10){
-
+        /*
         println(
           c.io.debug.pc.peek()
           ,c.io.debug.pc_decode.peek()
           ,c.io.debug.inst.peek()
           ,c.io.debug.alu_out.peek()
           ,c.io.debug.reg_a0.peek()
-
         )
 
+         */
         c.clock.step(1)
       }
 
