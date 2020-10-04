@@ -5,7 +5,7 @@ import common._
 
 class Tile(implicit val conf: Configurations) extends Module{
   val io = IO(new Bundle() {
-    val debug = new DebugIO()
+    //val debug = new DebugIO()
     val led = new LEDDebugIO()
   })
   io := DontCare
