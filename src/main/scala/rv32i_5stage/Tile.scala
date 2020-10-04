@@ -19,6 +19,6 @@ class Tile(implicit val conf: Configurations) extends Module{
   bram.io.datamport <> core.io.dmem
 
   // デバッグ
-  io.debug <> core.io.debug
+  //io.debug <> core.io.debug
   io.led.out := core.io.led.out
 }
