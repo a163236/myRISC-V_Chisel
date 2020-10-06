@@ -2,21 +2,21 @@ package common
 
 import chisel3._
 
-class RegisterFileIO(implicit val conf: Configurations) extends Bundle{
+class RegisterFileIO extends Bundle{
   val rs1_addr, rs2_addr = Input(UInt(5.W))
-  val rs1_data, rs2_data = Output(UInt(conf.xlen.W))
+  val rs1_data, rs2_data = Output(UInt(32.W))
 
   val waddr = Input(UInt(5.W))          // 書き込みアドレス
-  val wdata = Input(UInt(conf.xlen.W))  // 書き込みデータ
+  val wdata = Input(UInt(32.W))  // 書き込みデータ
   val wen   = Input(Bool())             // 書き込み有効
 
   val reg_a0 = Output(UInt(32.W)) // debug用 gpレジスタの値
 }
 
-class RegisterFile(implicit val conf: Configurations) extends Module{
+class RegisterFile extends Module{
   val io = IO(new RegisterFileIO)
 
-  val regfile = Mem(conf.xprlen, UInt(conf.xlen.W))
+  val regfile = Mem(32, UInt(32.W))
 
   when(io.wen && (io.waddr=/=0.U)){ // 書き込み有効かつ0レジスタ以外なら
     regfile(io.waddr) := io.wdata

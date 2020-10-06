@@ -1,6 +1,7 @@
 package rv32i_5stage.PipelineStages
 
 import chisel3._
+import rv32i_5stage._
 import rv32i_5stage.PipelineRegisters._
 
 class MEM_STAGE_IO extends Bundle{

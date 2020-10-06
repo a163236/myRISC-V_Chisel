@@ -28,7 +28,7 @@ class Core(implicit val conf: Configurations) extends Module{
 
 
   // デバッグ
-  io.debug.reg_a0 := Dpath.io.debug.reg_a0
+  //io.debug.reg_a0 := Dpath.io.debug.reg_a0
 
   // 内部接続
   Dpath.io.ctl <> Cpath.io.ctl        // データパス <> コントローラ

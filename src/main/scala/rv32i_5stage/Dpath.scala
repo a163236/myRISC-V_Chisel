@@ -22,13 +22,12 @@ class Dpath(implicit val conf:Configurations) extends Module{
   // https://inst.eecs.berkeley.edu/~cs61c/resources/su18_lec/Lecture13.pdf
   // まずは使うModule宣言
 
-  val ctrlUnit = Module(new ControlUnit())
   val aLU     = Module(new ALU())
   val immGen  = Module(new ImmGen())
   val regFile = Module(new RegisterFile())
   val branchComp = Module(new BranchComp())
   // 初期化
-  ctrlUnit.io:=DontCare; aLU.io:=DontCare; immGen.io:=DontCare;
+  aLU.io:=DontCare; immGen.io:=DontCare;
   regFile.io:=DontCare; branchComp.io:=DontCare
 
   //==============================================
@@ -54,10 +53,17 @@ class Dpath(implicit val conf:Configurations) extends Module{
   memwb_regs.io.in := mem_stage.io.out
   wb_stage.io.in := memwb_regs.io.out
 
-  io.debug.pc := wb_stage.io.out
+  // 命令メモリ接続
+  io.imem <> if_stage.io.imem
+
+  // レジスタファイル接続
+  id_stage.io := DontCare
+  regFile.io.rs1_addr := id_stage.io.registerFileIO.rs1_addr
+  regFile.io.rs2_addr := id_stage.io.registerFileIO.rs2_addr
+
+  io.led.out := regFile.io.reg_a0
 
   /*
-
   // *** DEBUG ************************************************************************************
   io.led.out := regFile.io.reg_a0
   io.debug.pc := pc_reg
