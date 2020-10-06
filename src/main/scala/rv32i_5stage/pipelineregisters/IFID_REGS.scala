@@ -2,18 +2,13 @@ package rv32i_5stage.pipelineregisters
 
 import chisel3._
 
-class IFID_REGS_Input extends Bundle{
-  val pc = Input(UInt(32.W))
-  val inst = Input(UInt(32.W))
-}
-
 class IFID_REGS_Output extends Bundle{
   val pc = Output(UInt(32.W))
   val inst = Output(UInt(32.W))
 }
 
 class IFID_REGS_IO extends Bundle{
-  val in = new IFID_REGS_Input
+  val in = Flipped(new IFID_REGS_Output)
   val out = new IFID_REGS_Output
 }
 
