@@ -1,4 +1,4 @@
-package rv32i_5stage.pipelineregisters
+package rv32i_5stage.PipelineRegisters
 
 import chisel3._
 import rv32i_5stage._

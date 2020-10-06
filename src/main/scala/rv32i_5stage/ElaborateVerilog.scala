@@ -1,7 +1,8 @@
 package rv32i_5stage
 
 import common.Configurations
-import rv32i_5stage.pipelineregisters._
+import rv32i_5stage.PipelineRegisters._
+import rv32i_5stage.PipelineStages._
 
 object ElaborateVerilog extends App{
 
@@ -10,7 +11,7 @@ object ElaborateVerilog extends App{
 
   implicit val conf = Configurations()
 
-  val verilogString = (new chisel3.stage.ChiselStage).emitVerilog(new MEMWB_REGS)
+  val verilogString = (new chisel3.stage.ChiselStage).emitVerilog(new Dpath())
   //val verilog = new FileWriter(new File(dir, s"main.v"))
   //verilog write verilogString
   //verilog.close()
