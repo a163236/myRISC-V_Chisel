@@ -5,6 +5,7 @@ import chisel3.util._
 import common._
 import CommonPackage._
 import treadle.executable.MuxLongs
+import rv32i_5stage.pipelineregisters._
 
 class DpathIO(implicit val conf:Configurations) extends Bundle(){
   val imem = new InstMemPortIO()  // 命令メモリIO
@@ -55,9 +56,9 @@ class Dpath(implicit val conf:Configurations) extends Module{
   rs1_execute := regFile.io.rs1_data
   val rs2_execute = Reg(UInt(32.W))
   rs2_execute := regFile.io.rs2_data
-  val ctrl_execute_executeStage = new ctrl_execute
-  val ctrl_mem_executeStage = new ctrl_mem
-  val ctrl_wb_executeStage = new ctrl_wb
+  val ctrl_execute_executeStage = new IDEX_Ctrl_Regs
+  val ctrl_mem_executeStage = new EXMEM_Ctrl_Regs
+  val ctrl_wb_executeStage = new MEMWB_Ctrl_Regs
   // 実行ステージの制御信号のパイプ渡し
   ctrl_execute_executeStage.op1_sel := ctrlUnit.io.ctrlEX.op1_sel
   ctrl_execute_executeStage.op2_sel := ctrlUnit.io.ctrlEX.op2_sel
@@ -84,8 +85,8 @@ class Dpath(implicit val conf:Configurations) extends Module{
   val alu_out_mem = Reg(UInt(32.W))
   alu_out_mem := aLU.io.out
   val rs2_mem = RegNext(rs2_execute)
-  val ctrl_mem_memStage = new ctrl_mem
-  val ctrl_wb_memStage = new ctrl_wb
+  val ctrl_mem_memStage = new EXMEM_Ctrl_Regs
+  val ctrl_wb_memStage = new MEMWB_Ctrl_Regs
   // メモリステージのパイプライン渡し
   ctrl_mem_memStage.dmem_en := ctrl_mem_executeStage.dmem_en
   ctrl_mem_memStage.dmem_wr := ctrl_mem_executeStage.dmem_wr
@@ -95,7 +96,7 @@ class Dpath(implicit val conf:Configurations) extends Module{
 
   // *** ライトバック ステージ **********************************************************************
 
-  val ctrl_wb_wbStage = new ctrl_wb
+  val ctrl_wb_wbStage = new MEMWB_Ctrl_Regs
   val inst_wb = RegNext(inst_mem)
   val memStage_out = RegNext(alu_out_mem)
   // メモリステージの制御信号のパイプ渡し
@@ -133,21 +134,12 @@ class Dpath(implicit val conf:Configurations) extends Module{
   )
 }
 
-
-// 制御信号のパイプラインのためのレジスタ
-class ctrl_execute{
-  val op1_sel = Reg(UInt(OP1_X.getWidth.W))
-  val op2_sel = Reg(UInt(OP2_X.getWidth.W))
-  val imm_sel = Reg(UInt(IMM_X.getWidth.W))
-  val alu_fun = Reg(UInt(ALU_X.getWidth.W))
-}
-
-class ctrl_mem{
+class EXMEM_Ctrl_Regs{
   val dmem_en = Reg(Bool())
   val dmem_wr = Reg(Bool())
   val dmem_mask = Reg(UInt(MT_X.getWidth.W))
 }
 
-class ctrl_wb{
+class MEMWB_Ctrl_Regs{
   val rf_wen  = Reg(Bool())
 }
