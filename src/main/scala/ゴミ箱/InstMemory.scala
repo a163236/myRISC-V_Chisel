@@ -1,10 +1,9 @@
-package rv32i_5stage
+package ゴミ箱
 
 import chisel3._
 import chisel3.util._
 import chisel3.util.experimental._
 import common.CommonPackage._
-import common._
 import firrtl.annotations.MemoryLoadFileType
 
 class InstMemory extends Module {

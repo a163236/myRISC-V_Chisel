@@ -1,8 +1,8 @@
-package rv32i_5stage
+package ゴミ箱
 
 import chisel3._
-import chisel3.util._
 import chisel3.util.experimental._
+import rv32i_5stage.{DataMemPortIO, InstMemPortIO}
 
 class SyncReadMEM extends Module{
   val io = IO(new Bundle() {
